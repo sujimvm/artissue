@@ -1,4 +1,4 @@
-package com.artissue;
+package com.artissue.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
