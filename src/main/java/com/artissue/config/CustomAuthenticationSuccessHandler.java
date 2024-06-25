@@ -22,7 +22,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
             response.sendRedirect("/admin");
 
         } else if (roles.contains("ROLE_USER")) {
-            response.sendRedirect("/user");
+            response.sendRedirect("/index");
 
         } else {
             response.sendRedirect("/main");
