@@ -33,7 +33,8 @@ public class MemberController {
 
         joinService.joinProcess(memberDTO);
 
-        return "index";
+        return "login";
     }
+
 
 }
