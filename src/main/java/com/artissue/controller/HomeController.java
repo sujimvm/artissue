@@ -26,8 +26,6 @@ public class HomeController {
         // 현재 인증된 사용자의 정보 가져오기
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-        System.out.println(auth + "gd");
-
         // 사용자의 첫 번째 권한 가져오기
         String role = auth.getAuthorities().iterator().next().getAuthority();
         String id = auth.getName();
@@ -39,11 +37,11 @@ public class HomeController {
             session.setAttribute("role", role);
 
             MemberDTO memberDTO = memberMapper.findUsername(id);
-            session.setAttribute("uDTO", memberDTO);
+            session.setAttribute("mDTO", memberDTO);
         }
 
         System.out.println("Role in session: " + session.getAttribute("role"));
-        System.out.println("User DTO in session: " + session.getAttribute("uDTO"));
+        System.out.println("Member DTO in session: " + session.getAttribute("mDTO"));
 
         // index 페이지로 이동
         return "index";
