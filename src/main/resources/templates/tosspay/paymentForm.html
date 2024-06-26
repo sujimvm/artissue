@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Payment Form</title>
+    <script src="https://js.tosspayments.com/v1/payment"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            const paymentForm = document.getElementById('paymentForm');
+            const clientKey = paymentForm.dataset.clientKey;
+
+            console.log("Client Key:", clientKey);  // 클라이언트 키 확인
+
+            function requestPayment() {
+                const tossPayments = TossPayments(clientKey);
+                const amount = document.getElementById('amount').value;
+                const orderId = document.getElementById('orderId').value;
+                const orderName = document.getElementById('orderName').value;
+                const successUrl = window.location.origin + document.getElementById('successUrl').value;
+                const failUrl = window.location.origin + document.getElementById('failUrl').value;
+
+                tossPayments.requestPayment('카드', {
+                    amount: amount,
+                    orderId: orderId,
+                    orderName: orderName,
+                    successUrl: successUrl,
+                    failUrl: failUrl,
+                }).catch(function (error) {
+                    console.error(error);
+                });
+            }
+
+            document.getElementById('payButton').addEventListener('click', requestPayment);
+
+            function generateOrderId() {
+                const date = new Date();
+                const year = date.getFullYear();
+                const month = ("0" + (date.getMonth() + 1)).slice(-2);
+                const day = ("0" + date.getDate()).slice(-2);
+                const hours = ("0" + date.getHours()).slice(-2);
+                const minutes = ("0" + date.getMinutes()).slice(-2);
+                const seconds = ("0" + date.getSeconds()).slice(-2);
+                const randomString = Math.random().toString(36).substring(2, 8).toUpperCase();
+
+                return `${year}${month}${day}-${hours}${minutes}${seconds}-${randomString}`;
+            }
+
+            document.getElementById('orderId').value = generateOrderId();
+        });
+    </script>
+</head>
+<body>
+<h1>Payment Form</h1>
+<form id="paymentForm" data-client-key="test_ck_nRQoOaPz8LxXNDQZm2Nm8y47BMw6">
+    <ul>
+        <li>
+            주문번호 : <input type="text" id="orderId" name="orderId" readonly/>
+        </li>
+        <li>
+            결제금액 : <input type="text" id="amount" name="amount"/>
+        </li>
+        <li>
+            전시회 이름 : <input type="text" id="orderName" name="orderName"/>
+        </li>
+        <li>
+            성공 시 경로 : <input type="text" id="successUrl" name="successUrl" value="/payment/success"/>
+        </li>
+        <li>
+            실패 시 경로 : <input type="text" id="failUrl" name="failUrl" value="/payment/fail"/>
+        </li>
+        <li>
+            <button type="button" id="payButton">결제</button>
+        </li>
+    </ul>
+</form>
+</body>
+</html>
