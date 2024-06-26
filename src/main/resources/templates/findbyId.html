@@ -16,48 +16,24 @@
 
     <!-- Stylesheet -->
     <link rel="stylesheet" href="/bootstrap/style.css">
-    <script>
-        //가입 시 비밀번호 확인
-        function pwdConfirm() {
-            var p1 = document.getElementById('Password1').value;
-            var p2 = document.getElementById('Password2').value;
-
-            if (p1 !== p2) {
-                alert("비밀번호가 일치하지 않습니다.");
-                return false;
-            } else {
-                alert("비밀번호가 일치합니다.");
-                return true;
-            }
-        }
-
-        //중복 아이디 검사
-        function checkId() {
-
-            var userId = $("#user_id").val();
-
-            $.ajax({
-                type: 'POST',
-                url: '/joinId',
-                data: { id: userId },
-                dataType: 'json',
-                success: function(response) {
-                    if (response.exists) {
-                        alert("이미 사용 중인 아이디입니다.");
-                    } else {
-                        alert("사용 가능한 아이디입니다.");
-                    }
-                },
-            });
-            
-        }
-
-    </script>
     <style>
-        .idSize{
-            width: 70px !important;
+        .tab {
+            display: inline-block;
+            padding: 10px 20px;
+            cursor: pointer;
+            border: 1px solid #ccc;
+            margin-right: 10px;
         }
 
+        .tab.active {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .form-container {
+            display: none;
+            margin-top: 20px;
+        }
     </style>
 </head>
 
@@ -110,7 +86,7 @@
                                         <li><a href="blog">News</a></li>
                                         <li><a href="contact">Contact</a></li>
                                         <li><a href="elements">Elements</a></li>
-                                        <li><a href="login">Login</a></li>
+                                        <li><a href="#" id="loginLink">Login</a></li>
                                         <li><a href="#">Dropdown</a>
                                             <ul class="dropdown">
                                                 <li><a href="#">Even Dropdown</a></li>
@@ -139,7 +115,7 @@
                             <div class="login-register-cart-button d-flex align-items-center">
                                 <!-- Login/Register -->
                                 <div class="login-register-btn mr-50">
-                                    <a href="login" id="loginBtn">Login / Register</a>
+                                    <a href="#" id="loginBtn">Login / Register</a>
                                 </div>
 
                                 <!-- Cart Button -->
@@ -162,47 +138,64 @@
 <section class="breadcumb-area bg-img bg-overlay" style="background-image: url(/bootstrap/img/bg-img/breadcumb3.jpg);">
     <div class="bradcumbContent">
         <p>See what’s new</p>
-        <h2>Join</h2>
+        <h2>Find</h2>
     </div>
 </section>
 <!-- ##### Breadcumb Area End ##### -->
 
-<!-- ##### Login Area Start ##### -->
-<section class="login-area section-padding-100">
+<!-- ##### Tabs Area Start ##### -->
+<section class="tabs-area section-padding-100">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-12 col-lg-8">
-                <div class="login-content">
+                <div class="tabs-content">
+                    <div>
+                        <div class="tab active" onclick="showForm('findId')">아이디찾기</div>
+                        <div class="tab" onclick="showForm('findPwd')">비밀번호찾기</div>
+                    </div>
 
-                    <!-- join Form -->
-                    <div class="login-form">
-                        <form action="/joinProc" method="post" name="joinForm"  onsubmit="return pwdConfirm()">
+                    <div id="findId" class="form-container" style="display:block;">
+                        <h3>아이디 찾기</h3>
+                        <!-- ID 찾기 Form -->
+                        <form action="/findIdProc" method="post">
                             <div class="form-group">
-                                <label for="user_id">UserId</label>
-                                <div class="input-group">
-                                    <input type="text" id="user_id" name="user_id" class="form-control idSize" aria-describedby="emailHelp" placeholder="아이디를 입력하세요">
-                                    <button class="btn btn-outline-secondary" type="button" onclick="checkId()">중복확인</button>
-                                </div>
+                                <label for="findIdEmail">Name</label>
+                                <input  class="form-control"  placeholder="이름을 입력하세요">
                             </div>
                             <div class="form-group">
-                                <label for="Password1">Password</label>
-                                <input type="password" name="user_pwd" class="form-control" id="Password1"  placeholder="비밀번호를 입력하세요">
+                                <label for="findIdEmail">Email</label>
+                                <input type="email"  class="form-control" id="findIdEmail" placeholder="이메일을 입력하세요">
                             </div>
-                            <div class="form-group">
-                                <label for="Password2">Confirm Password</label>
-                                <input type="password" name="confirm_pwd" class="form-control" id="Password2" placeholder="비밀번호를 다시 입력하세요">
-                            </div>
-
-                            <button type="submit" class="btn oneMusic-btn mt-30">join</button>
+                            <button type="submit" class="btn oneMusic-btn mt-30">아이디 찾기</button>
                         </form>
+                    </div>
 
+                    <div id="findPwd" class="form-container">
+                        <h3>비밀번호 찾기</h3>
+                        <!-- 비밀번호 찾기 Form -->
+                        <form action="/findPwdProc" method="post">
+                            <div class="form-group">
+                                <label for="findIdEmail">ID</label>
+                                <input  class="form-control"  placeholder="아이디를 입력하세요">
+                            </div>
+                            <div class="form-group">
+                                <label for="findIdEmail">Name</label>
+                                <input  class="form-control"  placeholder="이름을 입력하세요">
+                            </div>
+                            <div class="form-group">
+                                <label for="findPwdEmail">Email</label>
+                                <input type="email" name="email" class="form-control" id="findPwdEmail" placeholder="이메일을 입력하세요">
+                            </div>
+
+                            <button type="submit" class="btn oneMusic-btn mt-30">비밀번호 찾기</button>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
-<!-- ##### Login Area End ##### -->
+<!-- ##### Tabs Area End ##### -->
 
 <!-- ##### Footer Area Start ##### -->
 <footer class="footer-area">
@@ -229,9 +222,7 @@
         </div>
     </div>
 </footer>
-<!-- ##### Footer Area Start ##### -->
-
-
+<!-- ##### Footer Area End ##### -->
 
 <!-- ##### All Javascript Script ##### -->
 <!-- jQuery-2.2.4 js -->
@@ -244,6 +235,20 @@
 <script src="/bootstrap/js/plugins/plugins.js"></script>
 <!-- Active js -->
 <script src="/bootstrap/js/active.js"></script>
+
+<script>
+    function showForm(form) {
+        document.getElementById('findId').style.display = 'none';
+        document.getElementById('findPwd').style.display = 'none';
+        document.getElementById(form).style.display = 'block';
+
+        var tabs = document.getElementsByClassName('tab');
+        for (var i = 0; i < tabs.length; i++) {
+            tabs[i].classList.remove('active');
+        }
+        document.querySelector('[onclick="showForm(\'' + form + '\')"]').classList.add('active');
+    }
+</script>
 </body>
 
 </html>
