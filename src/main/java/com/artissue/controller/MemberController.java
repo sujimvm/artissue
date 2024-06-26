@@ -36,5 +36,9 @@ public class MemberController {
         return "login";
     }
 
+    @GetMapping("/findbyId")
+    public String findId(){
+        return "findbyId";
+    }
 
 }

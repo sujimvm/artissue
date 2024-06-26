@@ -17,8 +17,18 @@
     <!-- Stylesheet -->
     <link rel="stylesheet" href="/bootstrap/style.css">
 
-</head>
+    <style>
 
+        .link-container{
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            margin-top: 10px;
+
+        }
+
+    </style>
+</head>
 <body>
     <!-- Preloader -->
     <div class="preloader d-flex align-items-center justify-content-center">
@@ -144,13 +154,12 @@
                                     <label for="exampleInputPassword1">Password</label>
                                     <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="비밀번호 입력하세요">
                                 </div>
+                                <div class="link-container">
+                                    <a href="/findbyId">아이디 / 비밀번호 찾기</a>
+                                    <a href="/join">회원가입</a>
+                                </div>
                                 <button type="submit" class="btn oneMusic-btn mt-30">Login</button>
                             </form>
-                            <hr>
-                            <a href="/join">Sign Up</a>
-
-
-
                         </div>
                     </div>
                 </div>
