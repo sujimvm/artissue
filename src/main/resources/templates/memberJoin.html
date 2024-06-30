@@ -52,6 +52,32 @@
             
         }
 
+        //인증번호 발송
+        $(document).ready(function() {
+            $('#sendPhoneNumber').click(function() {
+                let phoneNumber = $('#phone').val();
+
+                $.ajax({
+                    type: "POST",
+                    url: "/sendVerificationCode",
+                    data: {
+                        "phone": phoneNumber
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            alert("인증번호가 전화번호로 전송되었습니다.");
+                        } else {
+                            alert("인증번호가 전화번호로 실패되었습니다.");
+                        }
+                    },
+                    error: function() {
+                        alert("인증번호가 전화번호로 실패되었습니다.");
+                    }
+                });
+            });
+        });
+
+
     </script>
     <style>
         .idSize{
@@ -192,6 +218,19 @@
                                 <label for="Password2">Confirm Password</label>
                                 <input type="password" name="confirm_pwd" class="form-control" id="Password2" placeholder="비밀번호를 다시 입력하세요">
                             </div>
+
+                            <div class="form-group">
+                                <label for="phone">Phone Number</label>
+                                <div class="input-group">
+                                    <input type="text" id="phone" name="phone" class="form-control" placeholder="휴대폰 번호를 입력하세요">
+                                    <button class="btn btn-outline-secondary" type="button" id="sendPhoneNumber">인증번호 전송</button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="verificationCode">Verification Code</label>
+                                <input type="text" name="verificationCode" class="form-control" id="verificationCode" placeholder="인증번호를 입력하세요">
+                            </div>
+                            <button type="button" class="btn oneMusic-btn mt-30" onclick="verifyAndSubmit()">확인</button>
 
                             <button type="submit" class="btn oneMusic-btn mt-30">join</button>
                         </form>
