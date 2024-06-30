@@ -3,6 +3,7 @@ package com.artissue.service;
 import com.artissue.model.MessageDTO;
 import com.artissue.model.MessageMapper;
 import jakarta.annotation.PostConstruct;
+import kotlin.random.Random;
 import lombok.RequiredArgsConstructor;
 import net.nurigo.sdk.NurigoApp;
 import net.nurigo.sdk.message.request.SingleMessageSendingRequest;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import net.nurigo.sdk.message.model.Message;
 
+import java.util.HashMap;
 import java.util.UUID;
 
 @Service
@@ -32,7 +34,6 @@ public class MessageService {
     private String senderNumber;
 
     private DefaultMessageService messageService;
-
 
 
     @PostConstruct
@@ -80,4 +81,6 @@ public class MessageService {
     public void removeVerifyCode(String phone) {
         messageMapper.removeVerifyCode(phone);
     }
+
+
 }

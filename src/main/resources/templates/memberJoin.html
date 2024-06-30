@@ -16,6 +16,7 @@
 
     <!-- Stylesheet -->
     <link rel="stylesheet" href="/bootstrap/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
         //가입 시 비밀번호 확인
         function pwdConfirm() {
@@ -53,30 +54,41 @@
         }
 
         //인증번호 발송
-        $(document).ready(function() {
-            $('#sendPhoneNumber').click(function() {
-                let phoneNumber = $('#phone').val();
+        $(function() {
+            $("#send").on('click', function() {
 
+                var memberPhone = $("#phone").val();
+                console.log("이거 띄워봐라" + memberPhone);
                 $.ajax({
+                    url: "/veri/sendSms",
                     type: "POST",
-                    url: "/sendVerificationCode",
-                    data: {
-                        "phone": phoneNumber
-                    },
-                    success: function(response) {
-                        if (response.success) {
+                    contentType: 'application/json',
+                    data: JSON.stringify({ memberPhone: memberPhone }),
+                    dataType: "JSON",
+                    success: function(result) {
+                        console.log(result);
+                        if (result.status === 200) {
                             alert("인증번호가 전화번호로 전송되었습니다.");
+
+                            $("#enterBtn").on('click', function() {
+                                var userNum = $("#userNum").val();
+                                if (result.verificationCode === userNum) {
+                                    alert("인증 성공하였습니다.");
+                                } else {
+                                    alert("인증 실패하였습니다. 다시 입력해주세요.");
+                                }
+                            });
+
                         } else {
-                            alert("인증번호가 전화번호로 실패되었습니다.");
+                            alert("인증번호 전송에 실패했습니다.");
                         }
                     },
                     error: function() {
-                        alert("인증번호가 전화번호로 실패되었습니다.");
+                        alert("데이터 통신 오류입니다.");
                     }
                 });
             });
         });
-
 
     </script>
     <style>
@@ -219,19 +231,13 @@
                                 <input type="password" name="confirm_pwd" class="form-control" id="Password2" placeholder="비밀번호를 다시 입력하세요">
                             </div>
 
-                            <div class="form-group">
-                                <label for="phone">Phone Number</label>
-                                <div class="input-group">
-                                    <input type="text" id="phone" name="phone" class="form-control" placeholder="휴대폰 번호를 입력하세요">
-                                    <button class="btn btn-outline-secondary" type="button" id="sendPhoneNumber">인증번호 전송</button>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="verificationCode">Verification Code</label>
-                                <input type="text" name="verificationCode" class="form-control" id="verificationCode" placeholder="인증번호를 입력하세요">
-                            </div>
-                            <button type="button" class="btn oneMusic-btn mt-30" onclick="verifyAndSubmit()">확인</button>
+                            <div id="contents">
+                                받는사람 : <input type="text" id="to" name="to"/>   <!-- 인증번호 받을사람 휴대폰 번호 -->
+                                <button type="button" id="send">전송</button><br> <!-- 문자보내는 전송버튼 -->
 
+                                인증번호 : <input type="text" id="userNum">   <!-- 인증번호 입력창 -->
+                                <button type="button" id="enterBtn">확인</button>  <!-- 인증번호와 내가 입력창에 입력한 인증번호 비교하는 창 -->
+                            </div>
                             <button type="submit" class="btn oneMusic-btn mt-30">join</button>
                         </form>
 
