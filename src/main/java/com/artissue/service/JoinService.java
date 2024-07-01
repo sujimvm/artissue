@@ -23,7 +23,6 @@ public class JoinService {
            return;
        }
 
-
         // 비밀번호 암호화
         String encodedPassword = bCryptPasswordEncoder.encode(memberDTO.getUser_pwd());
         memberDTO.setUser_pwd(encodedPassword);
