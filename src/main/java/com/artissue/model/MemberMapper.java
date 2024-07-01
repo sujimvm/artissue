@@ -13,4 +13,7 @@ public interface MemberMapper {
 
     //회원가입
     void insertMember(MemberDTO memberDTO);
+
+    //중복 아이디
+    int sameUsername(String id);
 }
