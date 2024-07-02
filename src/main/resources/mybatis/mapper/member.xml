@@ -7,22 +7,26 @@
 
     <select id="findUsername" resultType="mDTO" parameterType="String">
 
-        select * from users where user_id = #{user_id}
+        select * from member where member_id = #{member_id}
 
     </select>
 
     <select id="existsByUsername" resultType="boolean" parameterType="String">
 
         SELECT CASE WHEN COUNT(*) > 0 THEN TRUE ELSE FALSE END
-        FROM users
-        WHERE user_id = #{user_id}
+        FROM member
+        WHERE member_id = #{member_id}
     </select>
     
     <insert id="insertMember" parameterType="mDTO">
 
-        INSERT INTO users (user_id, user_pwd, role, enabled)
-        VALUES (#{user_id}, #{user_pwd}, #{role},1);
+        INSERT INTO member (member_id, member_pwd, role, enabled,member_name,member_email,member_phone)
+        VALUES (#{member_id}, #{member_pwd}, #{role},1,#{member_name},#{member_email},#{member_phone});
 
     </insert>
 
+    <select id="sameUsername" parameterType="String">
+        select count(*) from member where member_id =#{member_id}
+
+    </select>
 </mapper>

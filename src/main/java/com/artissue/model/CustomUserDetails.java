@@ -39,12 +39,12 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public String getPassword() {
-        return memberDTO.getUser_pwd();
+        return memberDTO.getMember_pwd();
     }
 
     @Override
     public String getUsername() {
-        return memberDTO.getUser_id();
+        return memberDTO.getMember_id();
     }
 
     @Override

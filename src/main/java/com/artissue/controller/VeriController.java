@@ -19,6 +19,9 @@ public class VeriController {
     @Autowired
     private MessageService massageService;
 
+    @Autowired
+    private MemberMapper memberMapper;
+
     @PostMapping("/send-one")
     public ResponseEntity<Object> sendOne(@RequestParam("memberPhone") String memberPhone) {
 
@@ -35,8 +38,9 @@ public class VeriController {
         return ResponseEntity.ok(responseBody);
     }
 
- /*   @GetMapping("/joinId")
+    @PostMapping("/checkId")
     public ResponseEntity<String> sameId(@RequestParam("id") String id) {
+        System.out.println("id>>> " + id);
         int count = memberMapper.sameUsername(id);
 
         if (count > 0) {
@@ -44,5 +48,5 @@ public class VeriController {
         } else {
             return ResponseEntity.ok("available");
         }
-    }*/
+    }
 }

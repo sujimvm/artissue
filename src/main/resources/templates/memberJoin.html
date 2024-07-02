@@ -20,6 +20,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script> <!--발송-->
     <script>
+
         //가입 시 비밀번호 확인
         function pwdConfirm() {
             var p1 = document.getElementById('Password1').value;
@@ -36,28 +37,26 @@
 
         //중복 아이디 검사
         function checkId() {
-            var userId = $("#user_id").val();
-            console.log("userId>>>>"+userId);
-            $.ajax({
-                type: 'GET',
-                url: '/joinId',
-                data: { id: userId },
-                dataType: "json",
-                success: function(response) {
-                    if (response.trim() === 'exists') {
+            var memberId = document.getElementById("member_id").value;
+
+            axios.post("/veri/checkId", null, { params: { id: memberId } })
+                .then(function(response) {
+                    var responseData = response.data.trim();
+                    if (responseData === 'exists') {
                         alert("이미 사용 중인 아이디입니다.");
-                    } else if (response.trim() === 'available') {
+                    } else if (responseData === 'available') {
                         alert("사용 가능한 아이디입니다.");
                     } else {
-                        alert("서버에서 알 수 없는 응답을 받았습니다: " + response);
+                        alert("서버에서 알 수 없는 응답을 받았습니다: " + responseData);
                     }
-                },
-                error: function(xhr, status, error) {
+                })
+                .catch(function(error) {
                     console.error("AJAX 요청 실패:", error);
                     alert("서버 요청 중 오류가 발생했습니다.");
-                }
-            });
+                });
         }
+
+
 
 
         //인증번호 발송
@@ -65,7 +64,7 @@
             document.querySelector("#send").addEventListener("click", function(event) {
                 event.preventDefault();
 
-                const memberPhone = document.querySelector('input[name="to"]').value.trim();
+                const memberPhone = document.querySelector('input[name="member_phone"]').value.trim();
                 const data = { memberPhone: memberPhone };
 
                 // Axios POST 요청
@@ -214,25 +213,33 @@
                     <div class="login-form">
                         <form action="/joinProc" method="post" name="joinForm"  onsubmit="return pwdConfirm()">
                             <div class="form-group">
-                                <label for="user_id">UserId</label>
+                                <label for="member_id">아이디</label>
                                 <div class="input-group">
-                                    <input type="text" id="user_id" name="user_id" class="form-control idSize" aria-describedby="emailHelp" placeholder="아이디를 입력하세요" required>
-                                    <button class="btn btn-outline-secondary" type="button" onclick="checkId()">중복확인</button>
+                                    <input type="text" id="member_id" name="member_id" class="form-control idSize" aria-describedby="emailHelp" placeholder="아이디를 입력하세요" required>
+                                    <button onclick="checkId()" class="btn btn-outline-secondary">중복확인</button>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="Password1">Password</label>
-                                <input type="password" name="user_pwd" class="form-control" id="Password1"  placeholder="비밀번호를 입력하세요" required>
+                                <label for="Password1">비밀번호</label>
+                                <input type="password" name="member_pwd" class="form-control" id="Password1"  placeholder="비밀번호를 입력하세요" required>
                             </div>
                             <div class="form-group">
-                                <label for="Password2">Confirm Password</label>
+                                <label for="Password2">비밀번호 확인</label>
                                 <input type="password" name="confirm_pwd" class="form-control" id="Password2" placeholder="비밀번호를 다시 입력하세요" required>
                             </div>
+                            <div class="input-group">
+                                <label >이름</label><br>
+                                <input name="member_name" class="form-control" aria-describedby="emailHelp" placeholder="이름을 입력하세요" required>
+                            </div><br>
+                            <div class="input-group">
+                                <label>이메일</label><br>
+                                <input type="email" name="member_email" class="form-control" aria-describedby="emailHelp" placeholder="이메일을 입력하세요" required>
+                            </div>
                             <div>
-                            받는사람 : <input type="text" class="to" id="to" name="to"/>
+                            받는사람 : <input type="text" class="to" id="to" name="member_phone" required/>
                             <button type="button" id="send">전송</button><br>
 
-                            인증번호 : <input type="text" id="userNum" name="userNum">   <!-- 인증번호 입력창 -->
+                            인증번호 : <input type="text" id="userNum" name="userNum" required>   <!-- 인증번호 입력창 -->
                             <button type="button" id="enterBtn">확인</button>
                             </div>
                             <button type="submit" class="btn oneMusic-btn mt-30">join</button>

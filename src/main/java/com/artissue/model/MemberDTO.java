@@ -4,9 +4,12 @@ import lombok.Data;
 
 @Data
 public class MemberDTO {
-    private int user_key;
-    private String user_id;
-    private String user_pwd;
+    private int member_key;
+    private String member_id;
+    private String member_pwd;
+    private String member_name;
+    private String member_email;
+    private String member_phone;
     private String role;
     private int enabled;
 }
