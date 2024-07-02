@@ -1,19 +1,37 @@
 package com.artissue.controller;
 
+import com.artissue.model.ChatRoom;
 import com.artissue.service.ChatService;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequiredArgsConstructor
-@Slf4j
+@RequestMapping("/chat")
 public class ChatController {
 
-    private final SimpMessagingTemplate simpMessagingTemplate;
     private final ChatService chatService;
 
+    @Autowired
+    public ChatController(ChatService chatService) {
+        this.chatService = chatService;
+    }
 
+    @GetMapping("/rooms")
+    public String rooms(Model model) {
+        model.addAttribute("rooms", chatService.findAllRooms());
+        return "chat";
+    }
 
+    @GetMapping("/create")
+    public String createRoomForm() {
+        return "chatRoom";
+    }
+
+    @PostMapping("/create")
+    @ResponseBody
+    public ChatRoom createRoom(@RequestParam String name) {
+        return chatService.createRoom(name);
+    }
 }
