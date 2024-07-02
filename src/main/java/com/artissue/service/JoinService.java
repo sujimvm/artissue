@@ -17,15 +17,15 @@ public class JoinService {
 
     public void joinProcess(MemberDTO memberDTO){
 
-       boolean isMember =  memberMapper.existsByUsername(memberDTO.getUser_id());
+       boolean isMember =  memberMapper.existsByUsername(memberDTO.getMember_id());
 
        if(isMember){
            return;
        }
 
         // 비밀번호 암호화
-        String encodedPassword = bCryptPasswordEncoder.encode(memberDTO.getUser_pwd());
-        memberDTO.setUser_pwd(encodedPassword);
+        String encodedPassword = bCryptPasswordEncoder.encode(memberDTO.getMember_pwd());
+        memberDTO.setMember_pwd(encodedPassword);
 
         memberDTO.setRole("ROLE_USER");
         // 사용자 정보 저장

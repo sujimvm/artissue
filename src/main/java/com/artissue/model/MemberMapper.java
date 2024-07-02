@@ -6,14 +6,14 @@ import org.apache.ibatis.annotations.Mapper;
 public interface MemberMapper {
 
     //로그인
-    MemberDTO findUsername(String user_id);
+    MemberDTO findUsername(String member_id);
 
     //동일한 ID 있는지 확인
-    boolean existsByUsername(String user_id);
+    boolean existsByUsername(String member_id);
 
     //회원가입
     void insertMember(MemberDTO memberDTO);
 
     //중복 아이디
-    int sameUsername(String id);
+    int sameUsername(String member_id);
 }
