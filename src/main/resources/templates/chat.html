@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Chat Room</title>
+    <script>
+        let socket;
+        function connect() {
+            const roomId = document.getElementById('roomId').value;
+            const sender = document.getElementById('sender').value;
+            socket = new WebSocket(`ws://localhost:8181/ws/chat/${roomId}`);
+
+            socket.onopen = function() {
+                const joinMessage = {
+                    type: "JOIN",
+                    sender: sender,
+                    message: `${sender} joined the room`
+                };
+                socket.send(JSON.stringify(joinMessage));
+            };
+
+            socket.onmessage = function(event) {
+                const message = JSON.parse(event.data);
+                document.getElementById('messages').innerHTML += `<div><b>${message.sender}:</b> ${message.message}</div>`;
+            }
+        }
+
+        function sendMessage() {
+            const message = document.getElementById('message').value;
+            const sender = document.getElementById('sender').value;
+            socket.send(JSON.stringify({
+                type: "CHAT",
+                sender: sender,
+                message: message
+            }));
+        }
+
+        function disconnect() {
+            if (socket) {
+                const sender = document.getElementById('sender').value;
+                const leaveMessage = {
+                    type: "LEAVE",
+                    sender: sender,
+                    message: `${sender} 님이 나가셨습니다.`
+                };
+                socket.send(JSON.stringify(leaveMessage));
+                socket.close();
+            }
+        }
+    </script>
+</head>
+<body>
+<h1>Chat Room</h1>
+<div>
+    <label for="roomId">Room ID:</label>
+    <input type="text" id="roomId" placeholder="room ID 입력해주세요." />
+    <label for="sender">닉네임:</label>
+    <input type="text" id="sender" placeholder="닉네임 입력해주세요." />
+    <button onclick="connect()">입장</button>
+    <button onclick="disconnect()">나가기</button>
+</div>
+<div>
+    <input type="text" id="message" placeholder="메시지 입력해주세요." />
+    <button onclick="sendMessage()">Send</button>
+</div>
+<div id="messages"></div>
+</body>
+</html>

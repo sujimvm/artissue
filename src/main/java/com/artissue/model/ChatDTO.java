@@ -10,8 +10,14 @@ import java.util.Date;
 @NoArgsConstructor
 public class ChatDTO {
 
-        private String id;
+        public enum MessageType {
+                ENTER, TALK, OUT
+        }
+
+        private MessageType type;
+        private String roomId;
         private String sender;
         private String message;
+        private String time;
 
 }
