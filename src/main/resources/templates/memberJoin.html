@@ -35,6 +35,44 @@
             }
         }
 
+        //비밀번호 체크
+        $(function(){
+            $('#Password1').on('input', function() {
+                var pwd = $(this).val();
+                var pwdPattern = /^(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,20}$/;
+                if (pwdPattern.test(pwd)) {
+                    $('#pwdCheckmark').show();
+                    $('#pwdError').hide();
+                } else {
+                    $('#pwdCheckmark').hide();
+                    $('#pwdError').show();
+                }
+            });
+        });
+
+        $(function(){
+            var pwd_check = false;
+            $("#Password2").on('input', function(){
+                pwdCheck($(this).val());
+            });
+
+            function pwdCheck(pwd){
+                if(pwd==""){
+                    $("#pwd_check_ok").hide();
+                    $("#pwd_check_err").hide();
+                    return;
+                }
+
+                if($("#Password2").val() === $("#Password1").val()){
+                    $("#pwd_check_ok").show();
+                    $("#pwd_check_err").hide();
+                }else{
+                    $("#pwd_check_ok").hide();
+                    $("#pwd_check_err").show();
+                }
+            };
+        });
+
         //중복 아이디 검사
         function checkId() {
             var memberId = document.getElementById("member_id").value;
@@ -219,13 +257,22 @@
                                     <button onclick="checkId()" class="btn btn-outline-secondary">중복확인</button>
                                 </div>
                             </div>
+
                             <div class="form-group">
                                 <label for="Password1">비밀번호</label>
                                 <input type="password" name="member_pwd" class="form-control" id="Password1"  placeholder="비밀번호를 입력하세요" required>
+                                <span id="pwdCheckmark" class="checkmark" style="display: none;">✔</span>
+                                <span id="pwdError" style="display: none; color: red; font-size: 12px;">
+                                    비밀번호는 8자 이상 20자 이하이며 특수문자 1자를 포함해야 합니다.
+                                </span>
                             </div>
+
                             <div class="form-group">
                                 <label for="Password2">비밀번호 확인</label>
                                 <input type="password" name="confirm_pwd" class="form-control" id="Password2" placeholder="비밀번호를 다시 입력하세요" required>
+                                <span id="pwd_check_err" style="display: none; color: red; font-size: 12px;">
+                                    위의 비밀번호와 입력된 비밀번호가 다릅니다.</span>
+                                <span id="pwd_check_ok" class="checkmark" style="display: none;">✔</span>
                             </div>
                             <div class="input-group">
                                 <label >이름</label><br>
