@@ -16,27 +16,19 @@
 
     <!-- Stylesheet -->
     <link rel="stylesheet" href="/bootstrap/style.css">
+
     <style>
-        .tab {
-            display: inline-block;
-            padding: 10px 20px;
-            cursor: pointer;
-            border: 1px solid #ccc;
-            margin-right: 10px;
+
+        .link-container{
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            margin-top: 10px;
+
         }
 
-        .tab.active {
-            background-color: #007bff;
-            color: white;
-        }
-
-        .form-container {
-            display: none;
-            margin-top: 20px;
-        }
     </style>
 </head>
-
 <body>
 <!-- Preloader -->
 <div class="preloader d-flex align-items-center justify-content-center">
@@ -86,7 +78,7 @@
                                         <li><a href="blog">News</a></li>
                                         <li><a href="contact">Contact</a></li>
                                         <li><a href="elements">Elements</a></li>
-                                        <li><a href="#" id="loginLink">Login</a></li>
+                                        <li><a href="login">Login</a></li>
                                         <li><a href="#">Dropdown</a>
                                             <ul class="dropdown">
                                                 <li><a href="#">Even Dropdown</a></li>
@@ -115,7 +107,7 @@
                             <div class="login-register-cart-button d-flex align-items-center">
                                 <!-- Login/Register -->
                                 <div class="login-register-btn mr-50">
-                                    <a href="#" id="loginBtn">Login / Register</a>
+                                    <a href="login" id="loginBtn">Login / Register</a>
                                 </div>
 
                                 <!-- Cart Button -->
@@ -138,56 +130,38 @@
 <section class="breadcumb-area bg-img bg-overlay" style="background-image: url(/bootstrap/img/bg-img/breadcumb3.jpg);">
     <div class="bradcumbContent">
         <p>See what’s new</p>
-        <h2>Find</h2>
+        <h2>PASSWORD UPDATE</h2>
     </div>
 </section>
 <!-- ##### Breadcumb Area End ##### -->
 
-<!-- ##### Tabs Area Start ##### -->
-<section class="tabs-area section-padding-100">
+<!-- ##### Login Area Start ##### -->
+<section class="login-area section-padding-100">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-12 col-lg-8">
-                <div class="tabs-content">
-                    <div>
-                        <div class="tab active" onclick="showForm('findId')">아이디찾기</div>
-                        <div class="tab" onclick="showForm('findPwd')">비밀번호찾기</div>
-                    </div>
+                <div class="login-content">
+                    <h3>Welcome Back</h3>
+                    <!-- Login Form -->
+                    <div class="login-form">
+                        <form action="/updatePassword" method="post">
 
-                    <div id="findId" class="form-container" style="display:block;">
-                        <h3>아이디 찾기</h3>
-                        <!-- ID 찾기 Form -->
-                        <form action="/findIdProc" method="post">
-                            <div class="form-group">
-                                <label for="findIdEmail">Name</label>
-                                <input  class="form-control"  placeholder="이름을 입력하세요">
-                            </div>
-                            <div class="form-group">
-                                <label for="findIdEmail">Email</label>
-                                <input type="email"  class="form-control" id="findIdEmail" placeholder="이메일을 입력하세요">
-                            </div>
-                            <button type="submit" class="btn oneMusic-btn mt-30">아이디 찾기</button>
-                        </form>
-                    </div>
+                            <input type="hidden" name="member_id" th:value="${member_id}">
 
-                    <div id="findPwd" class="form-container">
-                        <h3>비밀번호 찾기</h3>
-                        <!-- 비밀번호 찾기 Form -->
-                        <form action="/findPwdProc" method="get">
                             <div class="form-group">
-                                <label for="findIdEmail">ID</label>
-                                <input  class="form-control"  name="member_id" placeholder="아이디를 입력하세요" required>
+                                <label for="exampleInputEmail1">Password</label>
+                                <input name="member_pwd" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="새 비밀번호를 입력하세요" required>
+                                <small id="emailHelp" class="form-text text-muted"><i class="fa fa-lock mr-2"></i>We'll never share your id with anyone else.</small>
                             </div>
                             <div class="form-group">
-                                <label for="findIdEmail">Name</label>
-                                <input  class="form-control"  name="member_name" placeholder="이름을 입력하세요" required>
+                                <label for="exampleInputPassword1">PasswordOk</label>
+                                <input type="password" name="member_pwd_check" class="form-control" id="exampleInputPassword1" placeholder="새 비밀번호 확인" required>
                             </div>
-                            <div class="form-group">
-                                <label for="findPwdEmail">Email</label>
-                                <input type="email" class="form-control" name="member_email" id="findPwdEmail" placeholder="이메일을 입력하세요">
+                            <div class="link-container">
+                                <a href="/findbyId">아이디 / 비밀번호 찾기</a>
+                                <a href="/join">회원가입</a>
                             </div>
-
-                            <button type="submit" class="btn oneMusic-btn mt-30">비밀번호 찾기</button>
+                            <button type="submit" class="btn oneMusic-btn mt-30">비밀번호 변경</button>
                         </form>
                     </div>
                 </div>
@@ -195,7 +169,7 @@
         </div>
     </div>
 </section>
-<!-- ##### Tabs Area End ##### -->
+<!-- ##### Login Area End ##### -->
 
 <!-- ##### Footer Area Start ##### -->
 <footer class="footer-area">
@@ -222,7 +196,7 @@
         </div>
     </div>
 </footer>
-<!-- ##### Footer Area End ##### -->
+<!-- ##### Footer Area Start ##### -->
 
 <!-- ##### All Javascript Script ##### -->
 <!-- jQuery-2.2.4 js -->
@@ -235,20 +209,6 @@
 <script src="/bootstrap/js/plugins/plugins.js"></script>
 <!-- Active js -->
 <script src="/bootstrap/js/active.js"></script>
-
-<script>
-    function showForm(form) {
-        document.getElementById('findId').style.display = 'none';
-        document.getElementById('findPwd').style.display = 'none';
-        document.getElementById(form).style.display = 'block';
-
-        var tabs = document.getElementsByClassName('tab');
-        for (var i = 0; i < tabs.length; i++) {
-            tabs[i].classList.remove('active');
-        }
-        document.querySelector('[onclick="showForm(\'' + form + '\')"]').classList.add('active');
-    }
-</script>
 </body>
 
 </html>
