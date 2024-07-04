@@ -26,7 +26,7 @@ public class ChatController {
 
     @GetMapping("/create")
     public String createRoomForm() {
-        return "chatRoom";
+        return "chatroom";
     }
 
     @PostMapping("/create")

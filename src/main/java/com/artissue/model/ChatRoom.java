@@ -27,10 +27,10 @@ public class ChatRoom {
     public void handleActions(WebSocketSession session, ChatMessage message, ChatMessage.MessageType type) {
         if (type == ChatMessage.MessageType.JOIN) {
             sessions.add(session);
-            message.setMessage(message.getSender() + " joined the room.");
+            message.setMessage(message.getSender() + " 님이 입장 하셨습니다.");
         } else if (type == ChatMessage.MessageType.LEAVE) {
             sessions.remove(session);
-            message.setMessage(message.getSender() + " left the room.");
+            message.setMessage(message.getSender() + " 님이 나갔습니다.");
         }
 
         broadcast(message);
