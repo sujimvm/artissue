@@ -35,9 +35,15 @@ public class MemberController {
     }
 
     @PostMapping("/joinProc")
-    public String joinProc(MemberDTO memberDTO) {
+    public String joinProc(MemberDTO memberDTO, @RequestParam("userType") String userType) {
+        System.out.println("userType: " + userType);
+        if ("company".equals(userType)) {
+            memberDTO.setRole("ROLE_COMPANY");
+        } else if ("individual".equals(userType)) {
+            memberDTO.setRole("ROLE_USER");
+        }
 
-        joinService.joinProcess(memberDTO);
+        joinService.joinProcess(memberDTO,userType);
 
         return "login";
     }

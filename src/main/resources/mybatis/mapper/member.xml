@@ -20,8 +20,10 @@
     
     <insert id="insertMember" parameterType="mDTO">
 
-        INSERT INTO member (member_id, member_pwd, role, enabled,member_name,member_email,member_phone)
-        VALUES (#{member_id}, #{member_pwd}, #{role},1,#{member_name},#{member_email},#{member_phone});
+        insert into member (member_id, member_pwd, role, enabled,member_name,member_email,member_phone,
+        member_birth,member_gender,member_join_date,member_nickname)
+        values (#{member_id}, #{member_pwd}, #{role},1,#{member_name},#{member_email},#{member_phone},
+        #{member_birth},#{member_gender},NOW(),#{member_nickname});
 
     </insert>
 
@@ -29,4 +31,14 @@
         select count(*) from member where member_id =#{member_id}
 
     </select>
+
+    <select id="findMemberPwd" parameterType="map" resultType="mDTO">
+        SELECT member_pwd, member_id
+        FROM member
+        WHERE member_id = #{member_id}
+        AND member_name = #{member_name}
+        AND member_email = #{member_email}
+    </select>
+
+
 </mapper>
