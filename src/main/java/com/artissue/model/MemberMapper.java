@@ -1,6 +1,7 @@
 package com.artissue.model;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.data.repository.query.Param;
 
 @Mapper
 public interface MemberMapper {
@@ -16,4 +17,9 @@ public interface MemberMapper {
 
     //중복 아이디
     int sameUsername(String member_id);
+
+    // 비밀번호 찾기
+    MemberDTO findMemberPwd(@Param("member_id") String member_id,
+                            @Param("member_name") String member_name,
+                            @Param("member_email") String member_email);
 }

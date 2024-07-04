@@ -15,24 +15,28 @@ public class JoinService {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public void joinProcess(MemberDTO memberDTO){
+    public void joinProcess(MemberDTO memberDTO,String userType){
 
-       boolean isMember =  memberMapper.existsByUsername(memberDTO.getMember_id());
+        boolean isMember = memberMapper.existsByUsername(memberDTO.getMember_id());
 
-       if(isMember){
-           return;
-       }
+        if(isMember){
+            return;
+        }
 
         // 비밀번호 암호화
         String encodedPassword = bCryptPasswordEncoder.encode(memberDTO.getMember_pwd());
         memberDTO.setMember_pwd(encodedPassword);
 
-        memberDTO.setRole("ROLE_USER");
+
+        if ("company".equals(userType)) {
+
+            memberDTO.setRole("ROLE_COMPANY");
+        } else if ("individual".equals(userType)) {
+
+            memberDTO.setRole("ROLE_USER");
+        }
+
         // 사용자 정보 저장
         memberMapper.insertMember(memberDTO);
-
-
-
     }
-
 }
