@@ -10,16 +10,20 @@ public interface MemberMapper {
     MemberDTO findUsername(String member_id);
 
     //동일한 ID 있는지 확인
-    boolean existsByUsername(String member_id);
+    boolean existsByMembername(String member_id);
 
     //회원가입
     void insertMember(MemberDTO memberDTO);
 
     //중복 아이디
-    int sameUsername(String member_id);
+    int sameMemberName(String member_id);
 
     // 비밀번호 찾기
     MemberDTO findMemberPwd(@Param("member_id") String member_id,
                             @Param("member_name") String member_name,
                             @Param("member_email") String member_email);
+
+    //아이디 찾기
+    MemberDTO findMemberId(@Param("member_name") String member_name, @Param("member_email") String member_email);
+
 }

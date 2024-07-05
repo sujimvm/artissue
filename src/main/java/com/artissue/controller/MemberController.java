@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -68,12 +69,12 @@ public class MemberController {
 
         int check = joinService.joinProcess(memberDTO, userType);
 
-        if(check > 0){
+        if (check > 0) {
             out.println("<script>");
             out.println("alert('회원가입을 완료하였습니다.')");
             out.println("location.href='/login'");
             out.println("</script>");
-        }else{
+        } else {
             out.println("<script>");
             out.println("alert('회원가입을 실패하였습니다.')");
             out.println("history.back()");
@@ -87,6 +88,42 @@ public class MemberController {
         return "findbyId";
     }
 
+    @PostMapping("/findIdProc")
+    public String findIdProc(@RequestParam("member_name") String member_name, @RequestParam("member_email") String member_email,
+                             Model model,HttpServletResponse response) throws IOException {
+
+       MemberDTO dto = memberMapper.findMemberId(member_name,member_email);
+
+        response.setContentType("text/html; charset=UTF-8");
+        PrintWriter out = response.getWriter();
+
+        if (dto == null || !member_name.equals(dto.getMember_name())) {
+            out.println("<script>");
+            out.println("alert('이름을 다시 확인해주세요.')");
+            out.println("history.back()");
+            out.println("</script>");
+            out.flush();
+            return null;
+        }
+
+        if (!member_email.equals(dto.getMember_email())) {
+            out.println("<script>");
+            out.println("alert('이메일을 다시 확인해주세요.')");
+            out.println("history.back()");
+            out.println("</script>");
+            out.flush();
+            return null;
+        }
+
+
+        String mId = dto.getMember_id();
+
+       model.addAttribute("memberId",mId);
+
+       return "findIdOk";
+
+
+    }
 
 
 }

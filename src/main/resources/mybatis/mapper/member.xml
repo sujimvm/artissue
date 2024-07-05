@@ -11,7 +11,7 @@
 
     </select>
 
-    <select id="existsByUsername" resultType="boolean" parameterType="String">
+    <select id="existsByMembername" resultType="boolean" parameterType="String">
 
         SELECT CASE WHEN COUNT(*) > 0 THEN TRUE ELSE FALSE END
         FROM member
@@ -27,7 +27,7 @@
 
     </insert>
 
-    <select id="sameUsername" parameterType="String">
+    <select id="sameMemberName" parameterType="String">
         select count(*) from member where member_id =#{member_id}
 
     </select>
@@ -40,5 +40,10 @@
         AND member_email = #{member_email}
     </select>
 
+    <select id="findMemberId" parameterType="map" resultType="mDTO">
+        select member_id,member_name,member_email from member where member_name=#{member_name} and member_email=#{member_email}
+
+
+    </select>
 
 </mapper>

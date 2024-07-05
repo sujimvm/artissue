@@ -17,7 +17,7 @@ public class JoinService {
 
     public int joinProcess(MemberDTO memberDTO, String userType){
 
-        boolean isMember = memberMapper.existsByUsername(memberDTO.getMember_id());
+        boolean isMember = memberMapper.existsByMembername(memberDTO.getMember_id());
 
         if(isMember){
             return 0;

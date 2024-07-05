@@ -16,28 +16,21 @@
 
     <!-- Stylesheet -->
     <link rel="stylesheet" href="/bootstrap/style.css">
+
     <style>
-        .tab {
-            display: inline-block;
-            padding: 10px 20px;
-            cursor: pointer;
-            border: 1px solid #ccc;
-            margin-right: 10px;
+        .textloc{
+            text-align: center;
         }
 
-        .tab.active {
-            background-color: #007bff;
-            color: white;
-        }
 
-        .form-container {
-            display: none;
-            margin-top: 20px;
-        }
+
     </style>
+
 </head>
 
 <body>
+
+아이디
 <!-- Preloader -->
 <div class="preloader d-flex align-items-center justify-content-center">
     <div class="lds-ellipsis">
@@ -138,7 +131,7 @@
 <section class="breadcumb-area bg-img bg-overlay" style="background-image: url(/bootstrap/img/bg-img/breadcumb3.jpg);">
     <div class="bradcumbContent">
         <p>See what’s new</p>
-        <h2>Find</h2>
+        <h2>FindById</h2>
     </div>
 </section>
 <!-- ##### Breadcumb Area End ##### -->
@@ -149,46 +142,17 @@
         <div class="row justify-content-center">
             <div class="col-12 col-lg-8">
                 <div class="tabs-content">
-                    <div>
-                        <div class="tab active" onclick="showForm('findId')">아이디찾기</div>
-                        <div class="tab" onclick="showForm('findPwd')">비밀번호찾기</div>
-                    </div>
 
-                    <div id="findId" class="form-container" style="display:block;">
-                        <h3>아이디 찾기</h3>
-                        <!-- ID 찾기 Form -->
-                        <form action="/findIdProc" method="post">
-                            <div class="form-group">
-                                <label for="findIdEmail">Name</label>
-                                <input  class="form-control" name="member_name"  placeholder="이름을 입력하세요">
-                            </div>
-                            <div class="form-group">
-                                <label for="findIdEmail">Email</label>
-                                <input type="email"  class="form-control" name="member_email" id="findIdEmail" placeholder="이메일을 입력하세요">
-                            </div>
-                            <button type="submit" class="btn oneMusic-btn mt-30">아이디 찾기</button>
-                        </form>
-                    </div>
+                        <div class="textloc">
+                        <h4>아이디 찾기가 완료되었습니다.</h4>
+                         <p class="form-control">회원님의 아이디는 <span th:text="${memberId}"></span>입니다.</p>
 
-                    <div id="findPwd" class="form-container">
-                        <h3>비밀번호 찾기</h3>
-                        <!-- 비밀번호 찾기 Form -->
-                        <form action="/findPwdProc" method="get">
-                            <div class="form-group">
-                                <label for="findIdEmail">ID</label>
-                                <input  class="form-control"  name="member_id" placeholder="아이디를 입력하세요" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="findIdEmail">Name</label>
-                                <input  class="form-control"  name="member_name" placeholder="이름을 입력하세요" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="findPwdEmail">Email</label>
-                                <input type="email" class="form-control" name="member_email" id="findPwdEmail" placeholder="이메일을 입력하세요">
-                            </div>
+                            <a href="/login"><input type="button" value="로그인"></a>
 
-                            <button type="submit" class="btn oneMusic-btn mt-30">비밀번호 찾기</button>
-                        </form>
+                            <a href="/findbyId"><input type="button" value="비밀번호 찾기"> </a>
+
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -236,19 +200,6 @@
 <!-- Active js -->
 <script src="/bootstrap/js/active.js"></script>
 
-<script>
-    function showForm(form) {
-        document.getElementById('findId').style.display = 'none';
-        document.getElementById('findPwd').style.display = 'none';
-        document.getElementById(form).style.display = 'block';
-
-        var tabs = document.getElementsByClassName('tab');
-        for (var i = 0; i < tabs.length; i++) {
-            tabs[i].classList.remove('active');
-        }
-        document.querySelector('[onclick="showForm(\'' + form + '\')"]').classList.add('active');
-    }
-</script>
 </body>
 
 </html>
