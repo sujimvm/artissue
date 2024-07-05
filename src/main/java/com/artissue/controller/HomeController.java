@@ -38,14 +38,21 @@ public class HomeController {
 
             MemberDTO memberDTO = memberMapper.findUsername(id);
             session.setAttribute("mDTO", memberDTO);
+        } else if (role.equals("ROLE_COMPANY")) {
+            session.setAttribute("role", role);
+
+            MemberDTO companyDTO = memberMapper.findUsername(id);
+            session.setAttribute("cDTO", companyDTO);
         }
 
         System.out.println("Role in session: " + session.getAttribute("role"));
         System.out.println("Member DTO in session: " + session.getAttribute("mDTO"));
+        System.out.println("Company DTO in session: " + session.getAttribute("cDTO"));
 
         // index 페이지로 이동
         return "index";
     }
+
 
 
 

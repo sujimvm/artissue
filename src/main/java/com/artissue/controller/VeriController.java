@@ -44,7 +44,7 @@ public class VeriController {
     @PostMapping("/checkId")
     public ResponseEntity<String> sameId(@RequestParam("id") String id) {
         System.out.println("id>>> " + id);
-        int count = memberMapper.sameUsername(id);
+        int count = memberMapper.sameMemberName(id);
 
         if (count > 0) {
             return ResponseEntity.ok("exists");
@@ -71,9 +71,9 @@ public class VeriController {
     }
 
     private String generateVerificationCode() {
-        // 인증번호를 생성하는 로직 예시
+
         Random random = new Random();
-        int code = 1000 + random.nextInt(9000); // 1000부터 9999 사이의 랜덤 숫자 생성
+        int code = 1000 + random.nextInt(9000);
         return String.valueOf(code);
     }
 }
