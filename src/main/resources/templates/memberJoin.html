@@ -24,31 +24,24 @@
 
         //닉네임 기업,개인 선택
         $(document).ready(function() {
-            // 초기 로딩 시 userType 값에 따라 필드 설정
             var selectedValue = $('input[name="userType"]:checked').val();
             updateInputFields(selectedValue);
 
-            // userType 변경 시 처리
             $('body').on('change', 'input[name="userType"]', function() {
                 var selectedValue = $(this).val();
                 updateInputFields(selectedValue);
             });
 
-            // 필드 업데이트 함수
             function updateInputFields(selectedValue) {
                 if (selectedValue == 'company') {
-                    $('#inputContainer').html('<label for="companyName">기업명: </label><input type="text" id="companyName" name="member_nickname">');
+                    $('#inputContainer').html('<label for="companyName">기업명 </label><input type="text" id="companyName" name="member_nickname" class="form-control" required><br>');
                 } else if (selectedValue == 'individual') {
-                    $('#inputContainer').html('<label for="nickname">닉네임: </label><input type="text" id="nickname" name="member_nickname">');
+                    $('#inputContainer').html('<label for="nickname">닉네임 </label><input type="text" id="nickname" name="member_nickname" class="form-control" required><br>');
                 }
 
-                // hidden input의 값을 업데이트
                 $('#hiddenUserType').val(selectedValue);
             }
         });
-
-
-
 
 
 
@@ -75,17 +68,17 @@
 
             function pwdCheck(pwd){
                 if(pwd==""){
-                    $("#pwd_check_ok").hide();
-                    $("#pwd_check_err").hide();
+                    $("#pwdCheckOk").hide();
+                    $("#pwdEheckErr").hide();
                     return;
                 }
 
                 if($("#Password2").val() === $("#Password1").val()){
-                    $("#pwd_check_ok").show();
-                    $("#pwd_check_err").hide();
+                    $("#pwdCheckOk").show();
+                    $("#pwdEheckErr").hide();
                 }else{
-                    $("#pwd_check_ok").hide();
-                    $("#pwd_check_err").show();
+                    $("#pwdCheckOk").hide();
+                    $("#pwdEheckErr").show();
                 }
             };
         });
@@ -122,76 +115,181 @@
                     document.getElementById('Idcheckmark').style.display = 'none';
                 });
         }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById("member_id").addEventListener("input", function() {
+                document.getElementById('Idcheckmark').style.display = 'none';
+            });
+        });
+
+        //이메일 유효성검사
+        $(function(){
+            $('#member_email').on('input', function() {
+                var email = $(this).val();
+                var email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
+                if (email_regex.test(email)) {
+                    $('#emailCheck').show();
+                    $('#emailErr').hide();
+                } else {
+                    $('#emailCheck').hide();
+                    $('#emailErr').show();
+                }
+            });
+        });
+
+        //핸드폰 번호 하이픈
+        document.addEventListener("DOMContentLoaded", function() {
+            var phoneInput = document.getElementById("member_phone");
+
+            phoneInput.addEventListener("input", function() {
+                phoneInput.value = phoneInput.value.replace(/[^0-9]/g, '');
+            });
+        });
+
+
+
+
         function insertCheck(){
 
             var isIdValid = $('#Idcheckmark').is(':visible');
-            var isComNoValid = $('#pwd_check_ok').is(':visible');
-            var isPhoneCheckValid = $('#pwdCheckmark').is(':visible');
-
+            var ispwdValid = $('#pwdCheckmark').is(':visible');
+            var ispwd2Valid = $('#pwdCheckOk').is(':visible');
+            var isPhoneValid = $('#phoneCheckOkMark').is(':visible');
             debugger;
-
 
             if (!isIdValid) {
                 alert("아이디가 유효하지 않습니다.");
                 return false;
             }
 
-            if(!isPhoneCheckValid){
-                debugger;
-                alert('휴대폰 본인인증 번호를 확인하여주십시오.');
-                $("#phone_verify").focus();
+            if (!ispwdValid) {
+                alert("비밀번호가 유효하지 않습니다.");
                 return false;
             }
 
+            if (!ispwd2Valid) {
+                alert("비밀번호가 유효하지 않습니다.");
+                return false;
+            }
 
+            if(!isPhoneValid){
+                debugger;
+                alert('휴대폰 본인인증 번호를 확인하여주십시오.');
+                $("#userNum").focus();
+                return false;
+            }
         };
 
 
 
-
         //인증번호 발송
-        document.addEventListener('DOMContentLoaded', function() {
-            $('#phone_check_ok_mark').hide();
-            $('#phone_check_err').hide();
-            document.querySelector("#send").addEventListener("click", function(event) {
+        $(document).ready(function() {
+            var verificationCode = null; // 초기값을 null로 설정
+
+            $('#phoneCheckOkMark').hide();
+            $('#phoneCheckErr').hide();
+
+            $("#send").on("click", function(event) {
                 event.preventDefault();
 
-                const memberPhone = document.querySelector('input[name="veriPhone"]').value.trim();
+                const memberPhone = $('input[name="veriPhone"]').val().trim();
                 const data = { memberPhone: memberPhone };
 
-                // Axios POST 요청
                 axios.post("/veri/send-one", null, { params: data })
                     .then(res => {
-                        document.querySelector("#enterBtn").addEventListener("click", function (event) {
-                            event.preventDefault();
-                            const userNum = document.querySelector('input[name="userNum"]').value.trim();
-                            if (res.data.verificationCode === userNum) {
-                                alert("인증 성공하였습니다.");
-                                $('#phone_check_ok_mark').show();
-                                $('#phone_check_err').hide();
-                            } else {
-                                alert("인증 실패하였습니다. 다시 입력해주세요.");
-                                $('#phone_check_err').show();
-                                $('#phone_check_ok_mark').hide();
-                            }
-                        })
+                        alert("문자를 발송했습니다. 인증번호를 확인해주세요.");
+                        $("#resendbtn").show();
+                        $("#send").hide();
+                        verificationCode = res.data.verificationCode; // 최신 인증번호로 업데이트
+                        $('#checkMessage').show();
                     })
                     .catch(error => {
                         alert("데이터 통신 오류입니다.");
                         console.error('오류 내용:', error.response ? error.response.data : error.message);
                     });
             });
+
+            $("#resendbtn").on('click', function() {
+                var mgrPhone = $("#to").val();
+                $("#userNum").val('');
+
+                $.ajax({
+                    url : "veri/reSendSms",
+                    type : "POST",
+                    data : { mgrPhone : mgrPhone },
+                    dataType : "JSON",
+                    success : function(result) {
+                        console.log(result);
+                        if (result.status == 200) {
+                            alert("인증번호가 전화번호로 재전송되었습니다.");
+                            verificationCode = result.verificationCode; // 최신 인증번호로 업데이트
+                            $('#checkMessage').show();
+                        } else {
+                            alert("인증번호 전송에 실패했습니다.");
+                        }
+                    },
+                    error : function() {
+                        alert("데이터 통신 오류입니다.");
+                    }
+                });
+            });
+
+            $("#enterBtn").on('click', function() {
+                var userNum = $("#userNum").val().trim();
+
+                if (verificationCode && userNum === verificationCode) {
+                    alert("인증 성공하였습니다.");
+                    $('#phoneCheckOkMark').show();
+                    $('#phoneCheckErr').hide();
+                    $('#checkMessage').hide();
+                } else {
+                    alert("인증 실패하였습니다. 다시 입력해주세요.");
+                    $('#phoneCheckErr').show();
+                    $('#phoneCheckOkMark').hide();
+                }
+            });
         });
+
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById("userNum").addEventListener("input", function() {
+                document.getElementById('phoneCheckOkMark').style.display = 'none';
+            });
+        });
+
+
+
 
     </script>
     <style>
-        .idSize{
+        .testWidth{
             width: 70px !important;
         }
+
+
 
         #send {
             margin-right: 25px;
         }
+
+        .custom-input-group {
+            display: flex;
+            align-items: center;
+        }
+
+        .custom-input-group input,
+        .custom-input-group button {
+            flex: 1;
+            margin-right: 50px;
+        }
+
+        .phonbtn {
+            cursor: pointer;
+            padding: 5px 10px;
+            font-size: 15px;
+            width: 30px;
+        }
+
+
 
     </style>
 </head>
@@ -311,13 +409,13 @@
 
                     <!-- join Form -->
                     <div class="login-form">
-                        <form action="/joinProc" method="post" name="joinForm"  onsubmit="return pwdConfirm()">
+                        <form action="/joinProc" method="post" name="joinForm"  onsubmit="return insertCheck()">
                             <span>*가입 유형을 선택해주세요</span><br>
                             <label for="companyRadio"></label>
-                                <input type="radio" name="userType" value="company" id="companyRadio"> 기업
+                                <input type="radio" name="userType" value="company" id="companyRadio" required> 기업
 
                             <label for="individualRadio">
-                                <input type="radio" name="userType" value="individual" id="individualRadio"> 개인
+                                <input type="radio" name="userType" value="individual" id="individualRadio" required> 개인
                             </label>
 
                             <div id="inputContainer"></div>
@@ -325,7 +423,7 @@
                             <div class="form-group">
                                 <label for="member_id">아이디</label>
                                 <div class="input-group">
-                                    <input type="text" id="member_id" name="member_id" class="form-control idSize" aria-describedby="emailHelp" placeholder="아이디를 입력하세요" required>
+                                    <input type="text" id="member_id" name="member_id" class="form-control testWidth" aria-describedby="emailHelp" placeholder="아이디를 입력하세요" required>
                                     <button onclick="checkId()" class="btn btn-outline-secondary">중복확인</button>
                                 </div>
                                 <span id="Idcheckmark" class="checkmark">✔</span>
@@ -343,9 +441,9 @@
                             <div class="form-group">
                                 <label for="Password2">비밀번호 확인</label>
                                 <input type="password" name="confirm_pwd" class="form-control" id="Password2" placeholder="비밀번호를 다시 입력하세요" required>
-                                <span id="pwd_check_err" style="display: none; color: red; font-size: 12px;">
+                                <span id="pwdEheckErr" style="display: none; color: red; font-size: 12px;">
                                     위의 비밀번호와 입력된 비밀번호가 다릅니다.</span>
-                                <span id="pwd_check_ok" class="checkmark" style="display: none;">✔</span>
+                                <span id="pwdCheckOk" class="checkmark" style="display: none;">✔</span>
                             </div>
                             <div class="input-group">
                                 <label>이름</label><br>
@@ -357,7 +455,10 @@
                             </div><br>
                             <div class="input-group">
                                 <label>이메일</label><br>
-                                <input name="member_email" class="form-control" aria-describedby="emailHelp" placeholder="이메일을 입력하세요" required>
+                                <input name="member_email" id="member_email" class="form-control" aria-describedby="emailHelp" placeholder="이메일을 입력하세요" required>
+                                <span id="emailErr" style="display: none; color: red; font-size: 12px;">
+                                    이메일 형식과 맞지 않습니다.</span>
+                                <span id="emailCheck" class="checkmark" style="display: none;">✔</span>
                             </div><br>
                             <div class="input-group">
                                 <label>생년월일</label><br>
@@ -366,28 +467,34 @@
                             <div class="input-group">
                                 <label>성별 : &nbsp;</label>
                                 <label>
-                                    <input type="radio" name="member_gender" value="female"> 여자&nbsp;
+                                    <input type="radio" name="member_gender" value="female" required> 여자&nbsp;
                                 </label>
                                 <label>
-                                    <input type="radio" name="member_gender" value="male"> 남자
+                                    <input type="radio" name="member_gender" value="male" required> 남자
                                 </label>
                             </div><br>
-                          <!--<div class="input-group">
-                                <label>받는사람 &nbsp;</label>
-                                <label>
-                             <input type="text" class="to" id="to" name="veriPhone" required/>
-                            <button type="button" id="send">전송</button>
-                                </label>
-                                <label>인증번호 &nbsp;</label>
-                                <label>
-                             <input type="text" id="userNum" name="userNum" required>
-                            <button type="button" id="enterBtn">확인</button>
-                                    <span id="phone_check_ok_mark" class="checkmark">✔</span>
-                                    <span id="phone_check_err" style="display: none; color: red; font-size: 12px;">
-								입력하신 인증번호와 발송된 인증번호가 다릅니다.
-							</span>
-                                </label>
-                            </div>-->
+                          <div class="form-group">
+                                <label>받는사람 &nbsp;</label><br>
+                              <div class="custom-input-group">
+                                     <input type="text" class="to form-control" id="to" name="veriPhone" required/>
+                                     <button type="button" class="btn btn-outline-secondary phonbtn" id="send">전송</button>
+                                     <button type="button" id="resendbtn" style="display: none;">재전송</button>
+                              </div>
+                          </div>
+                              <div class="form-group">
+                                <label>인증번호 &nbsp;</label><br>
+                                  <div class="custom-input-group">
+                                 <input type="text" class="form-control" id="userNum" name="userNum" required>
+                                       <button type="button" class="btn btn-outline-secondary phonbtn" id="enterBtn">확인</button>
+                                        <span id="phoneCheckOkMark" class="checkmark">✔</span>
+                                        <span id="phoneCheckErr" style="display: none; color: red; font-size: 12px;">
+                                        인증번호가 일치하지 않습니다.
+                                      </span>
+                                      <span id="checkMessage" style="display: none; color: red; font-size: 12px;">
+                                    인증번호 입력 후 확인을 클릭해 주세요.
+                                </span>
+                                  </div>
+                            </div>
                             <button type="submit" class="btn oneMusic-btn mt-30">join</button>
                         </form>
 
