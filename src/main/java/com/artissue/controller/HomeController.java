@@ -21,6 +21,12 @@ public class HomeController {
         return "index";
     }
 
+    @GetMapping("/qr")
+    public String qrTest(){
+        return "exhibition/qrTest";
+    }
+
+
     @GetMapping("/index")
     public String index(HttpSession session) {
         // 현재 인증된 사용자의 정보 가져오기
