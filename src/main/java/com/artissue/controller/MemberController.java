@@ -97,26 +97,17 @@ public class MemberController {
         response.setContentType("text/html; charset=UTF-8");
         PrintWriter out = response.getWriter();
 
-        if (dto == null || !member_name.equals(dto.getMember_name())) {
+        if (dto == null || !member_email.equals(dto.getMember_email()) || !member_name.equals(dto.getMember_name())) {
             out.println("<script>");
-            out.println("alert('이름을 다시 확인해주세요.')");
+            out.println("alert('정보가 일치하지 않습니다.입력한 정보를 다시 확인해주세요.')");
             out.println("history.back()");
             out.println("</script>");
             out.flush();
             return null;
+
         }
 
-        if (!member_email.equals(dto.getMember_email())) {
-            out.println("<script>");
-            out.println("alert('이메일을 다시 확인해주세요.')");
-            out.println("history.back()");
-            out.println("</script>");
-            out.flush();
-            return null;
-        }
-
-
-        String mId = dto.getMember_id();
+       String mId = dto.getMember_id();
 
        model.addAttribute("memberId",mId);
 
