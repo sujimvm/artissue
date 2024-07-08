@@ -6,9 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
+@RequestMapping("/exhi")
 public class ExhibitionController {
 
     @Autowired
@@ -19,7 +21,7 @@ public class ExhibitionController {
         return "/exhibition/event";
     }
 
-    @GetMapping("/exhi/content")
+    @GetMapping("/content")
     public String exhibitionCont(@RequestParam("no") int no,
                                  Model model) {
 
