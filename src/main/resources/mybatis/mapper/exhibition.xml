@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.artissue.model.ExhibitionMapper">
+
+    <select id="getExhibitionsList" parameterType="map" resultType="exhibitionDTO">
+        SELECT * FROM exhibition
+        order by exhibition_start_date desc LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+</mapper>

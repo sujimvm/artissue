@@ -31,6 +31,8 @@ public class SecurityConfig {
                         .requestMatchers("/", "/login", "/join", "/joinProc","/index","/veri/**").permitAll()
                         .requestMatchers("/contact","/blog","/store","/event","/elements","/findbyId", "/findPwdProc", "/updatePassword").permitAll()
                         .requestMatchers( "/css/**", "/js/**", "/images/**", "/bootstrap/**").permitAll()
+                        .requestMatchers("/contact","/blog","/store","/event","/elements","/findbyId", "/findPwdProc", "/list").permitAll()
+                        .requestMatchers( "/css/**", "/js/**", "/images/**", "/bootstrap/**", "/ajax/**").permitAll()
                         .requestMatchers("/admin").hasRole("ADMIN")
                         .requestMatchers("/my/**").hasAnyRole("ADMIN", "MEMBER")
                         .anyRequest().authenticated());
