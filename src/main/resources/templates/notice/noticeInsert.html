@@ -46,7 +46,7 @@
 <section class="breadcumb-area bg-img bg-overlay" style="background-image: url(/bootstrap/img/bg-img/breadcumb3.jpg);">
     <div class="bradcumbContent">
         <p>See what’s new</p>
-        <h2>NOTICE UPDATE</h2>
+        <h2>NOTICE WRITE</h2>
     </div>
 </section>
 <!-- ##### Breadcumb Area End ##### -->
@@ -57,18 +57,15 @@
         <div class="row justify-content-center">
             <div class="col-12 col-lg-8">
                 <div class="login-content">
-                    <form th:if="${noticeCont != null}" action="/notice/modifyOk" method="post">
+                    <form action="/notice/insertOk" method="post">
+                        <h3>공지사항 등록</h3>
+                        <input class="form-control" name="notice_title" placeholder="제목을 입력하세요">
+                        <br>
+                        <br>
+                        <textarea class="form-control" id="notice_cont" name="notice_cont" rows="7" placeholder="내용을 입력하세요"
+                                  style="height: 500px; resize: none;"></textarea>
 
-                        <input type="hidden" name="notice_key" th:value="${noticeCont.notice_key}">
-
-                        <h3>공지사항 수정</h3>
-                        <input class="form-control" name="notice_title" th:value="${noticeCont.notice_title}">
-                        <br> <br>
-                        <textarea class="form-control" id="notice_cont" name="notice_cont" rows="7"
-                                  th:utext="${noticeCont.notice_cont}" style="height: 500px; resize: none;">
-                        </textarea>
-
-                        <button type="submit" class="btn oneMusic-btn mt-30">수정하기</button>
+                        <button type="submit" class="btn oneMusic-btn mt-30">등록하기</button>
                     </form>
                 </div>
             </div>
