@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +27,8 @@ public class MemberController {
     @Autowired
     private JoinService joinService;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @GetMapping("/login")
     public String login() {
@@ -115,6 +118,74 @@ public class MemberController {
 
 
     }
+    @GetMapping("/findPwdProc")
+    public String findPwdProc(@RequestParam("member_id") String member_id,
+                              @RequestParam("member_name") String member_name,
+                              @RequestParam("member_email") String member_email,
+                              Model model,
+                              HttpServletResponse response) throws IOException, IOException {
 
+        response.setContentType("text/html; charset=UTF-8");
+
+        MemberDTO member_pwd = this.memberMapper.findMemberPwd(member_id, member_name, member_email);
+
+        System.out.println(member_pwd);
+
+        if(member_pwd == null) {
+            PrintWriter out = response.getWriter();
+            out.println("<script>");
+            out.println("alert('입력하신 정보에 해당하는 회원이 없습니다.')");
+            out.println("location.href='/findbyId'");
+            out.println("</script>");
+            out.flush();
+            out.close();
+            return null;
+        }else {
+            model.addAttribute("member_id", member_id);
+            return "updatePwd";
+        }
+    }
+
+    @PostMapping("/updatePassword")
+    public void updatePassword(@RequestParam("member_id") String member_id,
+                               @RequestParam("member_pwd") String member_pwd,
+                               HttpServletResponse response) throws IOException {
+        System.out.println(member_id);
+        System.out.println(member_pwd);
+
+        String encodedPwd = passwordEncoder.encode(member_pwd);
+
+        System.out.println(encodedPwd);
+
+        response.setContentType("text/html; charset=UTF-8");
+
+        PrintWriter out = response.getWriter();
+
+        MemberDTO memberInfo = this.memberMapper.findUsername(member_id);
+
+        if(passwordEncoder.matches(member_pwd, memberInfo.getMember_pwd())){
+            out.println("<script>");
+            out.println("alert('기존 비밀번호와 새로 입력하신 비밀번호가 같습니다.')");
+            out.println("history.back()");
+            out.println("</script>");
+        }else{
+            int result = this.memberMapper.updatePassword(member_id, encodedPwd);
+
+            if(result == 1) {
+                out.println("<script>");
+                out.println("alert('비밀번호 수정에 성공했습니다.')");
+                out.println("location.href='/login'");
+                out.println("</script>");
+            }else {
+                out.println("<script>");
+                out.println("alert('비밀번호 수정에 실패했습니다.')");
+                out.println("history.back()");
+                out.println("</script>");
+            }
+
+        }
+
+
+    }
 
 }

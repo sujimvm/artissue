@@ -6,5 +6,6 @@
     <typeAliases>
         <typeAlias type="com.artissue.model.MemberDTO" alias="mDTO"/> <!-- 회원 -->
         <typeAlias type="com.artissue.model.ChatDTO" alias="chatDTO"/> <!-- 문의채팅 -->
+        <typeAlias type="com.artissue.model.NoticeDTO" alias="noticeDTO"/> <!-- 공지사항 -->
     </typeAliases>
 </configuration>

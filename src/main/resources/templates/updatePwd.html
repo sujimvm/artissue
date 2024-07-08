@@ -16,6 +16,46 @@
 
     <!-- Stylesheet -->
     <link rel="stylesheet" href="/bootstrap/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        //비밀번호 체크
+        $(function(){
+            $('#Password1').on('input', function() {
+                var pwd = $(this).val();
+                var pwdPattern = /^(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,20}$/;
+                if (pwdPattern.test(pwd)) {
+                    $('#pwdCheckmark').show();
+                    $('#pwdError').hide();
+                } else {
+                    $('#pwdCheckmark').hide();
+                    $('#pwdError').show();
+                }
+            });
+        });
+
+        $(function(){
+            var pwd_check = false;
+            $("#Password2").on('input', function(){
+                pwdCheck($(this).val());
+            });
+
+            function pwdCheck(pwd){
+                if(pwd==""){
+                    $("#pwd_check_ok").hide();
+                    $("#pwd_check_err").hide();
+                    return;
+                }
+
+                if($("#Password2").val() === $("#Password1").val()){
+                    $("#pwd_check_ok").show();
+                    $("#pwd_check_err").hide();
+                }else{
+                    $("#pwd_check_ok").hide();
+                    $("#pwd_check_err").show();
+                }
+            };
+        });
+    </script>
 
     <style>
 
@@ -130,7 +170,7 @@
 <section class="breadcumb-area bg-img bg-overlay" style="background-image: url(/bootstrap/img/bg-img/breadcumb3.jpg);">
     <div class="bradcumbContent">
         <p>See what’s new</p>
-        <h2>PASSWORD UPDATE</h2>
+        <h2>NEW PASSWORD</h2>
     </div>
 </section>
 <!-- ##### Breadcumb Area End ##### -->
@@ -144,18 +184,24 @@
                     <h3>Welcome Back</h3>
                     <!-- Login Form -->
                     <div class="login-form">
-                        <form action="/updatePassword" method="post">
+                        <form th:action="@{/updatePassword}" method="post">
 
                             <input type="hidden" name="member_id" th:value="${member_id}">
 
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Password</label>
-                                <input name="member_pwd" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="새 비밀번호를 입력하세요" required>
-                                <small id="emailHelp" class="form-text text-muted"><i class="fa fa-lock mr-2"></i>We'll never share your id with anyone else.</small>
+                                <label for="Password1">비밀번호</label>
+                                <input type="password" name="member_pwd" class="form-control" id="Password1"  placeholder="새 비밀번호를 입력하세요" required>
+                                <span id="pwdCheckmark" class="checkmark" style="display: none;">✔</span>
+                                <span id="pwdError" style="display: none; color: red; font-size: 12px;">
+                                    비밀번호는 8자 이상 20자 이하이며 특수문자 1자를 포함해야 합니다.
+                                </span>
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputPassword1">PasswordOk</label>
-                                <input type="password" name="member_pwd_check" class="form-control" id="exampleInputPassword1" placeholder="새 비밀번호 확인" required>
+                                <label for="Password2">비밀번호 확인</label>
+                                <input type="password" name="confirm_pwd" class="form-control" id="Password2" placeholder="새 비밀번호를 확인" required>
+                                <span id="pwd_check_err" style="display: none; color: red; font-size: 12px;">
+                                    위의 비밀번호와 입력된 비밀번호가 다릅니다.</span>
+                                <span id="pwd_check_ok" class="checkmark" style="display: none;">✔</span>
                             </div>
                             <div class="link-container">
                                 <a href="/findbyId">아이디 / 비밀번호 찾기</a>
