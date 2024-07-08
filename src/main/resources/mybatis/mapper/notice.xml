@@ -5,7 +5,24 @@
 
 <mapper namespace="com.artissue.model.NoticeMapper">
     <select id="noticeList" resultType="noticeDTO">
-        select * from notice order by notice_date
+        select * from notice order by notice_date desc
     </select>
+
+    <select id="noticeCont" resultType="noticeDTO">
+        select * from notice where notice_key = #{notice_key}
+    </select>
+
+    <insert id="noticeInsert" parameterType="noticeDTO">
+        insert into notice (notice_title, notice_cont, notice_hit, notice_date)
+        values (#{notice_title}, #{notice_cont}, 0, NOW())
+    </insert>
+
+    <update id="noticeModify" parameterType="noticeDTO">
+        update notice set notice_title = #{notice_title}, notice_cont = #{notice_cont} where notice_key = #{notice_key}
+    </update>
+
+    <delete id="noticeDelete" parameterType="int">
+        delete from notice where notice_key = #{notice_key}
+    </delete>
 
 </mapper>
