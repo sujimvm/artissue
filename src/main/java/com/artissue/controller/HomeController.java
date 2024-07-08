@@ -3,7 +3,6 @@ package com.artissue.controller;
 import com.artissue.model.MemberDTO;
 import com.artissue.model.MemberMapper;
 import jakarta.servlet.http.HttpSession;
-import jakarta.websocket.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
