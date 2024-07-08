@@ -46,12 +46,42 @@
     <section>
         <div class="search-filter">
             <div class="exhibition-search container">
-                <label for="exampleInputEmail1">ID</label>
-                <input name="keyword" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="검색하고 싶은 전시회 이름">
+                <label for="search-keyword">검색어</label>
+                <input name="keyword" class="form-control" id="search-keyword" aria-describedby="emailHelp" placeholder="검색하고 싶은 전시회 이름">
+                <input type="button" onclick="keywordSearch()" value="검색">
             </div>
 
-            <div class="exhibition-filter">
-
+            <div class="exhibition-filter" id="exhi-filter">
+                <div class="container" id="">
+                    <label for="sell-filter">판매상태</label>
+                    <div id="sell-filter">
+                        <label><input type="checkbox" name="sellCode" value="판매중">판매중</label>
+                        <label><input type="checkbox" name="sellCode" value="판매예정">판매예정</label>
+                        <label><input type="checkbox" name="sellCode" value="판매종료">판매종료</label>
+                    </div>
+                    <label for="loc-filter">지역(중복)</label>
+                    <div id="loc-filter" class="">
+                        <label><input type="checkbox" name="locCode" value="서울">서울</label>
+                        <label><input type="checkbox" name="locCode" value="부산">부산</label>
+                        <label><input type="checkbox" name="locCode" value="인천">인천</label>
+                        <label><input type="checkbox" name="locCode" value="대구">대구</label>
+                        <label><input type="checkbox" name="locCode" value="대전">대전</label>
+                        <label><input type="checkbox" name="locCode" value="광주">광주</label>
+                        <label><input type="checkbox" name="locCode" value="울산">울산</label>
+                        <label><input type="checkbox" name="locCode" value="경기">경기</label>
+                        <label><input type="checkbox" name="locCode" value="충청북도">충북</label>
+                        <label><input type="checkbox" name="locCode" value="충청남도">충남</label>
+                        <label><input type="checkbox" name="locCode" value="강원">강원</label>
+                        <label><input type="checkbox" name="locCode" value="전라북도">전북</label>
+                        <label><input type="checkbox" name="locCode" value="전라남도">전남</label>
+                        <label><input type="checkbox" name="locCode" value="경상북도">경북</label>
+                        <label><input type="checkbox" name="locCode" value="경상남도">경남</label>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <input type="button" class="btn oneMusic-btn mt-30" onclick="filterReset()" value="초기화">
+                <input type="button" class="btn oneMusic-btn mt-30" onclick="getComBoardList()" value="조건검색">
             </div>
         </div>
     </section>
