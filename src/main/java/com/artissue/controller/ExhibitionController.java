@@ -19,7 +19,7 @@ public class ExhibitionController {
         return "event";
     }
 
-    @GetMapping("/exhibitionCont")
+    @GetMapping("/exhi/content")
     public String exhibitionCont(@RequestParam("no") int no,
                                  Model model) {
 
@@ -27,7 +27,7 @@ public class ExhibitionController {
 
         model.addAttribute("Exhibition", exhibitionCont);
 
-        return "exhibitionCont";
+        return "exhibition/content";
     }
 
 }
