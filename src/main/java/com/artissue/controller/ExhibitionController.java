@@ -1,9 +1,12 @@
 package com.artissue.controller;
 
+import com.artissue.model.ExhibitionDTO;
 import com.artissue.model.ExhibitionMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class ExhibitionController {
@@ -14,6 +17,17 @@ public class ExhibitionController {
     @GetMapping("/list")
     public String exhibitionList(){
         return "event";
+    }
+
+    @GetMapping("/exhibitionCont")
+    public String exhibitionCont(@RequestParam("no") int no,
+                                 Model model) {
+
+        ExhibitionDTO exhibitionCont = this.exhibitionMapper.getExhibitionCont(no);
+
+        model.addAttribute("Exhibition", exhibitionCont);
+
+        return "exhibitionCont";
     }
 
 }

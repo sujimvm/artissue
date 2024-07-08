@@ -10,4 +10,8 @@
         order by exhibition_start_date desc LIMIT #{limit} OFFSET #{offset}
     </select>
 
+    <select id="getExhibitionCont" parameterType="int" resultType="exhibitionDTO">
+        select * from exhibition where exhibition_key = #{no}
+    </select>
+
 </mapper>

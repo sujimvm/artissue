@@ -1,6 +1,6 @@
 $(document).ready(function (){
     let offset = 0;
-    let limit = 20;
+    let limit = 18;
 
     // 공고리스트 출력, 조회
     function getExhibitionList(){
@@ -24,10 +24,10 @@ $(document).ready(function (){
                         "<div class='event-text'>" +
                         "<h4>"+ exhibition.exhibition_title +"</h4>" +
                         "<div class='event-meta-data'>" +
-                        "<a href='#' class='event-place'>" + exhibition.exhibition_place + "</a>" +
-                        "<a href='#' class='event-date'>" + exhibition.exhibition_start_date + " ~ " + exhibition.exhibition_end_date +"</a>" +
+                        "<a href='/exhibitionCont?no="+exhibition.exhibition_key+"' class='event-place'>" + exhibition.exhibition_place + "</a>" +
+                        "<a href='/exhibitionCont?no="+exhibition.exhibition_key+"' class='event-date'>" + exhibition.exhibition_start_date + " ~ " + exhibition.exhibition_end_date +"</a>" +
                         "</div>" +
-                        "<a href='#' class='btn see-more-btn'>자세히 보기</a>" +
+                        "<a href='/exhibitionCont?no="+exhibition.exhibition_key+"' class='btn see-more-btn'>자세히 보기</a>" +
                         "</div>" +
                         "</div>" +
                         "</div>";
