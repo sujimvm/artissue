@@ -1,10 +1,68 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <!-- Title -->
+    <title>One Music - Modern Music HTML5 Template</title>
+    <!-- Favicon -->
+    <link rel="icon" href="/bootstrap/img/core-img/favicon.ico">
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="/bootstrap/style.css">
+    <style>
+        .link-container{
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
+<!-- Preloader -->
+<div class="preloader d-flex align-items-center justify-content-center">
+    <div class="lds-ellipsis">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+</div>
+<div th:replace="~{include/header}"></div>
 
+<!-- ##### Breadcumb Area Start ##### -->
+<section class="breadcumb-area bg-img bg-overlay" style="background-image: url(/bootstrap/img/bg-img/breadcumb3.jpg);">
+    <div class="bradcumbContent">
+        <p>See what’s new</p>
+        <h2>Content</h2>
+
+    </div>
+</section>
+
+<input type="hidden" id="exhibition_key" th:value="${Exhibition.getExhibition_key()}">
+<input type="button" id="reserveOpenBt" value="예매하기">
+
+<!-- ##### Breadcumb Area End ##### -->
+
+<div th:replace="~{include/footer}"></div>
+
+<!-- ##### All Javascript Script ##### -->
+<!-- jQuery-2.2.4 js -->
+<script src="/bootstrap/js/jquery/jquery-2.2.4.min.js"></script>
+<!-- Popper js -->
+<script src="/bootstrap/js/bootstrap/popper.min.js"></script>
+<!-- Bootstrap js -->
+<script src="/bootstrap/js/bootstrap/bootstrap.min.js"></script>
+<!-- All Plugins js -->
+<script src="/bootstrap/js/plugins/plugins.js"></script>
+<!-- Active js -->
+<script src="/bootstrap/js/active.js"></script>
+
+
+<script src="/js/exhibition/content.js"></script>
 </body>
+
 </html>
