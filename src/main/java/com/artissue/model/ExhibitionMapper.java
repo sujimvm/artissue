@@ -8,7 +8,7 @@ import java.util.List;
 @Mapper
 public interface ExhibitionMapper {
 
-    List<ExhibitionDTO> getExhibitionsList(@Param("offset") int offset, @Param("limit") int limit);
+    List<ExhibitionDTO> getExhibitionsList(@Param("offset") int offset, @Param("limit") int limit, @Param("keyword") String keyword, @Param("sellCodes") List<String> sellCodes, @Param("locCodes") List<String> locCodes);
 
     ExhibitionDTO getExhibitionCont(@Param("no") int no);
 

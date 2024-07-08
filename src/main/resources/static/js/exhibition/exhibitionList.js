@@ -1,6 +1,9 @@
 $(document).ready(function (){
     let offset = 0;
     let limit = 18;
+    let keyword = "";
+    let sellCodes = [];
+    let locCodes = [];
 
     // 공고리스트 출력, 조회
     function getExhibitionList(){
@@ -10,7 +13,10 @@ $(document).ready(function (){
             dataType : "json",
             data : {
                 "offset" : offset,
-                "limit" : limit
+                "limit" : limit,
+                "keyword" : keyword,
+                "sellCodes" : sellCodes,
+                "locCodes" : locCodes
             },
             success: function(list){
                 const exhibitions = list;
@@ -50,5 +56,61 @@ $(document).ready(function (){
     $('#load-more').click(function (event) {
         event.preventDefault();
         getExhibitionList();
+    });
+
+    function keywordSearch() {
+        keyword = $('#search-keyword').val();
+
+        // 기존 목록 초기화
+        $('#exhibition-list').empty();
+        offset = 0;
+
+        getExhibitionList(keyword);
+    }
+    function filterList(){
+
+        $('input[name="sellCode"]:checked').each(function() {
+            sellCodes.push($(this).val());
+        });
+
+        $('input[name="locCode"]:checked').each(function() {
+            locCodes.push($(this).val());
+        });
+
+        // 기존 목록 초기화
+        $('#exhibition-list').empty();
+        offset = 0;
+
+        getExhibitionList(sellCodes, locCodes);
+    }
+
+    // 필터 초기화 함수
+    function filterReset() {
+        $('#search-keyword').val('');
+        $('input[name="sellCode"]').prop('checked', false);
+        $('input[name="locCode"]').prop('checked', false);
+
+        // 기존 목록 초기화
+        $('#exhibition-list').empty();
+        offset = 0;
+        keyword = "";
+        sellCodes = [];
+        locCodes = [];
+
+        getExhibitionList(keyword, sellCodes, locCodes);
+    }
+
+    // 검색 버튼 클릭 이벤트
+    $('input[value="검색"]').click(function() {
+        keywordSearch();
+    });
+
+    $('input[value="조건검색"]').click(function (){
+        filterList();
+    })
+
+    // 초기화 버튼 클릭 이벤트
+    $('input[value="초기화"]').click(function() {
+        filterReset();
     });
 });
