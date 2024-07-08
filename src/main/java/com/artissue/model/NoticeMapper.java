@@ -9,4 +9,11 @@ public interface NoticeMapper {
 
     List<NoticeDTO> noticeList();
 
+    int noticeInsert(NoticeDTO noticeDTO);
+
+    NoticeDTO noticeCont(int notice_no);
+
+    int noticeModify(NoticeDTO noticeDTO);
+
+    int noticeDelete(int notice_no);
 }
