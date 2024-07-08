@@ -17,7 +17,7 @@
         FROM member
         WHERE member_id = #{member_id}
     </select>
-    
+
     <insert id="insertMember" parameterType="mDTO">
 
         insert into member (member_id, member_pwd, role, enabled,member_name,member_email,member_phone,
@@ -42,8 +42,12 @@
 
     <select id="findMemberId" parameterType="map" resultType="mDTO">
         select member_id,member_name,member_email from member where member_name=#{member_name} and member_email=#{member_email}
-
-
     </select>
+
+    <update id="updatePassword" parameterType="String">
+        update member set member_pwd = #{encodedPwd} where member_id = #{member_id}
+    </update>
+
+
 
 </mapper>

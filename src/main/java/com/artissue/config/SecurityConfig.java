@@ -28,6 +28,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers("/", "/login", "/join", "/joinProc","/index","/veri/**","/qr/**").permitAll()
                         .requestMatchers("/contact","/blog","/store","/event","/elements","/findbyId", "/findPwdProc","/findIdProc").permitAll()
+                        .requestMatchers("/", "/login", "/join", "/joinProc","/index","/veri/**").permitAll()
+                        .requestMatchers("/contact","/blog","/store","/event","/elements","/findbyId", "/findPwdProc", "/updatePassword").permitAll()
                         .requestMatchers( "/css/**", "/js/**", "/images/**", "/bootstrap/**").permitAll()
                         .requestMatchers("/admin").hasRole("ADMIN")
                         .requestMatchers("/my/**").hasAnyRole("ADMIN", "MEMBER")

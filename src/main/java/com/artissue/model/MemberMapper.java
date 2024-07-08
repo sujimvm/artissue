@@ -26,4 +26,7 @@ public interface MemberMapper {
     //아이디 찾기
     MemberDTO findMemberId(@Param("member_name") String member_name, @Param("member_email") String member_email);
 
+
+    int updatePassword(@Param("member_id") String member_id,
+                       @Param("encodedPwd") String encodedPwd);
 }
