@@ -24,10 +24,10 @@ $(document).ready(function (){
                         "<div class='event-text'>" +
                         "<h4>"+ exhibition.exhibition_title +"</h4>" +
                         "<div class='event-meta-data'>" +
-                        "<a href='/exhibitionCont?no="+exhibition.exhibition_key+"' class='event-place'>" + exhibition.exhibition_place + "</a>" +
-                        "<a href='/exhibitionCont?no="+exhibition.exhibition_key+"' class='event-date'>" + exhibition.exhibition_start_date + " ~ " + exhibition.exhibition_end_date +"</a>" +
+                        "<a href='/exhi/content?no="+exhibition.exhibition_key+"' class='event-place'>" + exhibition.exhibition_place + "</a>" +
+                        "<a href='/exhi/content?no="+exhibition.exhibition_key+"' class='event-date'>" + exhibition.exhibition_start_date + " ~ " + exhibition.exhibition_end_date +"</a>" +
                         "</div>" +
-                        "<a href='/exhibitionCont?no="+exhibition.exhibition_key+"' class='btn see-more-btn'>자세히 보기</a>" +
+                        "<a href='/exhi/content?no="+exhibition.exhibition_key+"' class='btn see-more-btn'>자세히 보기</a>" +
                         "</div>" +
                         "</div>" +
                         "</div>";
