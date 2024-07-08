@@ -10,4 +10,6 @@ public interface ExhibitionMapper {
 
     List<ExhibitionDTO> getExhibitionsList(@Param("offset") int offset, @Param("limit") int limit);
 
+    ExhibitionDTO getExhibitionCont(@Param("no") int no);
+
 }
