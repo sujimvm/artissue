@@ -7,6 +7,8 @@
         <typeAlias type="com.artissue.model.MemberDTO" alias="mDTO"/> <!-- 회원 -->
         <typeAlias type="com.artissue.model.ChatDTO" alias="chatDTO"/> <!-- 문의채팅 -->
         <typeAlias type="com.artissue.model.NoticeDTO" alias="noticeDTO"/> <!-- 공지사항 -->
-        <typeAlias type="com.artissue.model.ExhibitionDTO" alias="exhibitionDTO" />
+        <typeAlias type="com.artissue.model.ExhibitionDTO" alias="exhibitionDTO" /><!--전시회-->
+        <typeAlias type="com.artissue.model.ReservationDTO" alias="reserveDTO" /><!--예매-->
+        <typeAlias type="com.artissue.model.PriceDTO" alias="priceDTO" /><!--가격-->
     </typeAliases>
 </configuration>
