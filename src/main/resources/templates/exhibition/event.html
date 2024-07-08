@@ -44,22 +44,24 @@
 
     <!-- ##### Events Area Start ##### -->
     <section>
-        <div class="search-filter">
-            <div class="exhibition-search container">
+        <div class="search-filter login-content">
+            <div class="row justify-content-center">
+            <div class="col-12 col-lg-8">
+            <div class="exhibition-search form-group">
                 <label for="search-keyword">검색어</label>
                 <input name="keyword" class="form-control" id="search-keyword" aria-describedby="emailHelp" placeholder="검색하고 싶은 전시회 이름">
                 <input type="button" onclick="keywordSearch()" value="검색">
             </div>
 
             <div class="exhibition-filter" id="exhi-filter">
-                <div class="container" id="">
-                    <label for="sell-filter">판매상태</label>
+                <div class="form-group" id="">
+                    <label>판매상태</label>
                     <div id="sell-filter">
                         <label><input type="checkbox" name="sellCode" value="판매중">판매중</label>
                         <label><input type="checkbox" name="sellCode" value="판매예정">판매예정</label>
                         <label><input type="checkbox" name="sellCode" value="판매종료">판매종료</label>
                     </div>
-                    <label for="loc-filter">지역(중복)</label>
+                    <label>지역(중복)</label>
                     <div id="loc-filter" class="">
                         <label><input type="checkbox" name="locCode" value="서울">서울</label>
                         <label><input type="checkbox" name="locCode" value="부산">부산</label>
@@ -76,13 +78,16 @@
                         <label><input type="checkbox" name="locCode" value="전라남도">전남</label>
                         <label><input type="checkbox" name="locCode" value="경상북도">경북</label>
                         <label><input type="checkbox" name="locCode" value="경상남도">경남</label>
+                        <label><input type="checkbox" name="locCode" value="제주">제주</label>
                     </div>
                 </div>
             </div>
-            <div class="container">
+            <div class="form-group">
                 <input type="button" class="btn oneMusic-btn mt-30" onclick="filterReset()" value="초기화">
-                <input type="button" class="btn oneMusic-btn mt-30" onclick="getComBoardList()" value="조건검색">
+                <input type="button" class="btn oneMusic-btn mt-30" onclick="filterList()" value="조건검색">
             </div>
+        </div>
+        </div>
         </div>
     </section>
 

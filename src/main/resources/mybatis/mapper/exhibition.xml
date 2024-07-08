@@ -7,6 +7,34 @@
 
     <select id="getExhibitionsList" parameterType="map" resultType="exhibitionDTO">
         SELECT * FROM exhibition
+        where 1=1
+        <if test="keyword != null and keyword != ''">
+            and exhibition_title like CONCAT('%', #{keyword}, '%')
+        </if>
+        <if test="sellCodes != null and !sellCodes.isEmpty()">
+            AND (
+            <foreach item="sellCode" collection="sellCodes" open="" separator=" OR " close="">
+                <choose>
+                    <when test="sellCode == '판매중'">
+                        <![CDATA[exhibition_start_date <= now() AND exhibition_end_date >= now()]]>
+                    </when>
+                    <when test="sellCode == '판매예정'">
+                        <![CDATA[exhibition_start_date > now()]]>
+                    </when>
+                    <when test="sellCode == '판매종료'">
+                        <![CDATA[exhibition_end_date < now()]]>
+                    </when>
+                </choose>
+            </foreach>
+            )
+        </if>
+        <if test="locCodes != null and !locCodes.isEmpty()">
+            AND (
+            <foreach item="loc" collection="locCodes" open="" separator=" OR " close="">
+                exhibition_addr LIKE CONCAT('%', #{loc}, '%')
+            </foreach>
+            )
+        </if>
         order by exhibition_start_date desc LIMIT #{limit} OFFSET #{offset}
     </select>
 

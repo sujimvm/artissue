@@ -64,7 +64,7 @@ public class HomeController {
 
     @GetMapping("/event")
     public String event(){
-        return "event";
+        return "exhibition/event";
     }
     @GetMapping("/elements")
     public String elements(){
