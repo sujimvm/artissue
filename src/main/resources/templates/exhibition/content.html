@@ -12,6 +12,7 @@
     <link rel="icon" href="/bootstrap/img/core-img/favicon.ico">
     <!-- Stylesheet -->
     <link rel="stylesheet" href="/bootstrap/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <style>
         .link-container{
             display: flex;
@@ -42,6 +43,47 @@
     </div>
 </section>
 
+<section>
+    <div class="blog-area section-padding-100">
+        <div class="container">
+            <div class="row">
+                <div class="event-thumnail col-12 col-md-6 col-lg-4">
+                    <img th:src="${Exhibition.getExhibition_thumnail()}">
+                </div>
+                <div class="col-12 col-md-6 col-lg-8">
+                    <div class="contact-content mb-50">
+                        <h3 th:text="${Exhibition.getExhibition_title()}"></h3>
+                    </div>
+                    <div class="single-contact-info d-flex align-items-center">
+                        <div class="mr-50"><span><p>장&nbsp;&nbsp;&nbsp;소</p></span></div>
+                        <p th:text="${Exhibition.getExhibition_place()}"></p>
+                    </div>
+                    <div class="single-contact-info d-flex align-items-center">
+                        <div class="mr-50"><span><p>주&nbsp;&nbsp;&nbsp;소</p></span></div>
+                        <p th:text="${Exhibition.getExhibition_addr()}"></p>
+                    </div>
+                    <div class="single-contact-info d-flex align-items-center">
+                        <div class="mr-50"><span><p>기&nbsp;&nbsp;&nbsp;간</p></span></div>
+                        <p th:text="${Exhibition.getExhibition_start_date()} + ' ~ ' + ${Exhibition.getExhibition_end_date()}"></p>
+                    </div>
+                    <div class="single-contact-info d-flex align-items-center" th:if="${Exhibition.getExhibition_view_time() != null}">
+                        <div class="mr-30"><span><p>관람시간</p></span></div>
+                        <p th:text="${Exhibition.getExhibition_view_time()}"></p>
+                    </div>
+                    <div class="single-contact-info d-flex align-items-center" th:if="${Exhibition.getExhibition_view_age() != null}">
+                        <div class="mr-30"><span><p>관람연령</p></span></div>
+                        <p th:text="${Exhibition.getExhibition_view_age()}"></p>
+                    </div>
+                    <div class="single-contact-info d-flex align-items-center">
+                        <div class="mr-50"><span><p>가&nbsp;&nbsp;&nbsp;격</p></span></div>
+                        <a href="#" data-toggle="modal" data-target="#priceModal"><p style="font-weight: bold;">자세히 보기</p></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 <input type="hidden" id="exhibition_key" th:value="${Exhibition.getExhibition_key()}">
 <input type="button" id="reserveOpenBt" value="예매하기">
 
@@ -63,6 +105,37 @@
 
 
 <script src="/js/exhibition/content.js"></script>
+
+<!-- Modal -->
+<div class="modal fade" id="priceModal" tabindex="-1" role="dialog" aria-labelledby="priceModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="priceModalLabel">상세 가격 정보</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p style="font-size: 12px;">특정 기간, 특정 공연일에만 판매되는 가격이 있습니다. 예매 시 참고하시기 바랍니다.</p>
+                <th:block th:if="${Price.isEmpty() || Price.size() == 0}">
+                    <span>현장발권만 가능한 전시회입니다.</span>
+                </th:block>
+                <th:block th:if="${Price != null && !Price.isEmpty()}">
+                    <table>
+                        <tr th:each="price : ${Price}">
+                            <th th:text="${price.price_option}"></th>
+                            <td th:text="${price.price}"></td>
+                        </tr>
+                    </table>
+                </th:block>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 
 </html>

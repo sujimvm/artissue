@@ -42,4 +42,8 @@
         select * from exhibition where exhibition_key = #{no}
     </select>
 
+    <select id="getExhibitionPrice" parameterType="int" resultType="priceDTO">
+        select * from price where exhibition_key = #{no}
+    </select>
+
 </mapper>

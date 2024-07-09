@@ -25,10 +25,10 @@ $(document).ready(function (){
                     var row = "<div class='col-12 col-md-6 col-lg-4'>" +
                         "<div class='single-event-area mb-30'>" +
                         "<div class='event-thumbnail'>" +
-                        "<img src='"+ exhibition.exhibition_thumnail +"' alt=''>" +
+                        "<a href='/exhi/content?no="+exhibition.exhibition_key+"'><img src='"+ exhibition.exhibition_thumnail +"' alt=''></a>" +
                         "</div>" +
                         "<div class='event-text'>" +
-                        "<h4>"+ exhibition.exhibition_title +"</h4>" +
+                        "<a href='/exhi/content?no="+exhibition.exhibition_key+"'><h4>"+ exhibition.exhibition_title +"</h4></a>" +
                         "<div class='event-meta-data'>" +
                         "<a href='/exhi/content?no="+exhibition.exhibition_key+"' class='event-place'>" + exhibition.exhibition_place + "</a>" +
                         "<a href='/exhi/content?no="+exhibition.exhibition_key+"' class='event-date'>" + exhibition.exhibition_start_date + " ~ " + exhibition.exhibition_end_date +"</a>" +
