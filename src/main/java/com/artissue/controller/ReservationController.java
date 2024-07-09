@@ -3,6 +3,7 @@ package com.artissue.controller;
 import com.artissue.model.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,9 @@ import java.util.Date;
 @Controller
 @RequestMapping("/reserve")
 public class ReservationController {
+
+    @Value("${toss.api.client-key}")
+    private String clientKey;
 
     @Autowired
     private ExhibitionMapper exhibitionMapper;
@@ -29,8 +33,7 @@ public class ReservationController {
     }
 
     @PostMapping("/sendReserve")
-    @ResponseBody
-    public void reservation(ReservationDTO reserveDTO, HttpSession session) {
+    public String reservation(ReservationDTO reserveDTO, HttpSession session, Model model) {
         int addResult = 0;
 
         // 값 insert
@@ -39,17 +42,12 @@ public class ReservationController {
         String[] priceStr = reserveDTO.getReservation_price_str().split(",");
 
         ReservationDTO insertDTO = new ReservationDTO();
-
         MemberDTO memberDTO = (MemberDTO)session.getAttribute("mDTO");
 
         Date today = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyMMddHHmmss");
-        System.out.println("포맷 지정 후: " + dateFormat.format(today));
 
-        String Reservation_id = memberDTO.getMember_id().substring(0,2).toUpperCase();
-        Reservation_id += dateFormat.format(today);
-
-        System.out.println(Reservation_id+" > ?");
+        String Reservation_id = memberDTO.getMember_id().substring(0,2).toUpperCase()+dateFormat.format(today);
 
         insertDTO.setExhibition_key(reserveDTO.getExhibition_key());
         insertDTO.setMember_key(memberDTO.getMember_key());
@@ -66,7 +64,12 @@ public class ReservationController {
         }
 
         // 결제 페이지 이동 -> 결제
+        model.addAttribute("exhiDTO", this.exhibitionMapper.getExhibitionCont(insertDTO.getExhibition_key()))
+                .addAttribute("reserveList", this.reservationMapper.getReserveList(insertDTO.getReservation_id()))
+                .addAttribute("paymentRequest", new PaymentRequestDTO())
+                .addAttribute("clientKey", clientKey);
 
+        return "tosspay/paymentForm";
 
         // QR 생성
 

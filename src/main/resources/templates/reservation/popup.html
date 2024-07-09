@@ -26,8 +26,8 @@
     </table>
 </div>
 <div>
-    <div>
-        <form action="/sendReserve" id="reserveFrom" method="post">
+    <form action="/reserve/sendReserve" id="reserveFrom" method="post">
+        <div>
             <input type="hidden" name="exhibition_key" th:value="${ExhiDTO.getExhibition_key()}">
             <table th:if="${#lists.isEmpty(PriceList)}" >
                 <tr>
@@ -52,18 +52,9 @@
                 <span>총 결제 금액 : </span>
                 <span id="totalPrice"></span>
             </div>
-        </form>
-    </div>
-    <div>
-        <div>
-            <table>
-                <tr>
-                    <th></th>
-                </tr>
-            </table>
+            <button type="submit" class="btn oneMusic-btn mt-30">Reserve</button>
         </div>
-        <button type="button" id="reserveBt" class="btn oneMusic-btn mt-30">Reserve</button>
-    </div>
+    </form>
 </div>
 <script src="/js/reservation/popup.js"></script>
 </body>
