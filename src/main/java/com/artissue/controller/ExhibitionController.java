@@ -3,6 +3,7 @@ package com.artissue.controller;
 import com.artissue.model.ExhibitionDTO;
 import com.artissue.model.ExhibitionMapper;
 import com.artissue.model.PriceDTO;
+import com.artissue.model.ReviewDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,10 +30,12 @@ public class ExhibitionController {
                                  Model model) {
 
         ExhibitionDTO exhibitionCont = this.exhibitionMapper.getExhibitionCont(no);
-        List<PriceDTO> exhitionPrice = this.exhibitionMapper.getExhibitionPrice(no);
+        List<PriceDTO> exhibitionPrice = this.exhibitionMapper.getExhibitionPrice(no);
+        List<ReviewDTO> exhibitionReview = this.exhibitionMapper.getExhibitionReview(no);
 
         model.addAttribute("Exhibition", exhibitionCont);
-        model.addAttribute("Price", exhitionPrice);
+        model.addAttribute("Price", exhibitionPrice);
+        model.addAttribute("Review", exhibitionReview);
 
         return "exhibition/content";
     }

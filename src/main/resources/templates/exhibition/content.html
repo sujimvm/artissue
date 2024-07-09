@@ -12,6 +12,7 @@
     <link rel="icon" href="/bootstrap/img/core-img/favicon.ico">
     <!-- Stylesheet -->
     <link rel="stylesheet" href="/bootstrap/style.css">
+    <link rel="stylesheet" href="/css/exhibition.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <style>
         .link-container{
@@ -43,9 +44,9 @@
     </div>
 </section>
 
-<section>
-    <div class="blog-area section-padding-100">
-        <div class="container">
+<section class="section-padding-100">
+    <div class="blog-area">
+        <div class="container mb-30">
             <div class="row">
                 <div class="event-thumnail col-12 col-md-6 col-lg-4">
                     <img th:src="${Exhibition.getExhibition_thumnail()}">
@@ -78,14 +79,76 @@
                         <div class="mr-50"><span><p>가&nbsp;&nbsp;&nbsp;격</p></span></div>
                         <a href="#" data-toggle="modal" data-target="#priceModal"><p style="font-weight: bold;">자세히 보기</p></a>
                     </div>
+                    <div class="single-contact-info d-flex align-items-center">
+                        <input type="hidden" id="exhibition_key" th:value="${Exhibition.getExhibition_key()}">
+                        <input class="btn oneMusic-btn" type="button" id="reserveOpenBt" value="예매하기">
+                        <div class="oneMusic-chk">
+                            <input class="interest-check" type="checkbox" th:id="'interestExhi_'+${Exhibition.getExhibition_key()}"  th:value="${Exhibition.getExhibition_key()}">
+                            <label th:for="'interestExhi_'+${Exhibition.getExhibition_key()}" class="interest-label">
+                                <span class="interest-cont">찜하기</span>
+                            </label>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<input type="hidden" id="exhibition_key" th:value="${Exhibition.getExhibition_key()}">
-<input type="button" id="reserveOpenBt" value="예매하기">
+<section class="section-padding-0-100">
+    <div class="container">
+    <div class="">
+        <nav class="">
+            <ul class="">
+                <li class="nav-menu is-active" id="use-info-tab"><a href="#">이용정보</a></li>
+                <li class="nav-menu" id="sell-info-tab"><a href="#">판매정보</a></li>
+                <li class="nav-menu" id="review-info-tab"><a href="#">이용후기</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="content" id="use-info">
+        <th:block>
+            <p th:utext="${Exhibition.getExhibition_notice()}"></p>
+            <br>
+            <p th:utext="${Exhibition.getExhibition_detail_info()}"></p>
+        </th:block>
+    </div>
+
+    <div class="content" id="sell-info" style="display: none;">
+        <th:block>
+            <p th:utext="${Exhibition.getExhibition_seller_info()}"></p>
+            <br>
+            <p th:utext="${Exhibition.getExhibition_product_info()}"></p>
+        </th:block>
+    </div>
+
+    <div class="content" id="review-info" style="display: none;">
+        <div id="review-header">
+            <p><div class="bbsNotice"><div class="bbsNoticeHead"><strong class="bbsNoticeTitle">꼭 읽어주세요</strong></div><p class="bbsNoticeText">게시판 운영 규정에 어긋난다고 판단되는 게시글은 사전 통보없이 블라인드 처리될 수 있습니다.<br>특히 티켓 매매 및 양도의 글은 발견 즉시 임의 삭제되며 전화번호, 이메일 등의 개인정보는 악용될 우려가 있으므로 게시를 삼가 주시기 바랍니다.<br>사전 경고에도 불구하고 불량 게시물을 계속적으로 게재한 게시자의 경우 인터파크 티켓 게시판 작성 권한이 제한됩니다.</p></div></p>
+        </div>
+        <th:block th:if="${Review.isEmpty() || Review.size() == 0}">
+            <h5>아직 등록된 후기가 없습니다.</h5>
+        </th:block>
+        <th:block th:if="${!Review.isEmpty() && Review != null}">
+            <ul>
+                <li th:each="review : ${Review}">
+                    <div class="review-title">
+                        <h5 th:text="${review.getReview_title()}"></h5>
+                    </div>
+                    <div class="review-star"></div>
+                    <div class="review-date">
+                        <p th:text="${review.getReview_date()}"></p>
+                    </div>
+                    <div class="review-cont">
+                        <p th:text="${review.getReview_cont()}"></p>
+                    </div>
+                </li>
+            </ul>
+        </th:block>
+    </div>
+    </div>
+</section>
 
 <!-- ##### Breadcumb Area End ##### -->
 
@@ -122,10 +185,10 @@
                     <span>현장발권만 가능한 전시회입니다.</span>
                 </th:block>
                 <th:block th:if="${Price != null && !Price.isEmpty()}">
-                    <table>
+                    <table style="width: 100%;">
                         <tr th:each="price : ${Price}">
-                            <th th:text="${price.price_option}"></th>
-                            <td th:text="${price.price}"></td>
+                            <th th:text="${price.price_option}" style="width: 85%;"></th>
+                            <td th:text="${#numbers.formatInteger(price.price,1,'COMMA')+'원'}" style="width: 15%;"></td>
                         </tr>
                     </table>
                 </th:block>
