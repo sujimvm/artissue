@@ -7,4 +7,10 @@
     <select id="getPriceList" parameterType="int" resultType="priceDTO">
         select * from price where exhibition_key = #{exhibition_key}
     </select>
+    <insert id="addReservation" parameterType="reserveDTO">
+        insert into reservation(exhibition_key,member_key,reservation_date,reservation_option,reservation_count,
+        reservation_price,reservation_buyer_view,reservation_seller_view,reservation_id,reservation_pay)
+        values(#{exhibition_key},#{member_key},now(),#{reservation_option},#{reservation_count},
+        #{reservation_price},1,1,#{reservation_id},0)
+    </insert>
 </mapper>
