@@ -5,6 +5,9 @@
     <title>Title</title>
 </head>
 <body>
-    <h1>성공!</h1>
+        <h1>결제 성공</h1>
+        <p>주문번호: <span th:text="${paymentResponse.orderId}"></span></p>
+        <p>결제금액: <span th:text="${paymentResponse.amount}"></span></p>
+
 </body>
 </html>

@@ -1,11 +1,11 @@
 package com.artissue.service;
 
-import com.artissue.model.PaymentRequestDTO;
 import com.artissue.model.PaymentResponseDTO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.Map;
+
 
 @Service
 public class PaymentService {
@@ -13,13 +13,16 @@ public class PaymentService {
     @Value("${toss.api.base-url}")
     private String baseUrl;
 
-    @Autowired
-    private RestTemplate restTemplate;
+    @Value("${toss.api.secret-key}")
+    private String secretKey;
 
-    public PaymentResponseDTO requestPayment(PaymentRequestDTO paymentRequest) {
-        String url = baseUrl + "/payments";
-
-        return restTemplate.postForObject(url, paymentRequest, PaymentResponseDTO.class);
+    public PaymentResponseDTO handleSuccess(Map<String, String> params) {
+        PaymentResponseDTO response = new PaymentResponseDTO();
+        response.setPaymentKey(params.get("paymentKey"));
+        response.setOrderId(params.get("orderId"));
+        response.setAmount(Integer.parseInt(params.get("amount")));
+        response.setStatus(params.get("status"));
+        return response;
     }
 
 }

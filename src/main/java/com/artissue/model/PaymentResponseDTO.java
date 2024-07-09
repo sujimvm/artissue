@@ -7,6 +7,6 @@ public class PaymentResponseDTO {
 
     private String paymentKey;
     private String orderId;
-    private String amount;
+    private int amount;
     private String status;
 }

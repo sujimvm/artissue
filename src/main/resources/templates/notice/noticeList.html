@@ -54,7 +54,7 @@
                             <th:block th:if="${noticeList != null}">
                             <th:block th:each="notice : ${noticeList}">
                             <!-- Notice Title -->
-                            <div class="post-title" th:text="${notice.notice_title}" th:onclick="toggleContent(this)"></div>
+                            <div class="post-title" style="cursor: pointer;" th:text="${notice.notice_title}" th:onclick="toggleContent(this)"></div>
                             <!-- Notice Cont -->
                                 <div class="post-content" style="display: none;" th:utext="${notice.notice_cont}"></div>
                             <!-- Notice Date -->
