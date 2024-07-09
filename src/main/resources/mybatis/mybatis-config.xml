@@ -10,5 +10,6 @@
         <typeAlias type="com.artissue.model.ExhibitionDTO" alias="exhibitionDTO" /><!--전시회-->
         <typeAlias type="com.artissue.model.ReservationDTO" alias="reserveDTO" /><!--예매-->
         <typeAlias type="com.artissue.model.PriceDTO" alias="priceDTO" /><!--가격-->
+        <typeAlias type="com.artissue.model.ReviewDTO" alias="reviewDTO" />
     </typeAliases>
 </configuration>

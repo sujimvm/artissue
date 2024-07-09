@@ -46,4 +46,8 @@
         select * from price where exhibition_key = #{no}
     </select>
 
+    <select id="getExhibitionReview" parameterType="int" resultType="reviewDTO">
+        select * from review where exhibition_key = #{no}
+    </select>
+
 </mapper>

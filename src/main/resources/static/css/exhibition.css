@@ -1,0 +1,53 @@
+.nav-menu.is-active{
+    font-weight: bold;
+    border-bottom: 2px solid #000;
+}
+
+.interest-check{
+    display: none;
+}
+
+.interest-label{
+    display: inline-block;
+    width:30px;
+    height:30px;
+    cursor: pointer; /* 클릭 가능 커서 */
+    margin-bottom: -7px;
+}
+
+.interest-check + .interest-label {
+    background-repeat: no-repeat; /* 반복 방지 */
+    background-image: url('../img/interest_icon1.png'); /* off 이미지 */
+}
+
+.interest_check + label:hover {
+    background-image: url("../img/interest_icon2.png");
+}
+
+/* on */
+.interest-check:checked + .interest-label {
+    background-repeat: no-repeat; /* 반복 방지 */
+    background-image: url('../img/interest_icon3.png'); /* on 이미지 */
+}
+
+.oneMusic-chk {
+    background-color: #fff;
+    position: relative;
+    z-index: 1;
+    display: inline-flex; /* flexbox 사용 */
+    align-items: center; /* 세로 중앙 정렬 */
+    justify-content: center; /* 가로 중앙 정렬 */
+    min-width: 212px;
+    height: 49px;
+    color: #000;
+    border: 1px solid #000;
+    border-radius: 0;
+    padding: 0 30px;
+    font-size: 16px;
+    line-height: 47px;
+    font-weight: 700;
+    text-transform: capitalize;
+    transition-duration: 500ms;
+    cursor: pointer;
+    text-align: center; /* 텍스트 중앙 정렬 */
+}
