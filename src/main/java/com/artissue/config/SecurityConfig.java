@@ -1,5 +1,6 @@
 package com.artissue.config;
 
+import com.artissue.service.CustomOAuth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +16,8 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SecurityConfig {
 
     private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
+
+    private final CustomOAuth2UserService customOAuth2UserService;
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
@@ -44,6 +47,12 @@ public class SecurityConfig {
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                         .logoutSuccessUrl("/")
                         .invalidateHttpSession(true));
+
+        http
+                .oauth2Login((oauth2) -> oauth2
+                        .loginPage("/login")
+                        .userInfoEndpoint((userInfoEndpointConfig) ->
+                                userInfoEndpointConfig.userService(customOAuth2UserService)));
 
         http.csrf((auth) -> auth.disable());
 
