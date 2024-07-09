@@ -96,8 +96,13 @@
                                 <!-- Login/Register & Cart Button -->
                                 <div class="login-register-cart-button d-flex align-items-center">
                                     <!-- Login/Register -->
-                                    <div class="login-register-btn mr-50">
-                                        <a href="login" id="loginBtn">Login / Register</a>
+                                    <div th:if="${not #authorization.expression('isAuthenticated()')}" class="login-register-btn mr-50">
+                                        <a href="/login">Login / Join</a>
+                                    </div>
+                                    <!-- 로그인 후 -->
+                                    <div th:if="${#authorization.expression('isAuthenticated()')}" class="login-register-btn mr-50">
+                                         <span th:text="${username}"></span><span>님!</span>
+                                        <a href="/logout">Logout</a>
                                     </div>
 
                                     <!-- Cart Button -->

@@ -2,10 +2,14 @@ package com.artissue.controller;
 
 import com.artissue.model.MemberMapper;
 import com.artissue.service.MessageService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.*;
 import net.nurigo.sdk.message.response.SingleMessageSentResponse;
 
@@ -52,6 +56,7 @@ public class VeriController {
             return ResponseEntity.ok("available");
         }
     }
+
 
     @PostMapping("/reSendSms")
     public ResponseEntity<Map<String, Object>> reSendSms(@RequestParam("mgrPhone") String memberPhone) {

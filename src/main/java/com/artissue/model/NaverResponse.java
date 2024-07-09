@@ -35,12 +35,12 @@ public class NaverResponse implements OAuth2Response{
     }
 
     @Override
-    public String getJender() {
-        return attribute.get("jender").toString();
+    public String getGender() {
+        return attribute.get("gender").toString();
     }
 
     @Override
-    public String getNumber() {
-        return attribute.get("number").toString();
+    public String getMobile() {
+        return attribute.get("mobile").toString();
     }
 }

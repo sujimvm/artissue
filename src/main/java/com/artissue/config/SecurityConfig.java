@@ -2,6 +2,7 @@ package com.artissue.config;
 
 import com.artissue.service.CustomOAuth2UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -19,6 +20,9 @@ public class SecurityConfig {
 
     private final CustomOAuth2UserService customOAuth2UserService;
 
+    @Autowired
+    private CustomAccessDeniedHandler accessDeniedHandler;
+
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
@@ -30,10 +34,11 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers("/", "/login", "/join", "/joinProc","/index","/veri/**","/qr/**").permitAll()
-                        .requestMatchers("/contact","/blog","/store","/event","/elements","/findbyId", "/findPwdProc","/findIdProc", "/updatePassword", "/exhi/**","/reserve/**","/notice/**").permitAll()
-                        .requestMatchers( "/css/**", "/js/**", "/images/**", "/bootstrap/**", "/ajax/**").permitAll()
-                        .requestMatchers("/admin").hasRole("ADMIN")
-                        .requestMatchers("/my/**").hasAnyRole("ADMIN", "MEMBER")
+                        .requestMatchers("/contact","/blog","/store","/event","/elements","/findbyId", "/findPwdProc","/findIdProc", "/updatePassword", "/exhi/**","/reserve/**","/notice/**").authenticated()
+                        .requestMatchers( "/css/**", "/js/**", "/img/**", "/bootstrap/**", "/ajax/**").permitAll()
+                        .requestMatchers("/company").hasRole("COMPANY")
+                        .requestMatchers("/my/**").hasAnyRole("COMPANY", "MEMBER")
+                        .requestMatchers("/error/**").permitAll()
                         .anyRequest().authenticated());
 
 
@@ -41,18 +46,25 @@ public class SecurityConfig {
                 .formLogin((auth) -> auth
                         .loginPage("/login")
                         .loginProcessingUrl("/loginProc")
-                        .successHandler(customAuthenticationSuccessHandler) // Custom Authentication Success Handler 설정
+                        .successHandler(customAuthenticationSuccessHandler)
                         .permitAll())
                 .logout((logout) -> logout
-                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                        .logoutSuccessUrl("/")
-                        .invalidateHttpSession(true));
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/login?logout")
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID")
+                        .permitAll()
+                )
+                   .exceptionHandling(exceptionHandling -> exceptionHandling
+                        .accessDeniedHandler(accessDeniedHandler)
+                   );
 
-        http
+                http
                 .oauth2Login((oauth2) -> oauth2
                         .loginPage("/login")
                         .userInfoEndpoint((userInfoEndpointConfig) ->
-                                userInfoEndpointConfig.userService(customOAuth2UserService)));
+                                userInfoEndpointConfig.userService(customOAuth2UserService))
+                        .successHandler(customAuthenticationSuccessHandler));
 
         http.csrf((auth) -> auth.disable());
 

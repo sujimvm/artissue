@@ -2,11 +2,16 @@ package com.artissue.controller;
 
 import com.artissue.model.MemberDTO;
 import com.artissue.model.MemberMapper;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
@@ -27,7 +32,7 @@ public class HomeController {
 
 
     @GetMapping("/index")
-    public String index(HttpSession session) {
+    public String index(HttpSession session,Model model) {
         // 현재 인증된 사용자의 정보 가져오기
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
@@ -50,12 +55,21 @@ public class HomeController {
             session.setAttribute("cDTO", companyDTO);
         }
 
-        System.out.println("Role in session: " + session.getAttribute("role"));
-        System.out.println("Member DTO in session: " + session.getAttribute("mDTO"));
-        System.out.println("Company DTO in session: " + session.getAttribute("cDTO"));
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        model.addAttribute("username", username);
 
-        // index 페이지로 이동
         return "index";
+    }
+
+    @GetMapping("/company")
+    public String admin(Model model,HttpSession session){
+
+        MemberDTO userInfo = (MemberDTO)session.getAttribute("cDTO");
+
+        System.out.println("info>>>"+userInfo);
+
+        return "admin";
     }
 
 
