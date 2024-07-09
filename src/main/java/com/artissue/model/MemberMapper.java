@@ -29,4 +29,10 @@ public interface MemberMapper {
 
     int updatePassword(@Param("member_id") String member_id,
                        @Param("encodedPwd") String encodedPwd);
+
+    MemberDTO findbyId(String member_id);
+
+    int oAuth2insert(MemberDTO dto);
+
+    int oAuth2update(MemberDTO dto);
 }

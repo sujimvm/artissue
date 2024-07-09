@@ -11,7 +11,7 @@ public interface OAuth2Response {
 
     String getName();
 
-    String getJender();
+    String getGender();
 
-    String getNumber();
+    String getMobile();
 }
