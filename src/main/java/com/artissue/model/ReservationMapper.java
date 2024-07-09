@@ -9,4 +9,6 @@ import java.util.List;
 public interface ReservationMapper {
     List<PriceDTO> getPriceList(int exhibition_key);
     int addReservation(ReservationDTO dto);
+
+    List<ReservationDTO> getReserveList(String reservation_id);
 }

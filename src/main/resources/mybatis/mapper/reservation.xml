@@ -13,4 +13,7 @@
         values(#{exhibition_key},#{member_key},now(),#{reservation_option},#{reservation_count},
         #{reservation_price},1,1,#{reservation_id},0)
     </insert>
+    <select id="getReserveList" parameterType="String" resultType="reserveDTO">
+        select * from reservation where reservation_id = #{reservation_id}
+    </select>
 </mapper>
