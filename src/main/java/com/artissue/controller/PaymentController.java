@@ -10,6 +10,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.Map;
 
 @Controller
 public class PaymentController {
@@ -27,10 +30,16 @@ public class PaymentController {
         return "tosspay/paymentForm";
     }
 
-    @PostMapping("/success")
-    public String requestPayment(@RequestBody PaymentRequestDTO paymentRequest, Model model) {
-        PaymentResponseDTO paymentResponse = paymentService.requestPayment(paymentRequest);
+    // 결제 성공 시 호출되는 엔드포인트
+    @GetMapping("/payment/success-redirect")
+    public String paymentSuccess(@RequestParam Map<String, String> params, Model model) {
+        PaymentResponseDTO paymentResponse = paymentService.handleSuccess(params);
         model.addAttribute("paymentResponse", paymentResponse);
-        return "tosspay/paymentResult";
+        return "tosspay/paymentSuccess";
     }
+
+
+
+
+
 }

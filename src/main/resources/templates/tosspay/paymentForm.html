@@ -6,19 +6,17 @@
     <script src="https://js.tosspayments.com/v1/payment"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-
             const paymentForm = document.getElementById('paymentForm');
             const clientKey = paymentForm.dataset.clientKey;
-
-            console.log("Client Key:", clientKey);  // 클라이언트 키 확인
 
             function requestPayment() {
                 const tossPayments = TossPayments(clientKey);
                 const amount = document.getElementById('amount').value;
                 const orderId = document.getElementById('orderId').value;
                 const orderName = document.getElementById('orderName').value;
-                const successUrl = window.location.origin + document.getElementById('successUrl').value;
-                const failUrl = window.location.origin + document.getElementById('failUrl').value;
+
+                const successUrl = window.location.origin + '/payment/success-redirect';
+                const failUrl = window.location.origin + '/payment/fail';
 
                 tossPayments.requestPayment('카드', {
                     amount: amount,
@@ -64,10 +62,10 @@
             전시회 이름 : <input type="text" id="orderName" name="orderName"/>
         </li>
         <li>
-            성공 시 경로 : <input type="text" id="successUrl" name="successUrl" value="/payment/success"/>
+            성공 시 경로 : <input type="hidden" id="successUrl" name="successUrl" value="/payment/success-redirect"/>
         </li>
         <li>
-            실패 시 경로 : <input type="text" id="failUrl" name="failUrl" value="/payment/fail"/>
+            실패 시 경로 : <input type="hidden" id="failUrl" name="failUrl" value="/payment/fail"/>
         </li>
         <li>
             <button type="button" id="payButton">결제</button>
