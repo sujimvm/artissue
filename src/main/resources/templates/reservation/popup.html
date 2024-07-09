@@ -7,6 +7,11 @@
 </head>
 <body>
 <div>
+
+</div>
+
+
+<div>
     <table>
         <tr>
             <td rowspan="3" ><img th:src="${ExhiDTO.getExhibition_thumnail()}"></td>
@@ -23,24 +28,39 @@
 <div>
     <div>
         <form action="/sendReserve" id="reserveFrom" method="post">
-            <input type="hidden" name="exhibition_key" th:alue="${ExhiDTO.getExhibition_key()}">
+            <input type="hidden" name="exhibition_key" th:value="${ExhiDTO.getExhibition_key()}">
             <table th:if="${#lists.isEmpty(PriceList)}" >
                 <tr>
-                    <td>일반</td>
-                    <td>판매종료</td>
+                    <td>판매종료 된 상품입니다.</td>
                 </tr>
             </table>
             <table th:unless="${#lists.isEmpty(PriceList)}" >
                 <tr th:each="dto:${PriceList}">
                     <td th:text="${dto.getPrice_option()}"></td>
                     <td th:text="${dto.getPrice()}"></td>
+                    <td>
+                        <input type="hidden" th:id="${'reservation_option_'+dto.getPrice_key()}" name="reservation_option" th:value="${dto.getPrice_option()}">
+                        <input type="hidden" th:id="${'price_'+dto.getPrice_key()}" th:value="${dto.getPrice}">
+                        <input type="hidden" th:id="${'reservation_price_'+dto.getPrice_key()}" name="reservation_price_str" value=0>
+                        <select name="reservation_count_str" th:id="${'reservation_count_'+dto.getPrice_key()}">
+                            <option th:each="num : ${#numbers.sequence(0, 10)}" th:value="${num+'/'+dto.getPrice_key()}" th:text="${num}"></option>
+                        </select>
+                    </td>
                 </tr>
             </table>
+            <div>
+                <span>총 결제 금액 : </span>
+                <span id="totalPrice"></span>
+            </div>
         </form>
     </div>
     <div>
         <div>
-
+            <table>
+                <tr>
+                    <th></th>
+                </tr>
+            </table>
         </div>
         <button type="button" id="reserveBt" class="btn oneMusic-btn mt-30">Reserve</button>
     </div>
