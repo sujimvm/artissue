@@ -21,13 +21,6 @@ public class PaymentController {
     @Value("${toss.api.client-key}")
     private String clientKey;
 
-    @GetMapping("/payment")
-    public String paymentForm(Model model) {
-        model.addAttribute("paymentRequest", new PaymentRequestDTO());
-        model.addAttribute("clientKey", clientKey);
-        return "tosspay/paymentForm";
-    }
-
     @GetMapping("/payment/success-redirect")
     public String paymentSuccess(@RequestParam Map<String, String> params, Model model) {
         System.out.println("결제 성공 리디렉트 호출됨: " + params);
