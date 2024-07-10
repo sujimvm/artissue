@@ -101,7 +101,7 @@
                                     </div>
                                     <!-- 로그인 후 -->
                                     <div th:if="${#authorization.expression('isAuthenticated()')}" class="login-register-btn mr-50">
-                                         <span th:text="${username}"></span><span>님!</span>
+                                         <a href="/user">[[${username}]] 님!</a>
                                         <a href="/logout">Logout</a>
                                     </div>
 
