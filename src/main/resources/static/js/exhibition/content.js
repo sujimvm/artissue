@@ -23,4 +23,22 @@ $(document).ready(function() {
     $('.contentTitle h3').each(function(){
         $(this).html($(this).html().replace(/class="contentTitle"/g,'class=""'));
     });
+
+    $("#review-form").on('submit',function (e){
+        e.preventDefault();
+
+        var reviewTitle = $('#review-title').val();
+        var reviewContent = $('#review-cont').val();
+        var reviewScore = $('#review-score').val();
+
+        $.ajax({
+            url : '/ajax/writeReview',
+            type : 'POST',
+            data : {
+                title : reviewTitle,
+                cont : reviewContent,
+                score : reviewScore
+            }
+        })
+    })
 });

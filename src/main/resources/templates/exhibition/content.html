@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
     <meta charset="UTF-8">
     <meta name="description" content="">
@@ -85,7 +85,7 @@
                         <div class="oneMusic-chk">
                             <input class="interest-check" type="checkbox" th:id="'interestExhi_'+${Exhibition.getExhibition_key()}"  th:value="${Exhibition.getExhibition_key()}">
                             <label th:for="'interestExhi_'+${Exhibition.getExhibition_key()}" class="interest-label">
-                                <span class="interest-cont">찜하기</span>
+                                찜하기
                             </label>
                         </div>
                     </div>
@@ -99,15 +99,15 @@
     <div class="container">
     <div class="">
         <nav class="">
-            <ul class="">
-                <li class="nav-menu is-active" id="use-info-tab"><a href="#">이용정보</a></li>
-                <li class="nav-menu" id="sell-info-tab"><a href="#">판매정보</a></li>
-                <li class="nav-menu" id="review-info-tab"><a href="#">이용후기</a></li>
+            <ul class="nav-btn">
+                <li class="nav-menu is-active" id="use-info-tab"><a href="#"><h4>이용정보</h4></a></li>
+                <li class="nav-menu" id="sell-info-tab"><a href="#"><h4>판매정보</h4></a></li>
+                <li class="nav-menu" id="review-info-tab"><a href="#"><h4>이용후기</h4></a></li>
             </ul>
         </nav>
     </div>
 
-    <div class="content" id="use-info">
+    <div class="content section-padding-100" id="use-info">
         <th:block>
             <p th:utext="${Exhibition.getExhibition_notice()}"></p>
             <br>
@@ -115,7 +115,7 @@
         </th:block>
     </div>
 
-    <div class="content" id="sell-info" style="display: none;">
+    <div class="content section-padding-100" id="sell-info" style="display: none;">
         <th:block>
             <p th:utext="${Exhibition.getExhibition_seller_info()}"></p>
             <br>
@@ -123,29 +123,89 @@
         </th:block>
     </div>
 
-    <div class="content" id="review-info" style="display: none;">
-        <div id="review-header">
+    <div class="content section-padding-100" id="review-info" style="display: none;">
+        <div id="review-notice">
             <p><div class="bbsNotice"><div class="bbsNoticeHead"><strong class="bbsNoticeTitle">꼭 읽어주세요</strong></div><p class="bbsNoticeText">게시판 운영 규정에 어긋난다고 판단되는 게시글은 사전 통보없이 블라인드 처리될 수 있습니다.<br>특히 티켓 매매 및 양도의 글은 발견 즉시 임의 삭제되며 전화번호, 이메일 등의 개인정보는 악용될 우려가 있으므로 게시를 삼가 주시기 바랍니다.<br>사전 경고에도 불구하고 불량 게시물을 계속적으로 게재한 게시자의 경우 인터파크 티켓 게시판 작성 권한이 제한됩니다.</p></div></p>
         </div>
-        <th:block th:if="${Review.isEmpty() || Review.size() == 0}">
-            <h5>아직 등록된 후기가 없습니다.</h5>
-        </th:block>
-        <th:block th:if="${!Review.isEmpty() && Review != null}">
-            <ul>
-                <li th:each="review : ${Review}">
-                    <div class="review-title">
-                        <h5 th:text="${review.getReview_title()}"></h5>
+        <div class="">
+            <div class="review-header" style="padding-bottom: 10px;">
+                <h5 >총 [[${Review.size()}]] 건의 리뷰가 있어요!</h5>
+            </div>
+
+            <div class="review-write">
+                <th:block sec:authorize="isAuthenticated() and hasRole('ROLE_USER')" th:if="${null != session.mDTO}">
+                    <div class="" id="review-box">
+                        <form id="review-form" method="post">
+                            <table>
+                                <tr>
+                                    <th>제 목</th>
+                                    <td><input type="text" id="review-title"></td>
+                                </tr>
+                                <tr>
+                                    <th>별 점</th>
+                                    <td>
+                                        <fieldset class="rate">
+                                            <input type="radio" id="rating10" name="rating" value="5"><label for="rating10" title="5점"></label>
+                                            <input type="radio" id="rating8" name="rating" value="4"><label for="rating8" title="4점"></label>
+                                            <input type="radio" id="rating6" name="rating" value="3"><label for="rating6" title="3점"></label>
+                                            <input type="radio" id="rating4" name="rating" value="2"><label for="rating4" title="2점"></label>
+                                            <input type="radio" id="rating2" name="rating" value="1"><label for="rating2" title="1점"></label>
+                                        </fieldset>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>내 용</th>
+                                    <td>
+                                        <textarea id="review-cont" name="reply_cont" rows="3" cols="113" placeholder="솔직하고 따뜻한 댓글을 남겨주세요~" style="resize:none;"></textarea>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <input id="review-btn" class="reply-btn" type="submit" value="댓글 작성">
+                        </form>
                     </div>
-                    <div class="review-star"></div>
-                    <div class="review-date">
-                        <p th:text="${review.getReview_date()}"></p>
-                    </div>
-                    <div class="review-cont">
-                        <p th:text="${review.getReview_cont()}"></p>
-                    </div>
-                </li>
-            </ul>
-        </th:block>
+                </th:block>
+                <th:block sec:authorize="!isAuthenticated()">
+                    <a th:href="@{/login}">
+                        <textarea name="review_cont" rows="2" cols="100" placeholder="로그인 후 리뷰를 남겨주세요~" ></textarea>
+                    </a>
+                </th:block>
+                <th:block sec:authorize="!isAuthenticated() and hasRole('ROLE_COMPANY')">
+                    <textarea name="review_cont" rows="2" cols="100" placeholder="기업회원은 리뷰를 남길수 없어요..." ></textarea>
+                </th:block>
+            </div>
+            <th:block th:if="${Review.isEmpty() || Review.size() == 0}">
+                <h5>아직 등록된 후기가 없습니다.</h5>
+            </th:block>
+            <div>
+                <th:block th:if="${!Review.isEmpty() && Review != null}">
+                    <ul>
+                        <li th:each="review : ${Review}">
+                            <div class="review-title">
+                                <h5 th:text="${review.getReview_title()}"></h5>
+                            </div>
+                            <div class="review-star"></div>
+                            <div class="review-date">
+                                <p th:text="${review.getReview_date()}"></p>
+                            </div>
+                            <div class="review-cont">
+                                <p th:text="${review.getReview_cont()}"></p>
+                            </div>
+                            <th:block sec:authorize="isAuthenticated() and hasRole('ROLE_USER')" th:if="${review.getMember_key() == session.mDTO.getMember_key()}">
+                                <input type="button" id="rewriteReview" th:attr="" value="수정">
+                                <input type="button" id="deleteReview" value="삭제">
+                                <div id="'edit-form" class="" style="display:none;">
+                                    <input type="text" id="re-review-title" name="re=review-title">
+                                    <textarea id="re-review-cont" name="re-reply_cont" rows="3" cols="113" placeholder="수정할 내용을 입력해 주세요~" style="resize:none;"></textarea>
+                                    <input id="re-review-btn" class="reply-btn" type="button" value="수정">
+                                    <input id="re-review-cancel-btn" class="reply-btn" type="button" value="취소">
+                                </div>
+                            </th:block>
+                        </li>
+                    </ul>
+                </th:block>
+            </div>
+        </div>
     </div>
     </div>
 </section>
