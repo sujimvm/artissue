@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 
 <head>
     <meta charset="UTF-8">
@@ -59,8 +59,8 @@
                                 <div class="post-content" style="display: none;" th:utext="${notice.notice_cont}"></div>
                             <!-- Notice Date -->
                             <p th:text="${notice.notice_date.substring(0, 10)}"></p>
-                                <a th:href="@{/notice/modify(no=${notice.notice_key})}">수정</a>
-                                <a style="cursor: pointer" th:onclick="'confirmDelete(' + ${notice.notice_key} + ')'">삭제</a>
+                                <a sec:authorize="isAuthenticated() and hasRole('ADMIN')" th:href="@{/notice/modify(no=${notice.notice_key})}">수정</a>
+                                <a sec:authorize="isAuthenticated() and hasRole('ADMIN')" style="cursor: pointer" th:onclick="'confirmDelete(' + ${notice.notice_key} + ')'">삭제</a>
                                 <hr>
 
                             </th:block>
@@ -71,7 +71,7 @@
                             </th:block>
                         </div>
                         <input type="button" class="btn oneMusic-btn mt-30" value="공지사항 등록"
-                               th:onclick="noticeInsert()">
+                               th:onclick="noticeInsert()" sec:authorize="isAuthenticated() and hasRole('ADMIN')">
                     </div>
                 </div>
             </div>

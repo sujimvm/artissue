@@ -30,7 +30,6 @@ public class PaymentController {
         return "tosspay/paymentForm";
     }
 
-    // 결제 성공 시 호출되는 엔드포인트
     @GetMapping("/payment/success-redirect")
     public String paymentSuccess(@RequestParam Map<String, String> params, Model model) {
         PaymentResponseDTO paymentResponse = paymentService.handleSuccess(params);
