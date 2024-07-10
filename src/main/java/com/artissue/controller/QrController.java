@@ -16,15 +16,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 /************
- * @info : QR Code 생성 및 제공 Controller
- * @name : QrController
- * @date : 2023/03/24 5:32 PM
- * @version : 1.0.0
- * @Description :
  ************/
 @RestController
-@RequiredArgsConstructor
-@Slf4j
 public class QrController {
 
 
@@ -53,7 +46,9 @@ public class QrController {
                     .contentType(MediaType.IMAGE_PNG)
                     .body(out.toByteArray());
 
-        }catch (Exception e){log.warn("QR Code OutputStream 도중 Excpetion 발생, {}", e.getMessage());}
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
         return null;
     }

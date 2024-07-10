@@ -80,21 +80,4 @@ public class VeriController {
         int code = 1000 + random.nextInt(9000);
         return String.valueOf(code);
     }
-
-    @GetMapping("/test_send")
-    public void test_send() {
-
-        String memberPhone = "01036181007";
-
-        String verificationCode = "안녕하세요\n 예매내역 안내드립니다\n " +
-                "날짜 : 2024-07-08\n 예약날짜 : 2024-07-08\n" +
-                "전시회 이름 : 어쩌구 저쩌구\n 예매 갯수 : 4매\n  " +
-                "이렇게 하면 장문 문자가 가는 건가요 ???\n" +
-                "내용을 더더더더더더더더더 길게 \n 써보겠습니다\n 하하하하하하하하하";
-
-        SingleMessageSentResponse response = massageService.sendOne(memberPhone, verificationCode);
-
-        System.out.println(response);
-        System.out.println("문자발송");
-    }
 }
