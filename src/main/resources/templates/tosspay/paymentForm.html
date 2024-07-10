@@ -23,9 +23,10 @@
                     orderId: orderId,
                     orderName: orderName,
                     successUrl: successUrl,
-                    failUrl: failUrl,
+                    failUrl: failUrl
                 }).catch(function (error) {
-                    console.error(error);
+                    console.error('결제 요청 오류:', error);
+                    alert('결제 요청 중 오류가 발생했습니다. 콘솔 로그를 확인해주세요.');
                 });
             }
 
