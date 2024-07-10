@@ -49,4 +49,16 @@ public class MessageService {
         return response;
     }
 
+    public SingleMessageSentResponse sendReserve(String memberPhone, String verificationCode) {
+        Message message = new Message();
+
+        message.setFrom(senderNumber);
+        message.setTo(memberPhone);
+        message.setText(verificationCode);
+
+        SingleMessageSentResponse response = this.messageService.sendOne(new SingleMessageSendingRequest(message));
+
+        return response;
+    }
+
 }

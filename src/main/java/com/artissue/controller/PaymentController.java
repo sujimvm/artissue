@@ -30,7 +30,7 @@ public class PaymentController {
         // 추가: 결제 승인 로직
         boolean approvalResult = paymentService.approvePayment(paymentResponse);
         if (approvalResult) {
-            return "tosspay/paymentSuccess";
+            return "redirect:/reserve/success";
         } else {
             model.addAttribute("errorMessage", "결제 승인이 실패했습니다.");
             return "tosspay/paymentFail";

@@ -2,7 +2,7 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>결제 폼</title>
+    <title>ART ISSUE :: 결제</title>
     <script src="https://js.tosspayments.com/v1/payment"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -36,7 +36,8 @@
         });
     </script>
 </head>
-<body>
+<body>    <!-- Preloader -->
+
 <h1>결제 폼</h1>
 <form id="paymentForm" th:data-client-key="${clientKey}">
     <ul>
@@ -56,5 +57,6 @@
         </li>
     </ul>
 </form>
+
 </body>
 </html>
