@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Payment Form</title>
+    <title>결제 폼</title>
     <script src="https://js.tosspayments.com/v1/payment"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -50,24 +50,20 @@
     </script>
 </head>
 <body>
-<h1>Payment Form</h1>
-<form id="paymentForm" data-client-key="test_ck_nRQoOaPz8LxXNDQZm2Nm8y47BMw6">
+<h1>결제 폼</h1>
+<form id="paymentForm" th:data-client-key="${clientKey}">
     <ul>
         <li>
             주문번호 : <input type="text" id="orderId" name="orderId" readonly/>
         </li>
         <li>
-            결제금액 : <input type="text" id="amount" name="amount"/>
+            결제금액 : <input type="text" id="amount" name="amount" th:value="${totalPrice}"/>
         </li>
         <li>
-            전시회 이름 : <input type="text" id="orderName" name="orderName"/>
+            전시회 이름 : <input type="text" id="orderName" name="orderName" th:value="${exhiDTO.getExhibition_title()}"/>
         </li>
-        <li>
-            성공 시 경로 : <input type="hidden" id="successUrl" name="successUrl" value="/payment/success-redirect"/>
-        </li>
-        <li>
-            실패 시 경로 : <input type="hidden" id="failUrl" name="failUrl" value="/payment/fail"/>
-        </li>
+            <input type="hidden" id="successUrl" name="successUrl" th:value="@{/payment/success-redirect}"/>
+            <input type="hidden" id="failUrl" name="failUrl" th:value="@{/payment/fail}"/>
         <li>
             <button type="button" id="payButton">결제</button>
         </li>

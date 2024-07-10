@@ -35,6 +35,7 @@ public class ReservationController {
     @PostMapping("/sendReserve")
     public String reservation(ReservationDTO reserveDTO, HttpSession session, Model model) {
         int addResult = 0;
+        int totalPrice = 0;
 
         // 값 insert
         String[] optionStr = reserveDTO.getReservation_option().split(",");
@@ -58,6 +59,7 @@ public class ReservationController {
                 insertDTO.setReservation_option(optionStr[i]);
                 insertDTO.setReservation_count(Integer.parseInt(countStr[i].split("/")[0]));
                 insertDTO.setReservation_price(Integer.parseInt(priceStr[i]));
+                totalPrice += Integer.parseInt(priceStr[i]) * Integer.parseInt(countStr[i].split("/")[0]);
 
                 addResult = reservationMapper.addReservation(insertDTO);
             }
@@ -67,7 +69,8 @@ public class ReservationController {
         model.addAttribute("exhiDTO", this.exhibitionMapper.getExhibitionCont(insertDTO.getExhibition_key()))
                 .addAttribute("reserveList", this.reservationMapper.getReserveList(insertDTO.getReservation_id()))
                 .addAttribute("paymentRequest", new PaymentRequestDTO())
-                .addAttribute("clientKey", clientKey);
+                .addAttribute("clientKey", clientKey)
+                .addAttribute("totalPrice", totalPrice);
 
         return "tosspay/paymentForm";
 
