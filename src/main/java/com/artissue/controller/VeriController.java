@@ -66,7 +66,6 @@ public class VeriController {
 
         SingleMessageSentResponse response = massageService.sendOne(memberPhone, verificationCode);
 
-        // 여기서는 간단히 성공 상태를 반환하고, 실제로는 SMS 발송 로직을 구현해야 합니다.
         Map<String, Object> responseMap = new HashMap<>();
         responseMap.put("status", 200);
         responseMap.put("verificationCode", verificationCode);
