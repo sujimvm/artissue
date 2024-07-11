@@ -44,12 +44,18 @@ public class CustomOAuth2User implements OAuth2User {
 
     @Override
     public String getName() {
+        String member_id = oAuth2Response.getEmail();
 
-        return oAuth2Response.getName();
+        int atIndex = member_id.indexOf('@');
+
+        String memberEmailTrim = atIndex != -1 ? member_id.substring(0, atIndex) : member_id;
+
+        return memberEmailTrim;
     }
 
     public String getUsername() {
 
         return oAuth2Response.getProvider()+" "+oAuth2Response.getProviderId();
     }
+
 }

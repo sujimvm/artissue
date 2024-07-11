@@ -1,5 +1,6 @@
 package com.artissue.controller;
 
+import com.artissue.model.CustomOAuth2User;
 import com.artissue.model.MemberDTO;
 import com.artissue.model.MemberMapper;
 import jakarta.servlet.http.HttpSession;
@@ -34,16 +35,14 @@ public class HomeController {
 
            MemberDTO memberDTO = memberMapper.findUsername(id);
            session.setAttribute("mDTO", memberDTO);
+
        } else if (role.equals("ROLE_COMPANY")) {
            session.setAttribute("role", role);
 
            MemberDTO companyDTO = memberMapper.findUsername(id);
            session.setAttribute("cDTO", companyDTO);
-       }
 
-       Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-       String username = authentication.getName();
-       model.addAttribute("username", username);
+       }
 
        return "index";
     }
