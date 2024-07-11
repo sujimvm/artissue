@@ -76,7 +76,14 @@
                                 </div>
                                 <!-- 로그인 후 -->
                                 <div th:if="${#authorization.expression('isAuthenticated()')}" class="login-register-btn mr-50">
-                                    <a th:href="@{/user}">[[${session.mDTO.member_name}]] 님!</a>
+                                    <th:block th:if="${session.mDTO != null}">
+                                        <a th:href="@{/user}">[[${session.mDTO.member_name}]] 님!</a>
+                                    </th:block>
+                                    <th:block th:if="${session.cDTO != null}">
+                                        <a th:href="@{/#}">[[${session.cDTO.member_name}]] 님!</a>
+                                    </th:block>
+
+
                                     <a href="/logout">Logout</a>
                                 </div>
 
