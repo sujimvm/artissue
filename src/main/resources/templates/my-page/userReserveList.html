@@ -76,6 +76,13 @@
             </div>
             <div class="col-12 col-lg-9" style="border: solid 1px #000000;">
                 <h3>예약리스트</h3>
+                <th:block th:if="${userReserveList != null}">
+                    <span th:each="uRL : ${userReserveList}">
+                        <a th:text=""></a>
+                        <p th:text="${uRL.reservation_price}"></p>
+                        <p th:text="${uRL.reservation_date}"></p>
+                    </span>
+                </th:block>
             </div>
         </div>
     </div>
