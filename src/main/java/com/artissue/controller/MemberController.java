@@ -5,6 +5,7 @@ import com.artissue.model.MemberMapper;
 import com.artissue.service.JoinService;
 import com.artissue.service.MessageService;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -186,8 +187,35 @@ public class MemberController {
         }
     }
 
+    @GetMapping("/user")
+    public String userInfo(HttpSession session, Model model) {
 
+        MemberDTO memberInfo = (MemberDTO)session.getAttribute("mDTO");
 
+        return "my-page/user";
+    }
 
+    @GetMapping("/userPwdUpdate")
+    public String userPwdUpdate(HttpSession session, Model model) {
 
+        return "my-page/userPwdUpdate";
+    }
+
+    @GetMapping("/userReserveList")
+    public String userReserveList(HttpSession session, Model model) {
+
+        return "my-page/userReserveList";
+    }
+
+    @GetMapping("/userZZimList")
+    public String userZZimList(HttpSession session, Model model) {
+
+        return "my-page/userZZimList";
+    }
+
+    @GetMapping("/userResign")
+    public String userResign(HttpSession session, Model model) {
+
+        return "my-page/userResign";
+    }
 }
