@@ -19,13 +19,13 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
 
         if (roles.contains("ROLE_ADMIN")) {
-            response.sendRedirect("/index");
+            response.sendRedirect("/");
 
         } else if (roles.contains("ROLE_USER")) {
-            response.sendRedirect("/index");
+            response.sendRedirect("/");
 
         } else {
-            response.sendRedirect("/index");
+            response.sendRedirect("/");
         }
     }
 }
