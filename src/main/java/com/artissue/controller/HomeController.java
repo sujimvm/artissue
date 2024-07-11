@@ -17,42 +17,35 @@ public class HomeController {
     @Autowired
     MemberMapper memberMapper;
 
-   @GetMapping("/")
+    @GetMapping("/")
     public String home(HttpSession session,Model model){
 
-       // 현재 인증된 사용자의 정보 가져오기
-       Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        // 현재 인증된 사용자의 정보 가져오기
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-       // 사용자의 첫 번째 권한 가져오기
-       String role = auth.getAuthorities().iterator().next().getAuthority();
-       String id = auth.getName();
+        // 사용자의 첫 번째 권한 가져오기
+        String role = auth.getAuthorities().iterator().next().getAuthority();
+        String id = auth.getName();
 
-       System.out.println("role>>> " + role);
-       System.out.println("id>>> " + id);
+        System.out.println("role>>> " + role);
+        System.out.println("id>>> " + id);
 
-       if (role.equals("ROLE_USER")) {
-           session.setAttribute("role", role);
+        if (role.equals("ROLE_USER")) {
+            session.setAttribute("role", role);
 
-           MemberDTO memberDTO = memberMapper.findUsername(id);
-           session.setAttribute("mDTO", memberDTO);
+            MemberDTO memberDTO = memberMapper.findUsername(id);
+            session.setAttribute("mDTO", memberDTO);
 
-       } else if (role.equals("ROLE_COMPANY")) {
-           session.setAttribute("role", role);
+        } else if (role.equals("ROLE_COMPANY")) {
+            session.setAttribute("role", role);
 
-           MemberDTO companyDTO = memberMapper.findUsername(id);
-           session.setAttribute("cDTO", companyDTO);
+            MemberDTO companyDTO = memberMapper.findUsername(id);
+            session.setAttribute("cDTO", companyDTO);
 
-       }
+        }
 
-       return "index";
+        return "index";
     }
-
-    @GetMapping("/qr")
-    public String qrTest(){
-        return "reservation/qrTest";
-    }
-
-
 
     @GetMapping("/company")
     public String admin(Model model,HttpSession session){

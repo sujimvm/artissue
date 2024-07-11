@@ -65,7 +65,7 @@ public class ReservationController {
                 insertDTO.setReservation_option(optionStr[i]);
                 insertDTO.setReservation_count(Integer.parseInt(countStr[i].split("/")[0]));
                 insertDTO.setReservation_price(Integer.parseInt(priceStr[i]));
-                totalPrice += Integer.parseInt(priceStr[i]) * Integer.parseInt(countStr[i].split("/")[0]);
+                totalPrice += Integer.parseInt(priceStr[i]);
 
                 addResult = reservationMapper.addReservation(insertDTO);
             }
@@ -82,41 +82,41 @@ public class ReservationController {
     }
 
     @GetMapping("/success")
-    public String reserveSuccess(HttpSession session, Model model) {
+    public String reserveSuccess(@RequestParam("id") String exhibition_id, HttpSession session, Model model) {
 
-        int exhibition_key = 3196;
-        String exhibition_id = "ME240710190418";
+        this.reservationMapper.updateReservePay(exhibition_id);
+        List<ReservationDTO> reserveList= this.reservationMapper.getReserveList(exhibition_id);
+        int exhibition_key = reserveList.get(0).getExhibition_key();
         int totalPrice = 0;
 
         ExhibitionDTO exhiDTO = this.exhibitionMapper.getExhibitionCont(exhibition_key);
-        List<ReservationDTO> reserveList= this.reservationMapper.getReserveList(exhibition_id);
         MemberDTO memberDTO = (MemberDTO)session.getAttribute("mDTO");
         for(int i=0;i<reserveList.size();i++){
             totalPrice += reserveList.get(i).getReservation_price();
         }
-
         // QR 생성
 
         // 예매내역 및 예약 확인 페이지 링크 문자 발송
 
         String memberPhone = memberDTO.getMember_phone();
+        String link = "http://localhost:8181/";
 
-        String verificationCode = "[Art Issue]\n" +
+        String verificationCode = "[Art Issue]\n\n" +
                 memberDTO.getMember_name()+"고객님 예매가 완료되었어요\n" +
                 "예약번호 : "+reserveList.get(0).getReservation_id()+"\n" +
                 "전시회명 : "+exhiDTO.getExhibition_title()+"\n" +
                 "일시 : "+exhiDTO.getExhibition_start_date()+"~"+exhiDTO.getExhibition_end_date()+"\n" +
                 "결제금액 : "+totalPrice+"\n\n" +
-                "나의 예매내역보기\n" +
-                "(링크주소)";
-
+                "나의 예매내역보기\n" + link;
+/*
         SingleMessageSentResponse response = massageService.sendReserve(memberPhone, verificationCode);
 
-        System.out.println(response);
+        System.out.println(response);*/
         System.out.println("문자발송");
 
         //예매 확인 페이지 구현 및 페이지로 이동
         model.addAttribute("exhiDTO", exhiDTO)
+            .addAttribute("totalPrice", totalPrice)
             .addAttribute("reserveList", reserveList);
 
         return "tosspay/paymentSuccess";

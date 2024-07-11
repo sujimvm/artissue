@@ -5,10 +5,45 @@
     <title>ART ISSUE :: 결제</title>
 </head>
 <body>    <!-- Preloader -->
-
-        <h1>결제 성공</h1>
-        <p>주문번호: <span ></span></p>
-        <p>결제금액: <span ></span></p>
-
+    <h1>예매</h1>
+    <table>
+        <tr>
+            <td rowspan="7">
+                <img th:src="${exhiDTO.getExhibition_thumnail()}">
+            </td>
+            <th>주문번호</th>
+            <td th:text="${reserveList.get(0).getReservation_id()}"></td>
+        </tr>
+        <tr>
+            <th>전시회명</th>
+            <td th:text="${exhiDTO.getExhibition_title()}"></td>
+        </tr>
+        <tr>
+            <th>날짜</th>
+            <td th:text="${exhiDTO.getExhibition_start_date()+' ~ '+exhiDTO.getExhibition_end_date()}"></td>
+        </tr>
+        <tr>
+            <th>장소</th>
+            <td th:text="${exhiDTO.getExhibition_place()}"></td>
+        </tr>
+        <tr>
+            <th>예매자</th>
+            <td th:text="${session.mDTO.getMember_name()}"></td>
+        </tr>
+        <tr>
+            <th>옵션</th>
+            <td  th:each="reserveList : ${reserveList}">
+                <p>
+                    <span th:text="${reserveList.getReservation_option()}"></span>&nbsp;
+                    <span th:text="${reserveList.getReservation_count()}"></span>매
+                    <span th:text="${reserveList.getReservation_price()}"></span>원
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <th>결제금액</th>
+            <td th:text="${totalPrice}"></td>
+        </tr>
+    </table>
 </body>
 </html>
