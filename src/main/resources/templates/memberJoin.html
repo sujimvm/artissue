@@ -250,7 +250,10 @@
             });
         });
 
-
+        $('#agreeCheckAll').on('change', function () {
+            var isChecked = $(this).is(':checked');
+            $('#requiredAgreeCheck1').prop('checked', isChecked);
+        });
 
 
     </script>
@@ -402,8 +405,19 @@
                                           <span id="checkMessage" style="display: none; color: red; font-size: 12px;">
                                         인증번호 입력 후 확인을 클릭해 주세요.
                                      </span>
-
                                   </div>
+                            </div><br><br>
+
+                            <input type="checkbox" id="requiredAgreeCheck1" required>
+                            <label>
+                                <span><strong>개인 및 기업회원 수집 및 이용에 동의합니다.(필수)</strong></span>
+                            </label>
+
+                            <div>
+                                <input type="checkbox" id="selectAgreeCheck1">
+                                <label>
+                                    <span>SMS로 상품 및 이벤트 정보를 받겠습니다.(선택)</span>
+                                </label>
                             </div>
                             <button type="submit" class="btn oneMusic-btn mt-30">join</button>
                         </form>

@@ -2,6 +2,7 @@ package com.artissue.controller;
 
 import com.artissue.model.MemberDTO;
 import com.artissue.model.MemberMapper;
+import com.artissue.model.ReservationDTO;
 import com.artissue.service.JoinService;
 import com.artissue.service.MessageService;
 import jakarta.servlet.http.HttpServletResponse;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import java.util.Random;
 
 @Controller
@@ -203,6 +205,12 @@ public class MemberController {
 
     @GetMapping("/userReserveList")
     public String userReserveList(HttpSession session, Model model) {
+
+        MemberDTO memberInfo = (MemberDTO)session.getAttribute("mDTO");
+
+        List<ReservationDTO> userReserveList = this.memberMapper.userReserveList(memberInfo.getMember_key());
+        System.out.println(userReserveList);
+        model.addAttribute("userReserveList",userReserveList);
 
         return "my-page/userReserveList";
     }
