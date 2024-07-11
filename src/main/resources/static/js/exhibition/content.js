@@ -41,4 +41,21 @@ $(document).ready(function() {
             }
         })
     })
+
+    $('#oneMusic-chk').click(function(){
+        changeHeart();
+
+    });
+
 });
+
+function changeHeart() {
+    var heart = $('#heart');
+    var currentSrc = heart.attr('src');
+
+    if (currentSrc.includes('interest_icon1.png')) {
+        heart.attr('src', '/img/interest_icon3.png'); // 클릭시 전환할 이미지
+    } else {
+        heart.attr('src', '/img/interest_icon1.png'); // 다시 기본 이미지로 전환
+    }
+}

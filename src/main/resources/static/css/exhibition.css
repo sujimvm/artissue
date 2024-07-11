@@ -13,30 +13,8 @@
     border-bottom: 2px solid #000;
 }
 
-.interest-check{
-    display: none;
-}
-
-.interest-label{
-    display: inline-block;
-    height:30px;
-    cursor: pointer; /* 클릭 가능 커서 */
-    margin-bottom: -7px;
-}
-
-.interest-check + .interest-label {
-    background-repeat: no-repeat; /* 반복 방지 */
-    background-image: url('../img/interest_icon1.png'); /* off 이미지 */
-}
-
-.interest_check + label:hover {
-    background-image: url("../img/interest_icon2.png");
-}
-
-/* on */
-.interest-check:checked + .interest-label {
-    background-repeat: no-repeat; /* 반복 방지 */
-    background-image: url('../img/interest_icon3.png'); /* on 이미지 */
+.heart {
+    margin-right: 10px;
 }
 
 .oneMusic-chk {
