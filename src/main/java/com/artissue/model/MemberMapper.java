@@ -38,6 +38,8 @@ public interface MemberMapper {
 
     int oAuth2update(MemberDTO dto);
 
+    MemberDTO findUserId(String member_id);
+
     List<ReservationDTO> userReserveList(int member_key);
 
 }

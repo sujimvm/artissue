@@ -14,6 +14,4 @@ public interface ExhibitionMapper {
 
     List<PriceDTO> getExhibitionPrice(@Param("no") int no);
 
-    List<ReviewDTO> getExhibitionReview(@Param("no") int no);
-
 }

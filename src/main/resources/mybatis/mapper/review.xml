@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.artissue.model.ReviewMapper">
+
+    <select id="getExhibitionReview" parameterType="int" resultType="reviewDTO">
+        select * from review where exhibition_key = #{no}
+    </select>
+
+    <insert id="writeReview" parameterType="reviewDTO">
+        insert into review (exhibition_key, member_key, review_score, review_title, review_cont, review_recommend,
+        review_date) values (#{exhibition_key}, #{member_key}, #{review_score}, #{review_title}, #{review_cont}, 0,
+        NOW())
+    </insert>
+
+</mapper>

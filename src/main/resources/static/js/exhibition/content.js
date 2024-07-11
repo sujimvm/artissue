@@ -1,4 +1,9 @@
 // 화면 시작
+var exhibitionKey = $("#exhibition_key").val();
+var memberKey = /*[[${session.mDTO.member_key}]]*/ null;
+console.log(exhibitionKey)
+console.log(memberKey)
+
 $(document).ready(function() {
     $(document).on('click', '#reserveOpenBt', function() {
         var url = "/reserve/open?No="+$("#exhibition_key").val();
@@ -20,16 +25,12 @@ $(document).ready(function() {
         $('#' + contentId).show();
     });
 
-    $('.contentTitle h3').each(function(){
-        $(this).html($(this).html().replace(/class="contentTitle"/g,'class=""'));
-    });
-
-    $("#review-form").on('submit',function (e){
+    $("#review-btn").on('click',function (e){
         e.preventDefault();
 
         var reviewTitle = $('#review-title').val();
         var reviewContent = $('#review-cont').val();
-        var reviewScore = $('#review-score').val();
+        var reviewScore = $('input[name="rating"]:checked').val();
 
         $.ajax({
             url : '/ajax/writeReview',
@@ -37,7 +38,11 @@ $(document).ready(function() {
             data : {
                 title : reviewTitle,
                 cont : reviewContent,
-                score : reviewScore
+                score : reviewScore,
+                exhibitionKey : exhibitionKey
+            },
+            success : function (review){
+
             }
         })
     })
