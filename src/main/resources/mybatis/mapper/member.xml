@@ -72,4 +72,18 @@
         member_id = #{member_email}
     </update>
 
+    <select id="userReserveList" parameterType="int" resultType="reserveDTO">
+        SELECT
+        r1.*,
+        (SELECT SUM(r2.reservation_price)
+        FROM reservation r2
+        WHERE r2.reservation_id = r1.reservation_id) AS total_reservation_pay
+        FROM
+        reservation r1
+        WHERE
+        r1.reservation_pay = 1
+        AND r1.member_key = #{member_key}
+        order by reservation_date desc;
+    </select>
+
 </mapper>

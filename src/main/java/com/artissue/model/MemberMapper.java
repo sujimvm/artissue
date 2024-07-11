@@ -3,6 +3,8 @@ package com.artissue.model;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
 @Mapper
 public interface MemberMapper {
 
@@ -35,4 +37,7 @@ public interface MemberMapper {
     int oAuth2insert(MemberDTO dto);
 
     int oAuth2update(MemberDTO dto);
+
+    List<ReservationDTO> userReserveList(int member_key);
+
 }
