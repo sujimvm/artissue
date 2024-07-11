@@ -35,4 +35,6 @@ public interface MemberMapper {
     int oAuth2insert(MemberDTO dto);
 
     int oAuth2update(MemberDTO dto);
+
+    MemberDTO findUserId(String member_id);
 }

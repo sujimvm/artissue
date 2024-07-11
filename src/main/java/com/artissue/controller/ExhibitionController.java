@@ -1,9 +1,6 @@
 package com.artissue.controller;
 
-import com.artissue.model.ExhibitionDTO;
-import com.artissue.model.ExhibitionMapper;
-import com.artissue.model.PriceDTO;
-import com.artissue.model.ReviewDTO;
+import com.artissue.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +16,8 @@ public class ExhibitionController {
 
     @Autowired
     private ExhibitionMapper exhibitionMapper;
+    @Autowired
+    private ReviewMapper reviewMapper;
 
     @GetMapping("/list")
     public String exhibitionList(){
@@ -31,7 +30,7 @@ public class ExhibitionController {
 
         ExhibitionDTO exhibitionCont = this.exhibitionMapper.getExhibitionCont(no);
         List<PriceDTO> exhibitionPrice = this.exhibitionMapper.getExhibitionPrice(no);
-        List<ReviewDTO> exhibitionReview = this.exhibitionMapper.getExhibitionReview(no);
+        List<ReviewDTO> exhibitionReview = this.reviewMapper.getExhibitionReview(no);
 
         model.addAttribute("Exhibition", exhibitionCont);
         model.addAttribute("Price", exhibitionPrice);

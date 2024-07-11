@@ -132,7 +132,7 @@
             </div>
 
             <div class="review-write">
-                <th:block sec:authorize="isAuthenticated() and hasRole('ROLE_USER')" th:if="${null != session.mDTO}">
+                <th:block sec:authorize="isAuthenticated() and hasRole('ROLE_USER')">
                     <div class="" id="review-box">
                         <form id="review-form" method="post">
                             <table>
@@ -155,12 +155,12 @@
                                 <tr>
                                     <th>내 용</th>
                                     <td>
-                                        <textarea id="review-cont" name="reply_cont" rows="3" cols="113" placeholder="솔직하고 따뜻한 댓글을 남겨주세요~" style="resize:none;"></textarea>
+                                        <textarea id="review-cont" name="reply_cont" rows="3" cols="113" placeholder="솔직하고 따뜻한 댓글을 남겨주세요~"></textarea>
                                     </td>
                                 </tr>
                             </table>
 
-                            <input id="review-btn" class="reply-btn" type="submit" value="댓글 작성">
+                            <input id="review-btn" class="reply-btn" type="submit" value="리뷰 작성">
                         </form>
                     </div>
                 </th:block>
@@ -169,16 +169,18 @@
                         <textarea name="review_cont" rows="2" cols="100" placeholder="로그인 후 리뷰를 남겨주세요~" ></textarea>
                     </a>
                 </th:block>
-                <th:block sec:authorize="!isAuthenticated() and hasRole('ROLE_COMPANY')">
+                <th:block sec:authorize="isAuthenticated() and hasRole('ROLE_COMPANY')">
                     <textarea name="review_cont" rows="2" cols="100" placeholder="기업회원은 리뷰를 남길수 없어요..." ></textarea>
                 </th:block>
             </div>
-            <th:block th:if="${Review.isEmpty() || Review.size() == 0}">
-                <h5>아직 등록된 후기가 없습니다.</h5>
-            </th:block>
+            <div>
+                <th:block th:if="${Review.isEmpty() || Review.size() == 0}">
+                    <h5>아직 등록된 후기가 없습니다.</h5>
+                </th:block>
+            </div>
             <div>
                 <th:block th:if="${!Review.isEmpty() && Review != null}">
-                    <ul>
+                    <ul id="review-list">
                         <li th:each="review : ${Review}">
                             <div class="review-title">
                                 <h5 th:text="${review.getReview_title()}"></h5>
@@ -191,11 +193,11 @@
                                 <p th:text="${review.getReview_cont()}"></p>
                             </div>
                             <th:block sec:authorize="isAuthenticated() and hasRole('ROLE_USER')" th:if="${review.getMember_key() == session.mDTO.getMember_key()}">
-                                <input type="button" id="rewriteReview" th:attr="" value="수정">
+                                <input type="button" id="rewriteReview" value="수정">
                                 <input type="button" id="deleteReview" value="삭제">
                                 <div id="'edit-form" class="" style="display:none;">
                                     <input type="text" id="re-review-title" name="re=review-title">
-                                    <textarea id="re-review-cont" name="re-reply_cont" rows="3" cols="113" placeholder="수정할 내용을 입력해 주세요~" style="resize:none;"></textarea>
+                                    <textarea id="re-review-cont" name="re-reply_cont" rows="3" cols="113" placeholder="수정할 내용을 입력해 주세요~"></textarea>
                                     <input id="re-review-btn" class="reply-btn" type="button" value="수정">
                                     <input id="re-review-cancel-btn" class="reply-btn" type="button" value="취소">
                                 </div>

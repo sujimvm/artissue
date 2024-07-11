@@ -11,6 +11,12 @@
 
     </select>
 
+    <select id="findUserId" resultType="mDTO" parameterType="String">
+
+        select * from member where member_name = #{member_id}
+
+    </select>
+
     <select id="existsByMembername" resultType="boolean" parameterType="String">
 
         SELECT CASE WHEN COUNT(*) > 0 THEN TRUE ELSE FALSE END
