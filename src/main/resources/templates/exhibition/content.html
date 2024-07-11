@@ -82,11 +82,10 @@
                     <div class="single-contact-info d-flex align-items-center">
                         <input type="hidden" id="exhibition_key" th:value="${Exhibition.getExhibition_key()}">
                         <input class="btn oneMusic-btn" type="button" id="reserveOpenBt" value="예매하기">
-                        <div class="oneMusic-chk">
-                            <input class="interest-check" type="checkbox" th:id="'interestExhi_'+${Exhibition.getExhibition_key()}"  th:value="${Exhibition.getExhibition_key()}">
-                            <label th:for="'interestExhi_'+${Exhibition.getExhibition_key()}" class="interest-label">
-                                찜하기
-                            </label>
+                        <div id="oneMusic-chk" class="oneMusic-chk">
+                            <input class="interest-check" type="hidden" th:id="'interestExhi_'+${Exhibition.getExhibition_key()}" th:value="${Exhibition.getExhibition_key()}">
+                            <img id="heart" class="heart" src="/img/interest_icon1.png">
+                            <span>찜하기</span>
                         </div>
                     </div>
                 </div>
