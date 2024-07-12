@@ -1,61 +1,163 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <!-- Title -->
+    <title>ART ISSUE :: 마이페이지</title>
+    <link rel="stylesheet" href="/bootstrap/style.css">
+    <!-- Favicon -->
+    <link rel="icon" href="/bootstrap/img/core-img/favicon.ico">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="/bootstrap/style.css">
+
 </head>
 <body>
-
-<form method="POST" action="/mModifyOk">
-    <input type="hidden" name="member_key" th:value="${session.mDTO.member_key}">
-    <span style="font-size: 20px; font-weight: bold;">회원 정보 수정</span>
-    <table>
-        <tr>
-            <th>회원 아이디</th>
-            <td th:text="${session.mDTO.member_id}"></td>
-        </tr>
-        <tr>
-            <th>회원 이름</th>
-            <td>
-                <input name="member_name" th:value="${session.mDTO.member_name}">
-            </td>
-        </tr>
-        <tr>
-            <th>회원 이름</th>
-            <td>
-                <input name="member_nickname" th:value="${session.mDTO.member_nickname}">
-            </td>
-        </tr>
-        <tr>
-            <th>휴대폰번호</th>
-            <td>
-                <input name="member_phone" th:value="${session.mDTO.member_phone}">
-            </td>
-        </tr>
-        <tr>
-            <th>이메일</th>
-            <td>
-                <input name="member_email" th:value="${session.mDTO.member_email}">
-            </td>
-        </tr>
-        <tr>
-            <th>생년월일</th>
-            <td>
-                <input type="date" name="member_birth" th:value="${session.mDTO.member_birth}">
-            </td>
-        </tr>
-        <tr>
-            <th>성별</th>
-            <td>
-                <input type="radio" name="member_gender" value="female" th:checked="${member_gender == 'female'}"> 여자&nbsp;
-                <input type="radio" name="member_gender" value="male" th:checked="${member_gender == 'male'}"> 남자
-            </td>
-        </tr>
-    </table>
-    <div>
-        <input type="submit" value="회원수정" onclick="return modify()">&nbsp;&nbsp;
-        <input type="reset" value="다시작성">
+<!-- Preloader -->
+<div class="preloader d-flex align-items-center justify-content-center">
+    <div class="lds-ellipsis">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
     </div>
-</form>
+</div>
+
+<div th:replace="~{include/header}"></div>
+
+<!-- ##### Breadcumb Area Start ##### -->
+<section class="breadcumb-area bg-img bg-overlay" style="background-image: url(/bootstrap/img/bg-img/breadcumb3.jpg);">
+    <div class="bradcumbContent">
+        <p>See what’s new</p>
+        <h2>MY PAGE</h2>
+    </div>
+</section>
+<!-- ##### Breadcumb Area End ##### -->
+
+<!-- ##### Login Area Start ##### -->
+<section class="login-area section-padding-100">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-lg-3">
+                <div class="new-hits-area mb-100">
+                    <div class="single-new-item d-flex align-items-center justify-content-between wow fadeInUp">
+                        <a href="/user">회원정보 수정</a>
+                    </div>
+                    <div class="single-new-item d-flex align-items-center justify-content-between wow fadeInUp">
+                        <a href="/userPwdUpdate">비밀번호 변경</a>
+                    </div>
+                    <div class="single-new-item d-flex align-items-center justify-content-between wow fadeInUp">
+                        <a href="/userReserveList">예약리스트</a>
+                    </div>
+                    <div class="single-new-item d-flex align-items-center justify-content-between wow fadeInUp">
+                        <a href="/userZZimList">찜리스트</a>
+                    </div>
+                    <div class="single-new-item d-flex align-items-center justify-content-between wow fadeInUp">
+                        <a href="/userResign">회원탈퇴</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-9" style="border: solid 1px #000000;">
+                <h3>회원정보수정</h3>
+                <hr>
+                <form method="POST" action="/mModifyOk">
+                    <input type="hidden" name="member_key" th:value="${session.mDTO.member_key}">
+                    <span style="font-size: 20px; font-weight: bold;">회원 정보 수정</span>
+                    <table>
+                        <tr>
+                            <th>회원 아이디</th>
+                            <td th:text="${session.mDTO.member_id}"></td>
+                        </tr>
+                        <tr>
+                            <th>회원 이름</th>
+                            <td>
+                                <input name="member_name" th:value="${session.mDTO.member_name}">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>회원 이름</th>
+                            <td>
+                                <input name="member_nickname" th:value="${session.mDTO.member_nickname}">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>휴대폰번호</th>
+                            <td>
+                                <input name="member_phone" th:value="${session.mDTO.member_phone}">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>이메일</th>
+                            <td>
+                                <input name="member_email" th:value="${session.mDTO.member_email}">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>생년월일</th>
+                            <td>
+                                <input type="date" name="member_birth" th:value="${session.mDTO.member_birth}">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>성별</th>
+                            <td>
+                                <input type="radio" name="member_gender" value="female" th:checked="${member_gender == 'female'}"> 여자&nbsp;
+                                <input type="radio" name="member_gender" value="male" th:checked="${member_gender == 'male'}"> 남자
+                            </td>
+                        </tr>
+                    </table>
+                    <div>
+                        <input type="submit" value="회원수정" onclick="return modify()">&nbsp;&nbsp;
+                        <input type="reset" value="다시작성">
+                    </div>
+                </form>
+
+    </div>
+    </div>
+    </div>
+</section>
+<!-- ##### Login Area End ##### -->
+
+<div th:replace="~{include/footer}"></div>
+
+<!-- ##### All Javascript Script ##### -->
+<script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
+<!-- jQuery-2.2.4 js -->
+<script src="/bootstrap/js/jquery/jquery-2.2.4.min.js"></script>
+<!-- Popper js -->
+<script src="/bootstrap/js/bootstrap/popper.min.js"></script>
+<!-- Bootstrap js -->
+<script src="/bootstrap/js/bootstrap/bootstrap.min.js"></script>
+<!-- All Plugins js -->
+<script src="/bootstrap/js/plugins/plugins.js"></script>
+<!-- Active js -->
+<script src="/bootstrap/js/active.js"></script>
 </body>
+
+<script>
+    ClassicEditor
+        .create(document.querySelector('#notice_cont'), {
+            removePlugins: ['Heading'],
+            language: "ko"
+        })
+        .then(editor => {
+            $('style').append('.ck-content { height: 400px; }');
+            let objEditor = editor;
+
+            editor.model.document.on('change:data', () => {
+                $('#notice_cont').val(editor.getData());
+            }, {priority: 'high'});
+        })
+        .catch(error => {
+            console.error(error);
+        });
+</script>
+
 </html>
