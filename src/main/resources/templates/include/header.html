@@ -77,8 +77,14 @@
                                 <!-- 로그인 후 -->
                                 <div th:if="${#authorization.expression('isAuthenticated()')}" class="login-register-btn mr-50">
                                     <th:block th:if="${session.mDTO != null}">
-                                        <a th:href="@{/user}">[[${session.mDTO.member_name}]] 님!</a>
+                                        <a th:if="${session.mDTO.member_pwd == '-'}" th:href="@{/my-page/userModify}">
+                                            [[${session.mDTO.member_name}]] 님!
+                                        </a>
+                                        <a th:if="${session.mDTO.member_pwd != '-'}" th:href="@{/my-page/user}">
+                                            [[${session.mDTO.member_name}]] 님!
+                                        </a>
                                     </th:block>
+
                                     <th:block th:if="${session.cDTO != null}">
                                         <a th:href="@{/#}">[[${session.cDTO.member_name}]] 님!</a>
                                     </th:block>

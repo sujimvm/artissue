@@ -109,4 +109,11 @@
         select * from zzim where member_key = #{member_key}
     </select>
 
+    <update id="memberUpdate" parameterType="mDTO">
+
+        update member set member_name = #{member_name},member_nickname=#{member_nickname},
+        member_phone=#{member_phone},member_email=#{member_email},member_birth=#{member_birth},
+        member_gender=#{member_gender} where member_key=#{member_key}
+
+    </update>
 </mapper>

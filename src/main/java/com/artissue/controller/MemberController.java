@@ -5,9 +5,13 @@ import com.artissue.service.JoinService;
 import com.artissue.service.MessageService;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import jakarta.websocket.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -189,18 +193,18 @@ public class MemberController {
         }
     }
 
-    @GetMapping("/user")
-    public String userInfo(HttpSession session, Model model) {
 
-        MemberDTO memberInfo = (MemberDTO)session.getAttribute("mDTO");
-
-        return "my-page/user";
-    }
 
     @GetMapping("/userPwdUpdate")
     public String userPwdUpdate(HttpSession session, Model model) {
 
         return "my-page/userPwdUpdate";
+    }
+
+    @GetMapping("/user")
+    public String userPage(HttpSession session, Model model) {
+
+        return "my-page/user";
     }
 
     @GetMapping("/userReserveList")
@@ -248,5 +252,69 @@ public class MemberController {
     public String userResign(HttpSession session, Model model) {
 
         return "my-page/userResign";
+    }
+
+  @GetMapping("/my-page/user")
+    public String showUserProfile(Model model,HttpSession session) {
+
+      MemberDTO memberInfo = (MemberDTO) session.getAttribute("mDTO");
+
+      return "my-page/user";
+
+  }
+
+    @GetMapping("/my-page/userModify")
+    public String modify(HttpSession session, Model model){
+
+        return "my-page/userModify";
+    }
+
+
+    @PostMapping("/mModify")
+    public String modifyOk(@RequestParam("member_pwd") String pwd,
+                           HttpSession session,
+                           HttpServletResponse response) throws IOException {
+
+        response.setContentType("text/html; charset=UTF-8");
+
+        PrintWriter out = response.getWriter();
+
+        MemberDTO memberInfo = (MemberDTO) session.getAttribute("mDTO");
+
+        if (passwordEncoder.matches(pwd, memberInfo.getMember_pwd())) {
+            out.println("<script>");
+            out.println("alert('비밀번호가 일치합니다.')");
+            out.println("</script>");
+            return "my-page/userModify";
+        } else {
+            out.println("<script>");
+            out.println("alert('비밀번호가 틀렸습니다')");
+            out.println("</script>");
+            return "my-page/user";
+
+        }
+    }
+
+    @PostMapping("/mModifyOk")
+    public String modifyOk(HttpServletResponse response,MemberDTO dto) throws IOException {
+
+        System.out.println("dto>>"+dto);
+       int result = this.memberMapper.memberUpdate(dto);
+
+       response.setContentType("text/html; charset=UTF-8");
+       PrintWriter out = response.getWriter();
+
+       if(result > 0){
+           out.println("<script>");
+           out.println("alert('정보 수정을 성공하였습니다.')");
+           out.println("</script>");
+           return "my-page/userModify";
+       }else{
+           out.println("<script>");
+           out.println("alert('정보수정을 실패하였습니다.')");
+           out.println("</script>");
+           return "my-page/userModify";
+       }
+
     }
 }
