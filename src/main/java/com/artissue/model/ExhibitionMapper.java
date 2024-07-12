@@ -14,4 +14,10 @@ public interface ExhibitionMapper {
 
     List<PriceDTO> getExhibitionPrice(@Param("no") int no);
 
+    ZzimDTO checkZzim(int member_key, int exhibition_key);
+
+    void insertZzim(int member_key, int exhibition_key);
+
+    void deleteZzim(int member_key, int exhibition_key);
+
 }

@@ -11,5 +11,6 @@
         <typeAlias type="com.artissue.model.ReservationDTO" alias="reserveDTO" /><!--예매-->
         <typeAlias type="com.artissue.model.PriceDTO" alias="priceDTO" /><!--가격-->
         <typeAlias type="com.artissue.model.ReviewDTO" alias="reviewDTO" />
+        <typeAlias type="com.artissue.model.ZzimDTO" alias="zzimDTO" />
     </typeAliases>
 </configuration>

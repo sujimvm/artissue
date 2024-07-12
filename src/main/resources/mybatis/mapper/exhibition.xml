@@ -46,4 +46,16 @@
         select * from price where exhibition_key = #{no}
     </select>
 
+    <select id="checkZzim" parameterType="map" resultType="zzimDTO">
+        select * from zzim where member_key = #{member_key} and exhibition_key = #{exhibition_key}
+    </select>
+
+    <insert id="insertZzim" parameterType="map">
+        insert into zzim (member_key, exhibition_key) values (#{member_key}, #{exhibition_key})
+    </insert>
+
+    <delete id="deleteZzim" parameterType="map">
+        delete from zzim where member_key = #{member_key} and exhibition_key = #{exhibition_key}
+    </delete>
+
 </mapper>

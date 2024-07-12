@@ -5,6 +5,7 @@ console.log(exhibitionKey)
 console.log(memberKey)
 
 $(document).ready(function() {
+
     $(document).on('click', '#reserveOpenBt', function() {
         var url = "/reserve/open?No="+$("#exhibition_key").val();
         var name = "reserve";
@@ -23,7 +24,9 @@ $(document).ready(function() {
         // 클릭된 탭에 해당하는 콘텐츠 표시
         const contentId = $(this).attr('id').replace('-tab', '');
         $('#' + contentId).show();
+
     });
+
 
     $("#review-btn").on('click',function (e){
         e.preventDefault();
@@ -32,22 +35,49 @@ $(document).ready(function() {
         var reviewContent = $('#review-cont').val();
         var reviewScore = $('input[name="rating"]:checked').val();
 
-        $.ajax({
-            url : '/ajax/writeReview',
-            type : 'POST',
-            data : {
-                title : reviewTitle,
-                cont : reviewContent,
-                score : reviewScore,
-                exhibitionKey : exhibitionKey
-            },
-            success : function (review){
+        if(reviewScore == null){
+            alert("별점을 선택해 주세요!")
+            return
+        }
 
-            }
-        })
+        if(confirm("리뷰를 등록하시겠습니까?")){
+            $.ajax({
+                url : '/ajax/writeReview',
+                type : 'POST',
+                data : {
+                    title : reviewTitle,
+                    cont : reviewContent,
+                    score : reviewScore,
+                    exhibitionKey : exhibitionKey
+                },
+                success : function (result){
+                    if(result == 1){
+                        alert("리뷰를 등록하였습니다!")
+                        location.reload();
+                    }else{
+                        alert("예매를 하지 않은 전시회는 리뷰를 작성할수 없습니다.")
+                    }
+                },error: function(xhr, status, error) {
+                    console.error(xhr);
+                }
+            })
+        }
     })
 
     $('#oneMusic-chk').click(function(){
+
+        $.ajax({
+            url : '/ajax/zzim',
+            type: 'post',
+            data: {
+                exhibitionKey : exhibitionKey
+            },
+            success : function (){
+            },error: function(xhr, status, error) {
+                console.error(xhr);
+            }
+        })
+
         changeHeart();
 
     });
