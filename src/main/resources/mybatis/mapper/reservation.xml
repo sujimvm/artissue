@@ -23,4 +23,9 @@
     <update id="updateReservePay" parameterType="String">
         update reservation set reservation_pay = 1 where reservation_id = #{reservation_id}
     </update>
+
+    <select id="checkReservation" parameterType="map" resultType="reserveDTO">
+        select * from reservation where member_key = #{member_key} and exhibition_key = #{exhibition_key}
+        and reservation_pay = 1
+    </select>
 </mapper>

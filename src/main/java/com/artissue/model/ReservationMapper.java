@@ -12,4 +12,6 @@ public interface ReservationMapper {
 
     List<ReservationDTO> getReserveList(String reservation_id);
     int updateReservePay(String reservation_id);
+
+    ReservationDTO checkReservation(int member_key, int exhibition_key);
 }

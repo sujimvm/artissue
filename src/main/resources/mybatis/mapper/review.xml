@@ -6,7 +6,7 @@
 <mapper namespace="com.artissue.model.ReviewMapper">
 
     <select id="getExhibitionReview" parameterType="int" resultType="reviewDTO">
-        select * from review where exhibition_key = #{no}
+        select * from review where exhibition_key = #{no} order by review_date desc
     </select>
 
     <insert id="writeReview" parameterType="reviewDTO">
