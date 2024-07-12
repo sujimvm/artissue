@@ -23,6 +23,11 @@
     <update id="updateReservePay" parameterType="String">
         update reservation set reservation_pay = 1 where reservation_id = #{reservation_id}
     </update>
+    <!---->
+    <update id="insertQrCode">
+        update reservation set reservation_qr = #{qrCode} where reservation_id = #{reservation_id}
+    </update>
+
 
     <select id="checkReservation" parameterType="map" resultType="reserveDTO">
         select * from reservation where member_key = #{member_key} and exhibition_key = #{exhibition_key}

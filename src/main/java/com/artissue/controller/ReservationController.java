@@ -2,6 +2,8 @@ package com.artissue.controller;
 
 import com.artissue.model.*;
 import com.artissue.service.MessageService;
+import com.artissue.service.QrCodeService;
+import com.google.zxing.WriterException;
 import jakarta.servlet.http.HttpSession;
 import net.nurigo.sdk.message.response.SingleMessageSentResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +12,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 
@@ -27,6 +31,8 @@ public class ReservationController {
     private ReservationMapper reservationMapper;
     @Autowired
     private MessageService massageService;
+    @Autowired
+    private QrCodeService qrCodeService;
 
 
     @GetMapping("/open")
@@ -82,10 +88,10 @@ public class ReservationController {
     }
 
     @GetMapping("/success")
-    public String reserveSuccess(@RequestParam("id") String exhibition_id, HttpSession session, Model model) {
+    public String reserveSuccess(@RequestParam("id") String reservation_id, HttpSession session, Model model) throws IOException, WriterException {
 
-        this.reservationMapper.updateReservePay(exhibition_id);
-        List<ReservationDTO> reserveList= this.reservationMapper.getReserveList(exhibition_id);
+        this.reservationMapper.updateReservePay(reservation_id);
+        List<ReservationDTO> reserveList= this.reservationMapper.getReserveList(reservation_id);
         int exhibition_key = reserveList.get(0).getExhibition_key();
         int totalPrice = 0;
 
@@ -94,12 +100,17 @@ public class ReservationController {
         for(int i=0;i<reserveList.size();i++){
             totalPrice += reserveList.get(i).getReservation_price();
         }
-        // QR 생성
+
+        // QR 코드 생성 및 모델에 추가
+        String link = "http://localhost:8181/"+reservation_id; //링크주소 변경 예정
+        // 변수에 생성된 QR 코드 이미지 데이터가 저장
+        byte[] qrCodeBytes = qrCodeService.generateQrCode(link, reservation_id);
+        // byte 배열 형태로 저장된 QR 코드 이미지 데이터를 Base64 인코딩하여 문자열 형태로 변환
+        String qrCode = Base64.getEncoder().encodeToString(qrCodeBytes);
+        // qrCode 변숫값을 qrCode라는 이름으로 Model 객체에 추가. Model 객체에 데이터를 추가하면 Spring MVC는 해당 데이터를 View로 전달하여 화면에 렌더링
 
         // 예매내역 및 예약 확인 페이지 링크 문자 발송
-
         String memberPhone = memberDTO.getMember_phone();
-        String link = "http://localhost:8181/";
 
         String verificationCode = "[Art Issue]\n\n" +
                 memberDTO.getMember_name()+"고객님 예매가 완료되었어요\n" +
@@ -108,8 +119,8 @@ public class ReservationController {
                 "일시 : "+exhiDTO.getExhibition_start_date()+"~"+exhiDTO.getExhibition_end_date()+"\n" +
                 "결제금액 : "+totalPrice+"\n\n" +
                 "나의 예매내역보기\n" + link;
-/*
-        SingleMessageSentResponse response = massageService.sendReserve(memberPhone, verificationCode);
+
+        /*SingleMessageSentResponse response = massageService.sendReserve(memberPhone, verificationCode);
 
         System.out.println(response);*/
         System.out.println("문자발송");
@@ -117,7 +128,12 @@ public class ReservationController {
         //예매 확인 페이지 구현 및 페이지로 이동
         model.addAttribute("exhiDTO", exhiDTO)
             .addAttribute("totalPrice", totalPrice)
-            .addAttribute("reserveList", reserveList);
+            .addAttribute("reserveList", reserveList)
+            .addAttribute("qrCode", qrCode);
+
+        System.out.println(qrCode+" qrCode");
+        System.out.println(qrCodeBytes+" qrCodeBytes");
+        System.out.println(reserveList.get(0).getReservation_qr()+" getReservation_qr");
 
         return "tosspay/paymentSuccess";
     }

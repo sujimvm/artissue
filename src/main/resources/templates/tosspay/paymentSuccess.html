@@ -44,6 +44,12 @@
             <th>결제금액</th>
             <td th:text="${totalPrice}"></td>
         </tr>
+        <tr>
+            <td colspan="3"><img th:src="'data:image/png;base64,'+${reserveList.get(0).getReservation_qr()}" alt="QR Code"></td>
+        </tr>
+        <tr>
+            <td colspan="3"><img th:src="'data:image/png;base64,'+${qrCode}" alt="QR Code"></td>
+        </tr>
     </table>
 </body>
 </html>
