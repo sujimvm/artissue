@@ -75,13 +75,32 @@
                 </div>
             </div>
             <div class="col-12 col-lg-9" style="border: solid 1px #000000;">
-                <h3>예약리스트</h3>
+                <h4>예약 내역</h4>
+                <hr>
                 <th:block th:if="${userReserveList != null}">
-                    <span th:each="uRL : ${userReserveList}">
-                        <a th:text=""></a>
-                        <p th:text="${uRL.reservation_price}"></p>
-                        <p th:text="${uRL.reservation_date}"></p>
-                    </span>
+                    <div th:each="userReserve, stat : ${userReserveList}">
+                        <div class="single-contact-info d-flex align-items-center">
+                            <p class="mr-30">예약번호</p>
+                            <p th:text="${userReserve.reservation_id}"></p>
+                        </div>
+                        <div class="single-contact-info d-flex align-items-center">
+                            <p class="mr-30">전시회 이름</p>
+                            <p th:text="${exhibitionList[stat.index].exhibition_title}"></p>
+                        </div>
+                        <div class="single-contact-info d-flex align-items-center">
+                            <p class="mr-30">예약정보</p>
+                            <p>[[${userReserve.reservation_option}]]&nbsp;&nbsp;&nbsp;[[${userReserve.reservation_count}]] 매</p>
+                        </div>
+                        <div class="single-contact-info d-flex align-items-center">
+                            <p class="mr-30">결제금액</p>
+                            <p th:text="${userReserve.reservation_price}"></p>
+                        </div>
+                        <div class="single-contact-info d-flex align-items-center">
+                            <p class="mr-30">결제날짜</p>
+                            <p th:text="${userReserve.reservation_date}"></p>
+                        </div>
+                        <hr>
+                    </div>
                 </th:block>
             </div>
         </div>

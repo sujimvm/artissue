@@ -80,16 +80,33 @@
 
     <select id="userReserveList" parameterType="int" resultType="reserveDTO">
         SELECT
-        r1.*,
-        (SELECT SUM(r2.reservation_price)
-        FROM reservation r2
-        WHERE r2.reservation_id = r1.reservation_id) AS total_reservation_pay
+        r.reservation_key,
+        r.exhibition_key,
+        r.member_key,
+        r.reservation_date,
+        r.reservation_id,
+        r.reservation_pay,
+        r.reservation_option,
+        r.reservation_count,
+        r.reservation_price,
+        e.exhibition_title
         FROM
-        reservation r1
+        reservation r
+        JOIN
+        exhibition e ON r.exhibition_key = e.exhibition_key
         WHERE
-        r1.reservation_pay = 1
-        AND r1.member_key = #{member_key}
-        order by reservation_date desc;
+        r.member_key = #{member_key}
+        AND r.reservation_pay = 1
+        ORDER BY
+        r.reservation_date DESC
+    </select>
+
+    <select id="userExhibitionList" parameterType="int" resultType="exhibitionDTO">
+        select * from exhibition where exhibition_key = #{exhibition_key}
+    </select>
+
+    <select id="userZzimList" parameterType="int" resultType="zzimDTO">
+        select * from zzim where member_key = #{member_key}
     </select>
 
 </mapper>

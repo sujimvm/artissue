@@ -76,6 +76,22 @@
             </div>
             <div class="col-12 col-lg-9" style="border: solid 1px #000000;">
                 <h3>찜리스트</h3>
+                <th:block th:if="${zzimList != null}">
+                    <div th:each="zzim, stat : ${zzimList}">
+                        <div class="single-contact-info d-flex align-items-center">
+                            <p class="mr-30">전시회 이름</p>
+                            <a th:href="@{/exhi/content(no=${zzim.getExhibition_key()})}"
+                               th:text="${exhibitionList[stat.index].exhibition_title}"></a>
+                        </div>
+                        <div class="single-contact-info d-flex align-items-center">
+                            <p class="mr-30">전시회 기간</p>
+                            <p>[[${exhibitionList[stat.index].exhibition_start_date}]] ~
+                                [[${exhibitionList[stat.index].exhibition_end_date}]]
+                            </p>
+                        </div>
+                        <hr>
+                    </div>
+                </th:block>
             </div>
         </div>
     </div>
