@@ -306,12 +306,13 @@ public class MemberController {
 
        if(result > 0){
            out.println("<script>");
-           out.println("alert('정보 수정을 성공하였습니다.')");
+           out.println("alert('정보를 수정했습니다.')");
            out.println("</script>");
-           return "my-page/userModify";
+           return "my-page/userResign";
+
        }else{
            out.println("<script>");
-           out.println("alert('정보수정을 실패하였습니다.')");
+           out.println("alert('정보를 수정했습니다.')");
            out.println("</script>");
            return "my-page/userModify";
        }
