@@ -14,4 +14,6 @@ public interface ReservationMapper {
     int updateReservePay(String reservation_id);
 
     ReservationDTO checkReservation(int member_key, int exhibition_key);
+
+    void insertQrCode(String reservation_id, String qrCode);
 }

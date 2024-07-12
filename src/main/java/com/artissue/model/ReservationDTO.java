@@ -17,6 +17,7 @@ public class ReservationDTO {
     private int reservation_price;
     private int reservation_buyer_view;
     private int reservation_seller_view;
+    private String reservation_qr;
 
     private String exhibition_title;
 
