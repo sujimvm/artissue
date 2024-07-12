@@ -1,5 +1,6 @@
 package com.artissue.controller;
 
+import com.artissue.ArtissueApplication;
 import com.artissue.model.ChatRoom;
 import com.artissue.service.ChatService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,9 @@ public class ChatController {
 
     @GetMapping("/create")
     public String createRoomForm() {
+
+        System.out.println(ArtissueApplication.getAdminRoomId());
+
         return "chatroom";
     }
 

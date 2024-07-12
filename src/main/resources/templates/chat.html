@@ -5,6 +5,8 @@
     <script>
         let socket;
         function connect() {
+            // roomId ajax call get
+
             const roomId = document.getElementById('roomId').value;
             const sender = document.getElementById('sender').value;
             socket = new WebSocket(`ws://localhost:8181/ws/chat/${roomId}`);
@@ -20,6 +22,12 @@
 
             socket.onmessage = function(event) {
                 const message = JSON.parse(event.data);
+
+                const obj = JSON.parse(message.message)
+                if(obj.type == 'join'){
+                    confirm(obj.sender + 'enter, chat open?')
+                }
+
                 document.getElementById('messages').innerHTML += `<div><b>${message.sender}:</b> ${message.message}</div>`;
             }
         }
@@ -55,7 +63,7 @@
     <input type="text" id="roomId" placeholder="room ID 입력해주세요." />
     <label for="sender">닉네임:</label>
     <input type="text" id="sender" placeholder="닉네임 입력해주세요." />
-    <button onclick="connect()">입장</button>
+    <button onclick="connect()">create request</button>
     <button onclick="disconnect()">나가기</button>
 </div>
 <div>

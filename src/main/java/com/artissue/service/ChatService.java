@@ -1,10 +1,7 @@
 package com.artissue.service;
 
-
-import com.artissue.model.ChatDTO;
 import com.artissue.model.ChatRoom;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.annotation.PostConstruct;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
+
+import jakarta.annotation.PostConstruct;
 import java.io.IOException;
 import java.util.*;
 
@@ -20,7 +19,6 @@ import java.util.*;
 @Service
 @RequiredArgsConstructor
 public class ChatService {
-
     private final ObjectMapper mapper;
     private Map<String, ChatRoom> chatRooms;
 
