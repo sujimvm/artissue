@@ -47,4 +47,6 @@ public interface MemberMapper {
 
     List<ZzimDTO> userZzimList(int member_key);
 
+    int memberUpdate(MemberDTO dto);
+
 }
