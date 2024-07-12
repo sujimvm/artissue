@@ -6,6 +6,8 @@ console.log(memberKey)
 
 $(document).ready(function() {
 
+    changeHeart();
+
     $(document).on('click', '#reserveOpenBt', function() {
         var url = "/reserve/open?No="+$("#exhibition_key").val();
         var name = "reserve";
@@ -54,8 +56,10 @@ $(document).ready(function() {
                     if(result == 1){
                         alert("리뷰를 등록하였습니다!")
                         location.reload();
-                    }else{
+                    }else if(result < 0){
                         alert("예매를 하지 않은 전시회는 리뷰를 작성할수 없습니다.")
+                    }else {
+                        alert("이미 리뷰를 쓰셨습니다.")
                     }
                 },error: function(xhr, status, error) {
                     console.error(xhr);
@@ -65,32 +69,115 @@ $(document).ready(function() {
     })
 
     $('#oneMusic-chk').click(function(){
-
+        debugger;
         $.ajax({
-            url : '/ajax/zzim',
-            type: 'post',
+            url : '/ajax/zzimCheck',
+            type: 'get',
             data: {
-                exhibitionKey : exhibitionKey
+                exhibition_key : exhibitionKey
             },
-            success : function (){
+            success : function (result){
+                debugger;
+                if(result < 0){
+                    if(confirm("찜 리스트에서 삭제하시겠습니까?")){
+                        $.ajax({
+                            url: '/ajax/zzimDelete',
+                            type: 'post',
+                            async: false,
+                            data: {
+                                exhibition_key : exhibitionKey
+                            },
+                            success : function (result){
+                                alert("찜 리스트에서 삭제 되었습니다.")
+                                changeHeart();
+                                location.reload();
+                            }
+                        })
+                    }
+                }else{
+                    if(confirm("찜 리스트에 추가하시겠습니까?")){
+                        $.ajax({
+                            url: '/ajax/zzimAdd',
+                            type : 'post',
+                            async: false,
+                            data: {
+                                exhibition_key : exhibitionKey
+                            },
+                            success : function (result){
+                                alert("찜 리스트에 추가되었습니다.")
+                                changeHeart();
+                                location.reload();
+                            }
+                        })
+                    }
+                }
             },error: function(xhr, status, error) {
                 console.error(xhr);
             }
         })
 
-        changeHeart();
-
     });
+
+    $('#rewriteReview').on('click', function() {
+        $('#reWriteReview-form').toggle(); // display 상태를 토글합니다.
+    });
+
+    $('#re-review-btn').on('click', rewriteReview);
 
 });
 
 function changeHeart() {
     var heart = $('#heart');
-    var currentSrc = heart.attr('src');
 
-    if (currentSrc.includes('interest_icon1.png')) {
-        heart.attr('src', '/img/interest_icon3.png'); // 클릭시 전환할 이미지
-    } else {
-        heart.attr('src', '/img/interest_icon1.png'); // 다시 기본 이미지로 전환
+    $.ajax({
+        url : '/ajax/zzimCheck',
+        type: 'get',
+        data: {
+            exhibition_key : exhibitionKey
+        },
+        success : function (result){
+            if(result < 0){
+                heart.attr('src', '/img/interest_icon3.png');
+            }else{
+                heart.attr('src', '/img/interest_icon1.png'); // 클릭시 전환할 이미지
+            }
+        }
+    })
+
+}
+
+function rewriteReview(e){
+    e.preventDefault();
+
+    var reviewTitle = $('#re-review-title').val();
+    var reviewContent = $('#re-review-cont').val();
+    var reviewScore = $('input[name="re-rating"]:checked').val();
+
+    if(reviewScore == null){
+        alert("별점을 선택해 주세요!")
+        return
+    }
+
+    if(confirm("리뷰를 수정하시겠습니까?")){
+        $.ajax({
+            url : '/ajax/reWriteReview',
+            type : 'POST',
+            data : {
+                review_title : reviewTitle,
+                review_cont : reviewContent,
+                review_score : reviewScore,
+                exhibition_key : exhibitionKey
+            },
+            success : function (result){
+                if(result == 1){
+                    alert("리뷰를 수정하였습니다!")
+                    location.reload();
+                }else {
+                    alert("리뷰 수정에 실패하였습니다.")
+                }
+            },error: function(xhr, status, error) {
+                console.error(xhr);
+            }
+        });
     }
 }

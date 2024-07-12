@@ -9,10 +9,22 @@
         select * from review where exhibition_key = #{no} order by review_date desc
     </select>
 
+    <select id="checkReview" parameterType="map" resultType="reviewDTO">
+        select * from review where member_key = #{member_key} and exhibition_key = #{exhibition_key}
+    </select>
+
     <insert id="writeReview" parameterType="reviewDTO">
         insert into review (exhibition_key, member_key, review_score, review_title, review_cont, review_recommend,
         review_date) values (#{exhibition_key}, #{member_key}, #{review_score}, #{review_title}, #{review_cont}, 0,
         NOW())
     </insert>
+
+    <update id="updateReview" parameterType="reviewDTO">
+        update review set
+        review_title = #{review_title},
+        review_cont = #{review_cont},
+        review_score = #{review_score}
+        where review_key = #{review_key}
+    </update>
 
 </mapper>

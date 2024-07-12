@@ -1,13 +1,10 @@
 package com.artissue.controller;
 
 import com.artissue.model.*;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 
 @RestController
@@ -28,24 +25,14 @@ public class AjaxController {
                                               @RequestParam(value = "sellCodes", required = false) List<String> sellCodes,
                                               @RequestParam(value = "locCodes", required = false) List<String> locCodes) {
 
-        System.out.println(offset);
-        System.out.println(limit);
-        System.out.println(keyword);
-        System.out.println(sellCodes);
-        System.out.println(locCodes);
-
         List<ExhibitionDTO> exhibition_list = this.exhibitionMapper.getExhibitionsList(offset, limit, keyword, sellCodes, locCodes);
 
         return exhibition_list;
     }
 
-    @PostMapping("/zzim")
-    public int addZzim(@RequestParam("exhibitionKey") int exhibition_key,
-                       HttpSession session, HttpServletResponse response) throws IOException {
-        response.setContentType("text/html;charset=utf-8");
-
-        PrintWriter out = response.getWriter();
-
+    @GetMapping("/zzimCheck")
+    public int checkZzim(@RequestParam("exhibition_key") int exhibition_key,
+                         HttpSession session){
         MemberDTO member = (MemberDTO) session.getAttribute("mDTO");
 
         int memberKey = member.getMember_key();
@@ -54,25 +41,34 @@ public class AjaxController {
 
         int result = 0;
 
-        if (checkZzim == null) {
-            out.println("<script>");
-            out.println("<alert('찜리스트에 추가하였습니다')>");
-            out.println("</script>");
-
-            this.exhibitionMapper.insertZzim(memberKey, exhibition_key);
-
+        if(checkZzim != null){
             result = -1;
         }else{
-            out.println("<script>");
-            out.println("<alert('찜리스트에서 삭제하였습니다')>");
-            out.println("</script>");
-
-            this.exhibitionMapper.deleteZzim(memberKey, exhibition_key);
-
-            result = -1;
+            result = 1;
         }
-
         return result;
+    }
+
+    @PostMapping("/zzimDelete")
+    public void deleteZzim(@RequestParam("exhibition_key") int exhibition_key,
+                       HttpSession session) {
+        MemberDTO member = (MemberDTO) session.getAttribute("mDTO");
+
+        int memberKey = member.getMember_key();
+
+        this.exhibitionMapper.deleteZzim(memberKey, exhibition_key);
+
+    }
+
+    @PostMapping("/zzimAdd")
+    public void addZzim(@RequestParam("exhibition_key") int exhibition_key,
+                           HttpSession session) {
+        MemberDTO member = (MemberDTO) session.getAttribute("mDTO");
+
+        int memberKey = member.getMember_key();
+
+        this.exhibitionMapper.insertZzim(memberKey, exhibition_key);
+
     }
 
     @PostMapping("/writeReview")
@@ -92,22 +88,48 @@ public class AjaxController {
 
         if(reservationCheck == null){
             result = -1;
-        }else{
-            ReviewDTO review = new ReviewDTO();
+        }else {
+            ReviewDTO reviewCheck = this.reviewMapper.checkReview(memberKey, exhibition_key);
 
-            review.setMember_key(memberKey);
-            review.setExhibition_key(exhibition_key);
-            review.setReview_title(title);
-            review.setReview_score(score);
-            review.setReview_cont(cont);
+            if(reviewCheck == null){
+                ReviewDTO review = new ReviewDTO();
 
-            result = this.reviewMapper.writeReview(review);
+                review.setMember_key(memberKey);
+                review.setExhibition_key(exhibition_key);
+                review.setReview_title(title);
+                review.setReview_score(score);
+                review.setReview_cont(cont);
+
+                result = this.reviewMapper.writeReview(review);
+            }else{
+                result = 2;
+            }
+
         }
-
-        System.out.println(result);
 
         return result;
 
+    }
+
+    @PostMapping("/reWriteReview")
+    public int reWriteReview(@RequestParam("review_title") String review_title,
+                             @RequestParam("review_cont") String review_cont,
+                             @RequestParam("review_score") int review_score,
+                             @RequestParam("exhibition_key") int exhibition_key,
+                             HttpSession session){
+        MemberDTO member = (MemberDTO) session.getAttribute("mDTO");
+
+        System.out.println();
+
+        int memberKey = member.getMember_key();
+
+        ReviewDTO review = this.reviewMapper.checkReview(memberKey, exhibition_key);
+
+        int review_key = review.getReview_key();
+
+        int result = this.reviewMapper.updateReview(review_key, review_title, review_cont, review_score);
+
+        return result;
     }
 
 }
