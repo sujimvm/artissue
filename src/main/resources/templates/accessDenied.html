@@ -3,14 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <title>ART ISSUE :: ERROR</title>
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="/bootstrap/style.css">
+    <style>
+        .errorDiv{
+            margin-top: 100px;
+            text-align: center;
+        }
+        .errorTitleDiv p{
+            font-size: 80px;
+            font-weight: bold;
+            margin: 0 ;
+            line-height: 1.5;
+        }
+        .errorTitleDiv span{
+            color: #965aa0;
+        }
+        .errorConDiv{
+            margin-top: 30px;
+        }
+        .errorBtDiv{
+
+        }
+    </style>
 </head>
 <body>
 
-<div align="center">
-<h1>페이지를 찾을 수 없음!</h1>
-<h4>죄송합니다. 찾고 계신 페이지가 없습니다.</h4>
-<h4>수정,이동 또는 삭제되었을 수 있습니다.</h4>
-<button th:onclick="|location.href='/'|">홈으로 돌아가기</button>
+<div class="errorDiv">
+    <svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" fill="currentColor" class="bi bi-exclamation-triangle" viewBox="0 0 16 16">
+        <path d="M7.938 2.016A.13.13 0 0 1 8.002 2a.13.13 0 0 1 .063.016.15.15 0 0 1 .054.057l6.857 11.667c.036.06.035.124.002.183a.2.2 0 0 1-.054.06.1.1 0 0 1-.066.017H1.146a.1.1 0 0 1-.066-.017.2.2 0 0 1-.054-.06.18.18 0 0 1 .002-.183L7.884 2.073a.15.15 0 0 1 .054-.057m1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767z"/>
+        <path d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0M7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z"/>
+    </svg>
+    <div class="errorTitleDiv">
+        <p><span>페이지 경로</span>가</p>
+        <p>올바르지 않습니다</p>
+    </div>
+    <div class="errorConDiv">
+        <p>주소가 잘못 입력되었거나 변경 또는 삭제되어 요청하신 페이지를 찾을 수 없습니다.</p>
+        <p>입력하신 주소를 다시 한 번 확인해 주시기 바랍니다.</p>
+    </div>
+    <div class="errorBtDiv">
+        <button class="btn oneMusic-btn mt-30" th:onclick="|location.href='/'|">홈으로 이동</button>
+    </div>
 </div>
 
 </body>
