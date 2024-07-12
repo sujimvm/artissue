@@ -1,8 +1,6 @@
 package com.artissue.controller;
 
-import com.artissue.model.MemberDTO;
-import com.artissue.model.MemberMapper;
-import com.artissue.model.ReservationDTO;
+import com.artissue.model.*;
 import com.artissue.service.JoinService;
 import com.artissue.service.MessageService;
 import jakarta.servlet.http.HttpServletResponse;
@@ -17,7 +15,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 @Controller
@@ -209,14 +209,37 @@ public class MemberController {
         MemberDTO memberInfo = (MemberDTO)session.getAttribute("mDTO");
 
         List<ReservationDTO> userReserveList = this.memberMapper.userReserveList(memberInfo.getMember_key());
-        System.out.println(userReserveList);
-        model.addAttribute("userReserveList",userReserveList);
+
+        List<ExhibitionDTO> exhibitionList = new ArrayList<>();
+        for (ReservationDTO reservation : userReserveList) {
+            ExhibitionDTO exhibition = this.memberMapper.userExhibitionList(reservation.getExhibition_key());
+            exhibitionList.add(exhibition);
+        }
+
+        model.addAttribute("userReserveList", userReserveList)
+                .addAttribute("exhibitionList", exhibitionList);
 
         return "my-page/userReserveList";
     }
 
     @GetMapping("/userZZimList")
     public String userZZimList(HttpSession session, Model model) {
+
+        MemberDTO memberInfo = (MemberDTO)session.getAttribute("mDTO");
+
+        List<ZzimDTO> zzimList = this.memberMapper.userZzimList(memberInfo.getMember_key());
+
+        List<ExhibitionDTO> zexhibitionList = new ArrayList<>();
+        for(ZzimDTO zzim : zzimList) {
+            ExhibitionDTO exhibition = this.memberMapper.userExhibitionList(zzim.getExhibition_key());
+            zexhibitionList.add(exhibition);
+        }
+
+        System.out.println(zzimList);
+        System.out.println(zexhibitionList);
+
+        model.addAttribute("zzimList", zzimList)
+                .addAttribute("exhibitionList", zexhibitionList);
 
         return "my-page/userZZimList";
     }

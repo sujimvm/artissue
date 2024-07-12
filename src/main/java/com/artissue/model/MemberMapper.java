@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface MemberMapper {
@@ -41,5 +42,9 @@ public interface MemberMapper {
     MemberDTO findUserId(String member_id);
 
     List<ReservationDTO> userReserveList(int member_key);
+
+    ExhibitionDTO userExhibitionList(int exhibition_key);
+
+    List<ZzimDTO> userZzimList(int member_key);
 
 }
