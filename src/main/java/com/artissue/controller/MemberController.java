@@ -387,6 +387,25 @@ public class MemberController {
 
         MemberDTO originalDto = (MemberDTO) session.getAttribute("mDTO");
 
+        String phoneNumber = dto.getMember_phone().replaceAll("[^0-9]", "");
+        if (phoneNumber.length() == 8) {
+            phoneNumber = phoneNumber.substring(0, 4) + "-" + phoneNumber.substring(4);
+        } else if (phoneNumber.length() == 9) {
+            phoneNumber = phoneNumber.substring(0, 2) + "-" + phoneNumber.substring(2, 5) + "-" + phoneNumber.substring(5);
+        } else if (phoneNumber.length() == 10) {
+            if (phoneNumber.startsWith("02")) {
+                phoneNumber = phoneNumber.substring(0, 2) + "-" + phoneNumber.substring(2, 6) + "-" + phoneNumber.substring(6);
+            } else {
+                phoneNumber = phoneNumber.substring(0, 3) + "-" + phoneNumber.substring(3, 6) + "-" + phoneNumber.substring(6);
+            }
+        } else if (phoneNumber.length() == 11) {
+            phoneNumber = phoneNumber.substring(0, 3) + "-" + phoneNumber.substring(3, 7) + "-" + phoneNumber.substring(7);
+        }
+        dto.setMember_phone(phoneNumber);
+
+
+
+
         //기존 비번 저장
         if (originalDto != null) {
             dto.setMember_pwd(originalDto.getMember_pwd());
