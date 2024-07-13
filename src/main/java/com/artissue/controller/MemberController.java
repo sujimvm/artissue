@@ -201,11 +201,97 @@ public class MemberController {
         return "my-page/userPwdUpdate";
     }
 
+    @PostMapping("/pwdUpdate")
+    public String pwdUpdate(@RequestParam("oriPwd") String oriPwd,@RequestParam("newPassword") String newPassword,
+                            HttpSession session, HttpServletResponse response) throws IOException {
+
+        MemberDTO memberInfo =(MemberDTO) session.getAttribute("mDTO");
+
+        response.setContentType("text/html; charset=UTF-8");
+        PrintWriter out = response.getWriter();
+
+        if(passwordEncoder.matches(oriPwd, memberInfo.getMember_pwd())) {
+            //변경비번과 기존과 동일 할 경우
+            if(passwordEncoder.matches(newPassword,memberInfo.getMember_pwd())){
+                out.println("<script>");
+                out.println("alert('기존 비밀번호와 새 비밀번호가 같습니다.')");
+                out.println("</script>");
+                return "my-page/userPwdUpdate";
+                //변경비번과 기존과 동일 하지 않을 경우
+            }else{
+                String newPwdEncoded = this.passwordEncoder.encode(newPassword);
+
+                int result = this.memberMapper.updatePwd(memberInfo.getMember_id(),newPwdEncoded);
+
+                if (result > 0) {
+                    memberInfo.setMember_pwd(newPwdEncoded); // 업데이트된 비밀번호로 설정
+                    session.setAttribute("mDTO", memberInfo); // 세션에 저장
+                }
+
+                out.println("<script>");
+                out.println("alert('비밀번호 수정에 성공했습니다.')");
+                out.println("</script>");
+                 return "my-page/userContent";
+
+            }
+        }else{
+        //입력된 비밀번호와 기존 비밀번호가 다를때
+        out.println("<script>");
+        out.println("alert('입력하신 비밀번호와 기존 비밀번호가 다릅니다.')");
+        out.println("</script>");
+            return "my-page/userPwdUpdate";
+        }
+    }
+
     @GetMapping("/user")
     public String userPage(HttpSession session, Model model) {
 
         return "my-page/user";
     }
+
+    @GetMapping("/userMove")
+    public String updateUserMove(HttpSession session, Model model) {
+
+        MemberDTO memberInfo = (MemberDTO) session.getAttribute("mDTO");
+
+        if (memberInfo == null) {
+            return "redirect:/login";
+        } else {
+            model.addAttribute("memberInfo", memberInfo);
+
+            if (memberInfo.getMember_pwd().equals("-")) {
+                return "my-page/userModify";
+            } else {
+                return "my-page/user";
+            }
+    }
+}
+    @GetMapping("userPwdUpdateMove")
+    public String userPwdUpdateMove(HttpSession session, Model model) {
+
+        MemberDTO memberInfo = (MemberDTO) session.getAttribute("mDTO");
+
+        if (memberInfo == null) {
+            return "redirect:/login";
+        } else {
+            model.addAttribute("memberInfo", memberInfo);
+
+            String memberId = memberInfo.getMember_id();
+            MemberDTO dto = this.memberMapper.findbyId(memberId);
+            System.out.println("dto: " + dto);
+
+
+            if (dto.getMember_pwd() == null || dto.getMember_pwd().equals("-")) {
+                return "my-page/socialPwd";
+            } else {
+
+                return "my-page/userPwdUpdate";
+            }
+        }
+    }
+
+
+
 
     @GetMapping("/userReserveList")
     public String userReserveList(HttpSession session, Model model) {
@@ -296,26 +382,37 @@ public class MemberController {
     }
 
     @PostMapping("/mModifyOk")
-    public String modifyOk(HttpServletResponse response,MemberDTO dto) throws IOException {
+    public String modifyOk(HttpServletResponse response, MemberDTO dto, HttpSession session) throws IOException {
 
-        System.out.println("dto>>"+dto);
-       int result = this.memberMapper.memberUpdate(dto);
 
-       response.setContentType("text/html; charset=UTF-8");
-       PrintWriter out = response.getWriter();
+        MemberDTO originalDto = (MemberDTO) session.getAttribute("mDTO");
 
-       if(result > 0){
-           out.println("<script>");
-           out.println("alert('정보를 수정했습니다.')");
-           out.println("</script>");
-           return "my-page/userResign";
+        //기존 비번 저장
+        if (originalDto != null) {
+            dto.setMember_pwd(originalDto.getMember_pwd());
+        }
 
-       }else{
-           out.println("<script>");
-           out.println("alert('정보를 수정했습니다.')");
-           out.println("</script>");
-           return "my-page/userModify";
-       }
+        int result = this.memberMapper.memberUpdate(dto);
+
+        response.setContentType("text/html; charset=UTF-8");
+        PrintWriter out = response.getWriter();
+
+        if (result > 0) {
+            out.println("<script>");
+            out.println("alert('정보를 수정했습니다.')");
+            out.println("</script>");
+
+            session.setAttribute("mDTO", dto);
+
+            return "my-page/userContent";
+        } else {
+            out.println("<script>");
+            out.println("alert('정보를 수정하지 못했습니다.')");
+            out.println("</script>");
+
+            return "my-page/userModify";
+        }
 
     }
+
 }

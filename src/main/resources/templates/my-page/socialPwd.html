@@ -10,14 +10,75 @@
 
     <!-- Title -->
     <title>ART ISSUE :: 마이페이지</title>
-    <link rel="stylesheet" href="/bootstrap/style.css">
+
     <!-- Favicon -->
     <link rel="icon" href="/bootstrap/img/core-img/favicon.ico">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 
     <!-- Stylesheet -->
     <link rel="stylesheet" href="/bootstrap/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
 
+        $(function(){
+            $('#Password1').on('input', function() {
+                var pwd = $(this).val();
+                var pwdPattern = /^(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,20}$/;
+                if (pwdPattern.test(pwd)) {
+                    $('#pwdCheckmark').show();
+                    $('#pwdError').hide();
+                } else {
+                    $('#pwdCheckmark').hide();
+                    $('#pwdError').show();
+                }
+            });
+        });
+
+        $(function(){
+            var pwd_check = false;
+            $("#Password2").focusout(function(){
+                pwdCheck($(this).val());
+            });
+
+            function pwdCheck(pwd){
+                if(pwd==""){
+                    $("#pwd_check").text("");
+                    return;
+                }
+
+                if($("#Password2").val() === $("#Password1").val()){
+                    $("#pwd_check_ok").show();
+                    $("#pwd_check_err").hide();
+                }else{
+                    $("#pwd_check_ok").hide();
+                    $("#pwd_check_err").show();
+                }
+            };
+        });
+
+        function insertCheck(){
+            var pwd = $('#Password1').val();
+            var pwdPattern = /^(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,20}$/;
+
+            debugger;
+
+            if(!pwdPattern.test(pwd)){
+                debugger;
+                alert('비밀번호를 확인하여주십시오.');
+                $("#Password1").focus();
+                return false;
+            }
+
+            if($("#Password1").val()!=$("#Password2").val()){
+                debugger;
+                alert('비밀번호 확인을 확인하여주십시오.');
+                $("#Password2").focus();
+                return false;
+            }
+
+        };
+
+    </script>
     <style>
 
         .link-container{
@@ -28,23 +89,7 @@
 
         }
 
-        .pwdLoc{
-            text-align: center;
-        }
-
-
-        .form-container {
-            width: 600px;
-            padding: 80px;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            background-color: #f9f9f9;
-        }
-
     </style>
-
-
 </head>
 <body>
 <!-- Preloader -->
@@ -92,35 +137,9 @@
                 </div>
             </div>
             <div class="col-12 col-lg-9" style="border: solid 1px #000000;">
-                <h3>회원정보수정</h3>
+                <h3>비밀번호 변경</h3>
                 <hr>
-                <div class="pwdLoc">
-                <h5>정보를 안전하게 보호하기 위해
-                    본인인증이 필요합니다.</h5>
-
-                    <div class="form-container">
-                    <form id="mModifyForm" method="post" action="/mModify">
-                        <table>
-                            <tr>
-                                <th>아이디</th>
-                                <td th:text="${session.mDTO.member_id}"></td>
-                            </tr>
-                            <tr>
-                                <th>비밀번호</th>
-                                <td>
-                                    <input type="password" name="member_pwd" placeholder="비밀번호를 입력해주세요" class="form-control">
-                                </td>
-                            </tr>
-                        </table>
-                        <div class="submitBtnContainer">
-                            <input type="submit" class="btn oneMusic-btn mt-30" value="확인">
-                        </div>
-                    </form>
-                    </div>
-                 </div>
-                </div>
-             </div>
-
+                <h4>소셜 로그인으로 로그인 한 경우 비밀번호 변경이 불가합니다.</h4>
             </div>
         </div>
     </div>

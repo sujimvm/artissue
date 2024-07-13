@@ -217,6 +217,8 @@
                             alert("인증번호가 전화번호로 재전송되었습니다.");
                             verificationCode = result.verificationCode; // 최신 인증번호로 업데이트
                             $('#checkMessage').show();
+                            $('#phoneCheckOkMark').hide();
+                            $('#phoneCheckErr').hide();
                         } else {
                             alert("인증번호 전송에 실패했습니다.");
                         }
@@ -378,10 +380,10 @@
                             <div class="input-group">
                                 <label>성별 : &nbsp;</label>
                                 <label>
-                                    <input type="radio" name="member_gender" value="female" required> 여자&nbsp;
+                                    <input type="radio" name="member_gender" value="여자" required> 여자&nbsp;
                                 </label>
                                 <label>
-                                    <input type="radio" name="member_gender" value="male" required> 남자
+                                    <input type="radio" name="member_gender" value="남자" required> 남자
                                 </label>
                             </div><br>
                           <div class="form-group">
