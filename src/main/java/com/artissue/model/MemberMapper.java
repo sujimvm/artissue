@@ -49,4 +49,6 @@ public interface MemberMapper {
 
     int memberUpdate(MemberDTO dto);
 
+    int updatePwd(String member_id, String member_pwd);
+
 }

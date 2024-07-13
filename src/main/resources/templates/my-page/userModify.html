@@ -48,10 +48,10 @@
             <div class="col-12 col-lg-3">
                 <div class="new-hits-area mb-100">
                     <div class="single-new-item d-flex align-items-center justify-content-between wow fadeInUp">
-                        <a href="/user">회원정보 수정</a>
+                        <a href="/userMove">회원정보 수정</a>
                     </div>
                     <div class="single-new-item d-flex align-items-center justify-content-between wow fadeInUp">
-                        <a href="/userPwdUpdate">비밀번호 변경</a>
+                        <a href="/userPwdUpdateMove">비밀번호 변경</a>
                     </div>
                     <div class="single-new-item d-flex align-items-center justify-content-between wow fadeInUp">
                         <a href="/userReserveList">예약리스트</a>
@@ -73,7 +73,9 @@
                     <table>
                         <tr>
                             <th>회원 아이디</th>
-                            <td th:text="${session.mDTO.member_id}"></td>
+                            <td>
+                                <input name="member_id" th:value="${session.mDTO.member_id}" readonly>
+                            </td>
                         </tr>
                         <tr>
                             <th>회원 이름</th>
@@ -82,7 +84,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <th>회원 이름</th>
+                            <th>회원 닉네임</th>
                             <td>
                                 <input name="member_nickname" th:value="${session.mDTO.member_nickname}">
                             </td>
@@ -102,20 +104,20 @@
                         <tr>
                             <th>생년월일</th>
                             <td>
-                                <input type="date" name="member_birth" th:value="${session.mDTO.member_birth}">
+                                <input type="date" name="member_birth" th:value="${session.mDTO.member_birth}" required>
                             </td>
                         </tr>
                         <tr>
                             <th>성별</th>
                             <td>
-                                <input type="radio" name="member_gender" value="female" th:checked="${member_gender == 'female'}"> 여자&nbsp;
-                                <input type="radio" name="member_gender" value="male" th:checked="${member_gender == 'male'}"> 남자
+                                <input type="radio" name="member_gender" value="여자" th:checked="${member_gender == '여자'}" required> 여자&nbsp;
+                                <input type="radio" name="member_gender" value="남자" th:checked="${member_gender == '남자'}" required> 남자
                             </td>
                         </tr>
                     </table>
                     <div>
-                        <input type="submit" value="회원수정" onclick="return modify()">&nbsp;&nbsp;
-                        <input type="reset" value="다시작성">
+                        <input type="submit" class="btn oneMusic-btn mt-30" value="회원수정" onclick="return modify()">&nbsp;&nbsp;
+                        <input type="reset" class="btn oneMusic-btn mt-30" value="다시작성">
                     </div>
                 </form>
 

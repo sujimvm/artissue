@@ -14,9 +14,71 @@
     <!-- Favicon -->
     <link rel="icon" href="/bootstrap/img/core-img/favicon.ico">
 
+
     <!-- Stylesheet -->
     <link rel="stylesheet" href="/bootstrap/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
 
+        $(function(){
+            $('#Password1').on('input', function() {
+                var pwd = $(this).val();
+                var pwdPattern = /^(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,20}$/;
+                if (pwdPattern.test(pwd)) {
+                    $('#pwdCheckmark').show();
+                    $('#pwdError').hide();
+                } else {
+                    $('#pwdCheckmark').hide();
+                    $('#pwdError').show();
+                }
+            });
+        });
+
+        $(function(){
+            var pwd_check = false;
+            $("#Password2").focusout(function(){
+                pwdCheck($(this).val());
+            });
+
+            function pwdCheck(pwd){
+                if(pwd==""){
+                    $("#pwd_check").text("");
+                    return;
+                }
+
+                if($("#Password2").val() === $("#Password1").val()){
+                    $("#pwd_check_ok").show();
+                    $("#pwd_check_err").hide();
+                }else{
+                    $("#pwd_check_ok").hide();
+                    $("#pwd_check_err").show();
+                }
+            };
+        });
+
+        function insertCheck(){
+            var pwd = $('#Password1').val();
+            var pwdPattern = /^(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,20}$/;
+
+            debugger;
+
+            if(!pwdPattern.test(pwd)){
+                debugger;
+                alert('비밀번호를 확인하여주십시오.');
+                $("#Password1").focus();
+                return false;
+            }
+
+            if($("#Password1").val()!=$("#Password2").val()){
+                debugger;
+                alert('비밀번호 확인을 확인하여주십시오.');
+                $("#Password2").focus();
+                return false;
+            }
+
+        };
+
+    </script>
     <style>
 
         .link-container{
@@ -58,10 +120,10 @@
             <div class="col-12 col-lg-3">
                 <div class="new-hits-area mb-100">
                     <div class="single-new-item d-flex align-items-center justify-content-between wow fadeInUp">
-                        <a href="/user">회원정보 수정</a>
+                        <a href="/userMove">회원정보 수정</a>
                     </div>
                     <div class="single-new-item d-flex align-items-center justify-content-between wow fadeInUp">
-                        <a href="/userPwdUpdate">비밀번호 변경</a>
+                        <a href="/userPwdUpdateMove">비밀번호 변경</a>
                     </div>
                     <div class="single-new-item d-flex align-items-center justify-content-between wow fadeInUp">
                         <a href="/userReserveList">예약리스트</a>
@@ -76,6 +138,39 @@
             </div>
             <div class="col-12 col-lg-9" style="border: solid 1px #000000;">
                 <h3>비밀번호 변경</h3>
+                <hr>
+                <form action="/pwdUpdate" method="POST">
+                    <span style="font-size: 20px; font-weight: bold;">본인 확인</span>
+                    <table class="company-table2">
+                        <tr>
+                            <th>기존 비밀번호 확인</th>
+                            <td>
+                                <input type="password" name="oriPwd">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th>새 비밀번호 입력</th>
+                            <td>
+                                <input type="password" name="newPassword" id="Password1">
+                                <span id="pwdCheckmark" class="checkmark" style="display: none;">✔</span>
+                                <span id="pwdError" style="display: none; color: red; font-size: 12px;">비밀번호는 8자 이상 20자 이하이며 특수문자 1자를 포함해야 합니다.</span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th>새 비밀번호 확인</th>
+                            <td>
+                                <input type="password" name="newPassword2" id="Password2">
+                                <span id="pwd_check_err" style="display: none; color: red; font-size: 12px;">위의 비밀번호와 입력된 비밀번호가 다릅니다.</span>
+                                <span id="pwd_check_ok" class="checkmark" style="display: none;">✔</span>
+                            </td>
+                        </tr>
+                    </table>
+                    <div>
+                        <button type="submit" value="확인" class="btn oneMusic-btn mt-30">join</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
