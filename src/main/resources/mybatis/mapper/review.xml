@@ -27,4 +27,8 @@
         where review_key = #{review_key}
     </update>
 
+    <delete id="deleteReview" parameterType="map">
+        delete from review where review_key = #{review_key}
+    </delete>
+
 </mapper>

@@ -15,4 +15,6 @@ public interface ReviewMapper {
     int writeReview(ReviewDTO reviewDTO);
 
     int updateReview(int review_key, String review_title, String review_cont, int review_score);
+
+    int deleteReview(int review_key);
 }
