@@ -2,16 +2,9 @@ package com.artissue.controller;
 
 import com.artissue.model.*;
 import com.artissue.service.JoinService;
-import com.artissue.service.MessageService;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import jakarta.websocket.Session;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,8 +14,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Random;
 
 @Controller
 public class MemberController {
@@ -307,17 +298,29 @@ public class MemberController {
         MemberDTO memberInfo = (MemberDTO)session.getAttribute("mDTO");
 
         List<ReservationDTO> userReserveList = this.memberMapper.userReserveList(memberInfo.getMember_key());
-
-        List<ExhibitionDTO> exhibitionList = new ArrayList<>();
-        for (ReservationDTO reservation : userReserveList) {
-            ExhibitionDTO exhibition = this.memberMapper.userExhibitionList(reservation.getExhibition_key());
-            exhibitionList.add(exhibition);
-        }
-
-        model.addAttribute("userReserveList", userReserveList)
-                .addAttribute("exhibitionList", exhibitionList);
+        System.out.println(userReserveList);
+        model.addAttribute("userReserveList", userReserveList);
 
         return "my-page/userReserveList";
+    }
+
+    @GetMapping("/userReserveCont")
+    public String userReserveCont(HttpSession session, Model model,
+                                  @RequestParam("reservation_id") String reservation_id,
+                                  @RequestParam("exhibition_key") int exhibition_key) {
+
+        List<ReservationDTO> userReserveCont = this.memberMapper.userReserveCont(reservation_id);
+        ExhibitionDTO exhibitionDTO = this.memberMapper.userExhibition(exhibition_key);
+
+        int totalPrice = userReserveCont.stream()
+                .mapToInt(ReservationDTO::getReservation_price)
+                .sum();
+
+        model.addAttribute("userReserveCont", userReserveCont)
+                .addAttribute("exhiDTO", exhibitionDTO)
+                .addAttribute("totalPrice", totalPrice);
+
+        return "my-page/userReserveCont";
     }
 
     @GetMapping("/userZZimList")
@@ -329,7 +332,7 @@ public class MemberController {
 
         List<ExhibitionDTO> zexhibitionList = new ArrayList<>();
         for(ZzimDTO zzim : zzimList) {
-            ExhibitionDTO exhibition = this.memberMapper.userExhibitionList(zzim.getExhibition_key());
+            ExhibitionDTO exhibition = this.memberMapper.userExhibition(zzim.getExhibition_key());
             zexhibitionList.add(exhibition);
         }
 

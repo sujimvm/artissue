@@ -79,29 +79,30 @@
     </update>
 
     <select id="userReserveList" parameterType="int" resultType="reserveDTO">
-        SELECT
-        r.reservation_key,
-        r.exhibition_key,
-        r.member_key,
-        r.reservation_date,
+        SELECT DISTINCT
         r.reservation_id,
-        r.reservation_pay,
-        r.reservation_option,
-        r.reservation_count,
-        r.reservation_price,
-        e.exhibition_title
-        FROM
-        reservation r
-        JOIN
-        exhibition e ON r.exhibition_key = e.exhibition_key
-        WHERE
-        r.member_key = #{member_key}
+        r.exhibition_key,
+        e.exhibition_title,
+        e.exhibition_thumnail,
+        r.reservation_date
+        FROM reservation r
+        LEFT JOIN exhibition e ON r.exhibition_key = e.exhibition_key
+        WHERE r.member_key = #{member_key}
         AND r.reservation_pay = 1
-        ORDER BY
-        r.reservation_date DESC
+        ORDER BY r.reservation_date DESC
     </select>
 
-    <select id="userExhibitionList" parameterType="int" resultType="exhibitionDTO">
+    <select id="userReserveCont" parameterType="String" resultType="reserveDTO">
+        SELECT
+        r.*
+        FROM reservation r
+        LEFT JOIN exhibition e ON r.exhibition_key = e.exhibition_key
+        WHERE r.reservation_id = #{reservation_id}
+        AND r.reservation_pay = 1
+        ORDER BY r.reservation_date DESC
+    </select>
+
+    <select id="userExhibition" parameterType="int" resultType="exhibitionDTO">
         select * from exhibition where exhibition_key = #{exhibition_key}
     </select>
 

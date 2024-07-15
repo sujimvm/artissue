@@ -75,7 +75,6 @@
                 </div>
             </div>
             <div class="col-12 col-lg-9" style="border: solid 1px #000000;">
-                <h4>예약 내역</h4>
                 <hr>
                 <th:block th:if="${userReserveList != null}">
                     <div th:each="userReserve, stat : ${userReserveList}">
@@ -85,15 +84,14 @@
                         </div>
                         <div class="single-contact-info d-flex align-items-center">
                             <p class="mr-30">전시회 이름</p>
-                            <p th:text="${exhibitionList[stat.index].exhibition_title}"></p>
+                            <a style="margin-bottom: 1rem;" th:href="@{/userReserveCont(reservation_id=${userReserve.reservation_id},
+                                                           exhibition_key=${userReserve.exhibition_key})}"
+                               th:text="${userReserve.exhibition_title}">
+                            </a>
                         </div>
                         <div class="single-contact-info d-flex align-items-center">
-                            <p class="mr-30">예약정보</p>
-                            <p>[[${userReserve.reservation_option}]]&nbsp;&nbsp;&nbsp;[[${userReserve.reservation_count}]] 매</p>
-                        </div>
-                        <div class="single-contact-info d-flex align-items-center">
-                            <p class="mr-30">결제금액</p>
-                            <p th:text="${userReserve.reservation_price}"></p>
+                           <p><img style="width: 100px; height: 120px;"
+                                   th:src="@{${userReserve.exhibition_thumnail}}" alt="전시회 이미지"></p>
                         </div>
                         <div class="single-contact-info d-flex align-items-center">
                             <p class="mr-30">결제날짜</p>

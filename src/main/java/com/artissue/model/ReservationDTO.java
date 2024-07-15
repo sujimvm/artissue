@@ -9,7 +9,7 @@ public class ReservationDTO {
     private int member_key;
     private String reservation_date;
     private String reservation_id;
-    private int member_pay;
+    private int reservation_pay;
     private String reservation_option;
     private String reservation_count_str;
     private int reservation_count;
@@ -20,5 +20,5 @@ public class ReservationDTO {
     private String reservation_qr;
 
     private String exhibition_title;
-
+    private String exhibition_thumnail;
 }
