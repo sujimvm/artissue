@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -35,37 +36,23 @@
                             <ul>
                                 <li><a href="/">Home</a></li>
                                 <li><a href="/albums-store">Albums</a></li>
-                                <li><a href="#">Pages</a>
-                                    <ul class="dropdown">
-                                        <li><a href="#">Home</a></li>
-                                        <li><a href="#">Albums</a></li>
-                                        <li><a href="#">Events</a></li>
-                                        <li><a href="#">News</a></li>
-                                        <li><a href="#">Contact</a></li>
-                                        <li><a href="#">Elements</a></li>
-                                        <li><a href="#">Login</a></li>
-                                        <li><a href="#">Dropdown</a>
-                                            <ul class="dropdown">
-                                                <li><a href="#">Even Dropdown</a></li>
-                                                <li><a href="#">Even Dropdown</a></li>
-                                                <li><a href="#">Even Dropdown</a></li>
-                                                <li><a href="#">Even Dropdown</a>
-                                                    <ul class="dropdown">
-                                                        <li><a href="#">Deeply Dropdown</a></li>
-                                                        <li><a href="#">Deeply Dropdown</a></li>
-                                                        <li><a href="#">Deeply Dropdown</a></li>
-                                                        <li><a href="#">Deeply Dropdown</a></li>
-                                                        <li><a href="#">Deeply Dropdown</a></li>
-                                                    </ul>
-                                                </li>
-                                                <li><a href="#">Even Dropdown</a></li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </li>
                                 <li><a href="/exhi/list">Exhibition</a></li>
                                 <li><a href="/notice">Notice</a></li>
                                 <li><a href="/contact">Contact</a></li>
+                                <li sec:authorize="isAuthenticated()"><a href="#">MyPage</a>
+                                    <ul class="dropdown" >
+                                        <li sec:authorize="isAuthenticated() and hasRole('COMPANY')"><a href="#">예약리스트</a>
+                                            <ul class="dropdown">
+                                                <li><a href="#">내 전시회</a></li>
+                                                <li><a href="#">예매 내역</a></li>
+                                            </ul>
+                                        </li>
+                                        <li sec:authorize="isAuthenticated() and hasRole('USER')"><a href="#">예약리스트</a></li>
+                                        <li><a href="#">찜한전시회</a></li>
+                                        <li><a href="#">내 정보</a></li>
+                                        <li><a href="#">Logout</a></li>
+                                    </ul>
+                                </li>
                             </ul>
 
                             <!-- Login/Register & Cart Button -->

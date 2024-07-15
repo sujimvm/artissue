@@ -35,11 +35,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers("/", "/login", "/join", "/joinProc","/index","/veri/**", "/contact","/blog","/store",
                             "/event","/elements","/findbyId","/findPwdProc","/findIdProc", "/updatePassword", "/exhi/**",
-                            "/notice/**").permitAll()
+                            "/notice/**","/error/**").permitAll()
                         .requestMatchers( "/css/**", "/js/**", "/img/**", "/bootstrap/**", "/ajax/**").permitAll()
                         .requestMatchers("/company").hasRole("COMPANY")
-                        .requestMatchers("/my/**","/qr/**","/reserve/**","/my-page/**").hasAnyRole("COMPANY", "USER")
-                        .requestMatchers("/error/**").permitAll()
+                        .requestMatchers("/my/**","/reserve/**","/my-page/**").hasAnyRole( "USER","COMPANY")
                         .anyRequest().authenticated());
 
 

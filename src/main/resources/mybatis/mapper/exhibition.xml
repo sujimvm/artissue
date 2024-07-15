@@ -58,4 +58,7 @@
         delete from zzim where member_key = #{member_key} and exhibition_key = #{exhibition_key}
     </delete>
 
+    <select id="getMyExhibitionsList" parameterType="int" resultType="exhibitionDTO">
+        select * from exhibition where member_key = #{member_key}
+    </select>
 </mapper>
