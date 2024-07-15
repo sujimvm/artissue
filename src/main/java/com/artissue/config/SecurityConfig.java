@@ -38,7 +38,7 @@ public class SecurityConfig {
                             "/notice/**").permitAll()
                         .requestMatchers( "/css/**", "/js/**", "/img/**", "/bootstrap/**", "/ajax/**").permitAll()
                         .requestMatchers("/company").hasRole("COMPANY")
-                        .requestMatchers("/my/**","/qr/**","/reserve/**","/my-page/**").hasAnyRole("COMPANY", "MEMBER")
+                        .requestMatchers("/my/**","/qr/**","/reserve/**","/my-page/**").hasAnyRole("COMPANY", "USER")
                         .requestMatchers("/error/**").permitAll()
                         .anyRequest().authenticated());
 
