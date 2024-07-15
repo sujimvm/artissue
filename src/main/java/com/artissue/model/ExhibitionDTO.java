@@ -2,6 +2,8 @@ package com.artissue.model;
 
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
 public class ExhibitionDTO {
     private int exhibition_key;
@@ -9,8 +11,8 @@ public class ExhibitionDTO {
     private String company_number;
     private String exhibition_thumnail;
     private String exhibition_title;
-    private String exhibition_start_date;
-    private String exhibition_end_date;
+    private Date exhibition_start_date;
+    private Date exhibition_end_date;
     private String exhibition_place;
     private String exhibition_addr;
     private String exhibition_view_time;

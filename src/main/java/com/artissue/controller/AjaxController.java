@@ -119,8 +119,6 @@ public class AjaxController {
                              HttpSession session){
         MemberDTO member = (MemberDTO) session.getAttribute("mDTO");
 
-        System.out.println();
-
         int memberKey = member.getMember_key();
 
         ReviewDTO review = this.reviewMapper.checkReview(memberKey, exhibition_key);
@@ -128,6 +126,14 @@ public class AjaxController {
         int review_key = review.getReview_key();
 
         int result = this.reviewMapper.updateReview(review_key, review_title, review_cont, review_score);
+
+        return result;
+    }
+
+    @PostMapping("/deleteReview")
+    public int deleteReview(@RequestParam("review_key") int review_key){
+
+        int result = this.reviewMapper.deleteReview(review_key);
 
         return result;
     }

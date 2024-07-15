@@ -65,7 +65,7 @@
                     </div>
                     <div class="single-contact-info d-flex align-items-center">
                         <div class="mr-50"><span><p>기&nbsp;&nbsp;&nbsp;간</p></span></div>
-                        <p th:text="${Exhibition.getExhibition_start_date()} + ' ~ ' + ${Exhibition.getExhibition_end_date()}"></p>
+                        <p th:text="${#dates.format(Exhibition.getExhibition_start_date(), 'yyyy-MM-dd')} + ' ~ ' + ${#dates.format(Exhibition.getExhibition_end_date(), 'yyyy-MM-dd')}"></p>
                     </div>
                     <div class="single-contact-info d-flex align-items-center" th:if="${Exhibition.getExhibition_view_time() != null}">
                         <div class="mr-30"><span><p>관람시간</p></span></div>
@@ -79,13 +79,25 @@
                         <div class="mr-50"><span><p>가&nbsp;&nbsp;&nbsp;격</p></span></div>
                         <a href="#" data-toggle="modal" data-target="#priceModal"><p style="font-weight: bold;">자세히 보기</p></a>
                     </div>
-                    <div class="single-contact-info d-flex align-items-center">
+                    <div class="exhibitionNavBtn">
                         <input type="hidden" id="exhibition_key" th:value="${Exhibition.getExhibition_key()}">
-                        <input class="btn oneMusic-btn" type="button" id="reserveOpenBt" value="예매하기">
+                        <input class="btn oneMusic-btn" type="button" id="reserveOpenBt" value="예매하기"
+                               th:if="${Exhibition.getExhibition_end_date().after(#dates.createNow()) or Exhibition.getExhibition_end_date().equals(#dates.createNow())}">
+
+                        <input class="btn oneMusic-btn" type="text" value="판매종료"
+                               th:if="${Exhibition.getExhibition_end_date().before(#dates.createNow())}">
+                        <br>
                         <div id="oneMusic-chk" class="oneMusic-chk">
                             <input class="interest-check" type="hidden" th:id="'interestExhi_'+${Exhibition.getExhibition_key()}" th:value="${Exhibition.getExhibition_key()}">
                             <img id="heart" class="heart" src="/img/interest_icon1.png">
                             <span>찜하기</span>
+                        </div>
+                        <div>
+                            <input type="button" id="" class="oneMusic-btn" value="이용정보">
+                            <br>
+                            <input type="button" id="" class="oneMusic-btn" value="판매정보">
+                            <br>
+                            <input type="button" id="" class="oneMusic-btn" value="이용후기">
                         </div>
                     </div>
                 </div>
@@ -181,6 +193,7 @@
                     <ul id="review-list">
                         <li th:each="review : ${Review}">
                             <div class="review-title">
+                                <input type="hidden" id="review_key" th:value="${review.getReview_key()}">
                                 <h5 th:text="${review.getReview_title()}"></h5>
                             </div>
                             <div class="review-star"></div>

@@ -1,12 +1,26 @@
 // 화면 시작
 var exhibitionKey = $("#exhibition_key").val();
 var memberKey = /*[[${session.mDTO.member_key}]]*/ null;
+var reviewKey = $("#review_key").val();
 console.log(exhibitionKey)
 console.log(memberKey)
+console.log(reviewKey)
 
 $(document).ready(function() {
 
     changeHeart();
+
+    $(window).scroll(function( ){  //스크롤이 움직일때마다 이벤트 발생
+        var position = $(window).scrollTop(); // 현재 스크롤바의 위치값을 반환합니다.
+        var startPosition  = 200;
+
+        if(position >= startPosition){
+            $(".exhibitionNavBtn").addClass("fixed");
+        }else{
+            $(".exhibitionNavBtn").stop().animate({top:position+"px"}, 1);
+        }
+         //해당 오브젝트 위치값 재설정
+    });
 
     $(document).on('click', '#reserveOpenBt', function() {
         var url = "/reserve/open?No="+$("#exhibition_key").val();
@@ -122,6 +136,8 @@ $(document).ready(function() {
         $('#reWriteReview-form').toggle(); // display 상태를 토글합니다.
     });
 
+    $("#deleteReview").on('click', deleteReview);
+
     $('#re-review-btn').on('click', rewriteReview);
 
 });
@@ -174,6 +190,29 @@ function rewriteReview(e){
                     location.reload();
                 }else {
                     alert("리뷰 수정에 실패하였습니다.")
+                }
+            },error: function(xhr, status, error) {
+                console.error(xhr);
+            }
+        });
+    }
+}
+
+function deleteReview(e) {
+    e.preventDefault();
+
+    if(confirm("리뷰를 삭제하시겠습니까?")){
+        $.ajax({
+            url : '/ajax/deleteReview',
+            type: 'post',
+            data : {review_key : reviewKey},
+            async: false,
+            success: function (result){
+                if(result == 1){
+                    alert("리뷰를 성공적으로 삭제하였습니다.")
+                    location.reload();
+                }else{
+                    alert("리뷰를 삭제하지 못하였습니다.")
                 }
             },error: function(xhr, status, error) {
                 console.error(xhr);
