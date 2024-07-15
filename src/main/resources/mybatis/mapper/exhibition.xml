@@ -59,6 +59,11 @@
     </delete>
 
     <select id="getMyExhibitionsList" parameterType="int" resultType="exhibitionDTO">
-        select * from exhibition where member_key = #{member_key}
+        SELECT e.*, COUNT(distinct r.reservation_id) AS count
+        FROM exhibition e LEFT JOIN reservation r
+        ON e.exhibition_key = r.exhibition_key
+        WHERE e.member_key = #{member_key}
+        GROUP BY e.exhibition_key
+        ORDER BY e.exhibition_key
     </select>
 </mapper>

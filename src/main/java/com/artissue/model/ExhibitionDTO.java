@@ -22,4 +22,6 @@ public class ExhibitionDTO {
     private String exhibition_seller_info;
     private String exhibition_product_info;
     private String exhibition_date;
+
+    private int count;
 }
