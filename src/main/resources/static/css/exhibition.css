@@ -58,3 +58,9 @@
     top: 0px;
     margin-top: 50px;
 }
+
+.exhibitionNavBtn.fixed {
+    position: fixed;
+    top: 0px; /* 고정될 때의 위치 */
+    right: 10px; /* 고정될 때 오른쪽 여백 */
+}

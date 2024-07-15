@@ -12,30 +12,14 @@ $(document).ready(function() {
 
     $(window).scroll(function( ){  //스크롤이 움직일때마다 이벤트 발생
         var position = $(window).scrollTop(); // 현재 스크롤바의 위치값을 반환합니다.
-        $(".exhibitionNavBtn").stop().animate({top:position+"px"}, 1); //해당 오브젝트 위치값 재설정
-    });
+        var startPosition  = 200;
 
-    $(".exhibitionNavBtn").on("click", "input[type='button']", function() {
-        var btnValue = $(this).val(); // 클릭된 버튼의 값(이용정보, 판매정보, 이용후기)
-
-        // 해당하는 nav-menu 활성화
-        $(".nav-menu").removeClass("is-active"); // 모든 nav-menu 비활성화
-
-        if (btnValue === "이용정보") {
-            $("#use-info-tab").addClass("is-active"); // 이용정보 탭 활성화
-            $(".content").hide(); // 모든 콘텐츠 숨기기
-            $("#use-info").show(); // 이용정보 콘텐츠 표시
-        } else if (btnValue === "판매정보") {
-            $("#sell-info-tab").addClass("is-active"); // 판매정보 탭 활성화
-            $(".content").hide(); // 모든 콘텐츠 숨기기
-            $("#sell-info").show(); // 판매정보 콘텐츠 표시
-        } else if (btnValue === "이용후기") {
-            $("#review-info-tab").addClass("is-active"); // 이용후기 탭 활성화
-            $(".content").hide(); // 모든 콘텐츠 숨기기
-            $("#review-info").show(); // 이용후기 콘텐츠 표시
+        if(position >= startPosition){
+            $(".exhibitionNavBtn").addClass("fixed");
+        }else{
+            $(".exhibitionNavBtn").stop().animate({top:position+"px"}, 1);
         }
-
-        $("html, body").animate({ scrollTop: 400 }, "fast");
+         //해당 오브젝트 위치값 재설정
     });
 
     $(document).on('click', '#reserveOpenBt', function() {
