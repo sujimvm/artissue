@@ -23,10 +23,13 @@
     <update id="updateReservePay" parameterType="String">
         update reservation set reservation_pay = 1 where reservation_id = #{reservation_id}
     </update>
-    <!---->
+    <!--QR 저장-->
     <update id="insertQrCode">
         update reservation set reservation_qr = #{qrCode} where reservation_id = #{reservation_id}
     </update>
+    <!-- 내 전시회 예매자 리스트 조회 -->
+    <select id="getMyExhibitionsReservationList" parameterType="int" resultType="reserveDTO">
+    </select>
 
 
     <select id="checkReservation" parameterType="map" resultType="reserveDTO">
