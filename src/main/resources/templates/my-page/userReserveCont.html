@@ -1,10 +1,153 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <!-- Title -->
+    <title>ART ISSUE :: 마이페이지</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="/bootstrap/img/core-img/favicon.ico">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="/bootstrap/style.css">
+
+    <style>
+
+        .link-container{
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            margin-top: 10px;
+
+        }
+
+    </style>
 </head>
 <body>
+<!-- Preloader -->
+<div class="preloader d-flex align-items-center justify-content-center">
+    <div class="lds-ellipsis">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+</div>
 
+<div th:replace="~{include/header}"></div>
+
+<!-- ##### Breadcumb Area Start ##### -->
+<section class="breadcumb-area bg-img bg-overlay" style="background-image: url(/bootstrap/img/bg-img/breadcumb3.jpg);">
+    <div class="bradcumbContent">
+        <p>See what’s new</p>
+        <h2>MY PAGE</h2>
+    </div>
+</section>
+<!-- ##### Breadcumb Area End ##### -->
+
+<!-- ##### Login Area Start ##### -->
+<section class="login-area section-padding-100">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-lg-3">
+                <div class="new-hits-area mb-100">
+                    <div class="single-new-item d-flex align-items-center justify-content-between wow fadeInUp">
+                        <a href="/userMove">회원정보 수정</a>
+                    </div>
+                    <div class="single-new-item d-flex align-items-center justify-content-between wow fadeInUp">
+                        <a href="/userPwdUpdateMove">비밀번호 변경</a>
+                    </div>
+                    <div class="single-new-item d-flex align-items-center justify-content-between wow fadeInUp">
+                        <a href="/userReserveList">예약리스트</a>
+                    </div>
+                    <div class="single-new-item d-flex align-items-center justify-content-between wow fadeInUp">
+                        <a href="/userZZimList">찜리스트</a>
+                    </div>
+                    <div class="single-new-item d-flex align-items-center justify-content-between wow fadeInUp">
+                        <a href="/userResign">회원탈퇴</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-9" style="border: solid 1px #000000;">
+                <hr>
+                <div class="single-contact-info d-flex align-items-center">
+                    <p>
+                        <img style="width: 100px; height: 120px;"
+                             th:src="@{${exhiDTO.exhibition_thumnail}}" alt="전시회 이미지">
+                    </p>
+                </div>
+                <div class="single-contact-info d-flex align-items-center">
+                    <p class="mr-30">예약번호</p>
+                    <p th:text="${userReserveCont.get(0).getReservation_id()}"></p>
+                </div>
+                <div class="single-contact-info d-flex align-items-center">
+                    <p>전시회 이름</p>&nbsp;&nbsp;
+                    <p th:text="${exhiDTO.exhibition_title}"></p>
+                </div>
+                <hr>
+                <div class="single-contact-info">
+                    <p th:each="userReserveCont : ${userReserveCont}">
+                        <span th:text="${userReserveCont.reservation_option}"></span>,&nbsp;&nbsp;
+                        <span th:text="${userReserveCont.getReservation_count()}"></span>매,&nbsp;&nbsp;
+                        <span th:text="${userReserveCont.getReservation_price()}"></span>원
+                    </p>
+                </div>
+                <hr>
+                <div class="single-contact-info d-flex align-items-center">
+                    <p class="mr-30">총 결제금액</p>
+                    <p>[[${totalPrice}]] 원</p>
+                </div>
+                <div class="single-contact-info d-flex align-items-center">
+                    <p class="mr-30">결제날짜</p>
+                    <p th:text="${userReserveCont.get(0).getReservation_date()}"></p>
+                </div>
+                <input type="button" class="btn oneMusic-btn" value="결제 취소">
+                <hr>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- ##### Login Area End ##### -->
+
+<div th:replace="~{include/footer}"></div>
+
+<!-- ##### All Javascript Script ##### -->
+<script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
+<!-- jQuery-2.2.4 js -->
+<script src="/bootstrap/js/jquery/jquery-2.2.4.min.js"></script>
+<!-- Popper js -->
+<script src="/bootstrap/js/bootstrap/popper.min.js"></script>
+<!-- Bootstrap js -->
+<script src="/bootstrap/js/bootstrap/bootstrap.min.js"></script>
+<!-- All Plugins js -->
+<script src="/bootstrap/js/plugins/plugins.js"></script>
+<!-- Active js -->
+<script src="/bootstrap/js/active.js"></script>
 </body>
+
+<script>
+    ClassicEditor
+        .create(document.querySelector('#notice_cont'), {
+            removePlugins: ['Heading'],
+            language: "ko"
+        })
+        .then(editor => {
+            $('style').append('.ck-content { height: 400px; }');
+            let objEditor = editor;
+
+            editor.model.document.on('change:data', () => {
+                $('#notice_cont').val(editor.getData());
+            }, {priority: 'high'});
+        })
+        .catch(error => {
+            console.error(error);
+        });
+</script>
+
 </html>
