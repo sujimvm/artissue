@@ -39,15 +39,22 @@
                                 <li><a href="/exhi/list">Exhibition</a></li>
                                 <li><a href="/notice">Notice</a></li>
                                 <li><a href="/contact">Contact</a></li>
-                                <li sec:authorize="isAuthenticated()"><a href="#">MyPage</a>
+                                <li sec:authorize="isAuthenticated() and hasRole('USER')"><a href="#">MyPage</a>
                                     <ul class="dropdown" >
-                                        <li sec:authorize="isAuthenticated() and hasRole('COMPANY')"><a href="#">예약리스트</a>
+                                        <li><a href="#">예약리스트</a></li>
+                                        <li><a href="#">찜한전시회</a></li>
+                                        <li><a href="#">내 정보</a></li>
+                                        <li><a href="#">Logout</a></li>
+                                    </ul>
+                                </li>
+                                <li sec:authorize="isAuthenticated() and hasRole('COMPANY')"><a href="#">MyPage</a>
+                                    <ul class="dropdown" >
+                                        <li><a href="#">예약리스트</a>
                                             <ul class="dropdown">
                                                 <li><a href="#">내 전시회</a></li>
                                                 <li><a href="#">예매 내역</a></li>
                                             </ul>
                                         </li>
-                                        <li sec:authorize="isAuthenticated() and hasRole('USER')"><a href="#">예약리스트</a></li>
                                         <li><a href="#">찜한전시회</a></li>
                                         <li><a href="#">내 정보</a></li>
                                         <li><a href="#">Logout</a></li>

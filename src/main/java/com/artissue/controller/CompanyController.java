@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/company")
@@ -24,9 +25,9 @@ public class CompanyController {
     }
 
     @GetMapping("/reList")
-    public String getMyExhibitionsReservationList(Model model, HttpSession session) {
+    public String getMyExhibitionsReservationList(@RequestParam("no") int exhibition_key, Model model, HttpSession session) {
         int member_key = ((MemberDTO)session.getAttribute("cDTO")).getMember_key();
-        model.addAttribute("list", this.reservationMapper.getMyExhibitionsReservationList(member_key));
+        model.addAttribute("list", this.reservationMapper.getMyExhibitionsReservationList(member_key,exhibition_key));
         return "company/reserList";
     }
 
