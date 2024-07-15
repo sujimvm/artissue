@@ -68,50 +68,63 @@
                 <h3>회원정보수정</h3>
                 <hr>
                 <form method="POST" action="/mModifyOk">
-                    <input type="hidden" name="member_key" th:value="${session.mDTO.member_key}">
-                    <span style="font-size: 20px; font-weight: bold;">회원 정보 수정</span>
                     <table>
+                        <input type="hidden" name="member_key"
+                               th:value="${session.mDTO != null ? session.mDTO.member_key : session.cDTO.member_key}">
+
+
+                        <span style="font-size: 20px; font-weight: bold;">회원 정보 수정</span>
                         <tr>
                             <th>회원 아이디</th>
                             <td>
-                                <input name="member_id" th:value="${session.mDTO.member_id}" readonly>
+                                <input name="member_id" readonly
+                                       th:value="${session.mDTO != null ? session.mDTO.member_id : session.cDTO.member_id}">
                             </td>
                         </tr>
                         <tr>
                             <th>회원 이름</th>
                             <td>
-                                <input name="member_name" th:value="${session.mDTO.member_name}">
+                                <input name="member_name"
+                                       th:value="${session.mDTO != null ? session.mDTO.member_name : session.cDTO.member_name}">
                             </td>
                         </tr>
                         <tr>
                             <th>회원 닉네임</th>
                             <td>
-                                <input name="member_nickname" th:value="${session.mDTO.member_nickname}">
+                                <input name="member_nickname"
+                                       th:value="${session.mDTO != null ? session.mDTO.member_nickname : session.cDTO.member_nickname}">
                             </td>
                         </tr>
                         <tr>
                             <th>휴대폰번호</th>
                             <td>
-                                <input name="member_phone" th:value="${session.mDTO.member_phone}">
+                                <input name="member_phone"
+                                       th:value="${session.mDTO != null ? session.mDTO.member_phone : session.cDTO.member_phone}">
                             </td>
                         </tr>
                         <tr>
                             <th>이메일</th>
                             <td>
-                                <input name="member_email" th:value="${session.mDTO.member_email}">
+                                <input name="member_email"
+                                       th:value="${session.mDTO != null ? session.mDTO.member_email : session.cDTO.member_email}">
                             </td>
                         </tr>
                         <tr>
                             <th>생년월일</th>
                             <td>
-                                <input type="date" name="member_birth" th:value="${session.mDTO.member_birth}" required>
+                                <input type="date" name="member_birth" required
+                                       th:value="${session.mDTO != null ? session.mDTO.member_birth : session.cDTO.member_birth}">
                             </td>
                         </tr>
                         <tr>
                             <th>성별</th>
                             <td>
-                                <input type="radio" name="member_gender" value="여자" th:checked="${member_gender == '여자'}" required> 여자&nbsp;
-                                <input type="radio" name="member_gender" value="남자" th:checked="${member_gender == '남자'}" required> 남자
+                                <input type="radio" name="member_gender" value="여자"
+                                       th:checked="${session.mDTO != null && session.mDTO.member_gender == '여자'}" required>
+                                여자&nbsp;
+                                <input type="radio" name="member_gender" value="남자"
+                                       th:checked="${session.mDTO != null && session.mDTO.member_gender == '남자'}" required>
+                                남자
                             </td>
                         </tr>
                     </table>

@@ -103,7 +103,7 @@
                         <table>
                             <tr>
                                 <th>아이디</th>
-                                <td th:text="${session.mDTO.member_id}"></td>
+                                <td th:text="${session.mDTO != null ? session.mDTO.member_id : session.cDTO.member_id}" readonly></td>
                             </tr>
                             <tr>
                                 <th>비밀번호</th>

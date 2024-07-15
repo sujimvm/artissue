@@ -205,11 +205,16 @@ public class MemberController {
     public String pwdUpdate(@RequestParam("oriPwd") String oriPwd,@RequestParam("newPassword") String newPassword,
                             HttpSession session, HttpServletResponse response) throws IOException {
 
-        MemberDTO memberInfo =(MemberDTO) session.getAttribute("mDTO");
+        MemberDTO memberInfo =null;
 
         response.setContentType("text/html; charset=UTF-8");
         PrintWriter out = response.getWriter();
 
+        if(session.getAttribute("mDTO") != null){
+            memberInfo =(MemberDTO) session.getAttribute("mDTO");
+        }else if(session.getAttribute("cDTO") != null){
+            memberInfo =(MemberDTO) session.getAttribute("cDTO");
+        }
         if(passwordEncoder.matches(oriPwd, memberInfo.getMember_pwd())) {
             //변경비번과 기존과 동일 할 경우
             if(passwordEncoder.matches(newPassword,memberInfo.getMember_pwd())){
@@ -252,41 +257,44 @@ public class MemberController {
     @GetMapping("/userMove")
     public String updateUserMove(HttpSession session, Model model) {
 
-        MemberDTO memberInfo = (MemberDTO) session.getAttribute("mDTO");
+        MemberDTO memberInfo=null;
 
-        if (memberInfo == null) {
-            return "redirect:/login";
-        } else {
-            model.addAttribute("memberInfo", memberInfo);
+       if(session.getAttribute("mDTO") != null) {
+             memberInfo = (MemberDTO) session.getAttribute("mDTO");
 
-            if (memberInfo.getMember_pwd().equals("-")) {
+        } else if (session.getAttribute("cDTO") != null) {
+             memberInfo = (MemberDTO) session.getAttribute("cDTO");
+        }
+        if (memberInfo.getMember_pwd().equals("-")) {
                 return "my-page/userModify";
             } else {
                 return "my-page/user";
             }
     }
-}
+
     @GetMapping("userPwdUpdateMove")
     public String userPwdUpdateMove(HttpSession session, Model model) {
 
-        MemberDTO memberInfo = (MemberDTO) session.getAttribute("mDTO");
+        MemberDTO memberInfo = null;
 
-        if (memberInfo == null) {
-            return "redirect:/login";
+        if (session.getAttribute("mDTO") != null) {
+             memberInfo = (MemberDTO) session.getAttribute("mDTO");
+
+        } else if(session.getAttribute("cDTO") != null) {
+             memberInfo = (MemberDTO) session.getAttribute("cDTO");
+
+        }
+
+        String memberId = memberInfo.getMember_id();
+
+        MemberDTO dto = this.memberMapper.findbyId(memberId);
+        System.out.println("dto: " + dto);
+
+        if (dto == null || dto.getMember_pwd() == null || dto.getMember_pwd().equals("-")) {
+            return "my-page/socialPwd";
         } else {
-            model.addAttribute("memberInfo", memberInfo);
-
-            String memberId = memberInfo.getMember_id();
-            MemberDTO dto = this.memberMapper.findbyId(memberId);
-            System.out.println("dto: " + dto);
-
-
-            if (dto.getMember_pwd() == null || dto.getMember_pwd().equals("-")) {
-                return "my-page/socialPwd";
-            } else {
-
-                return "my-page/userPwdUpdate";
-            }
+            model.addAttribute("memberId", memberId);
+            return "my-page/userPwdUpdate";
         }
     }
 
@@ -361,32 +369,55 @@ public class MemberController {
                            HttpSession session,
                            HttpServletResponse response) throws IOException {
 
-        response.setContentType("text/html; charset=UTF-8");
 
+        response.setContentType("text/html; charset=UTF-8");
         PrintWriter out = response.getWriter();
 
-        MemberDTO memberInfo = (MemberDTO) session.getAttribute("mDTO");
 
-        if (passwordEncoder.matches(pwd, memberInfo.getMember_pwd())) {
-            out.println("<script>");
-            out.println("alert('비밀번호가 일치합니다.')");
-            out.println("</script>");
-            return "my-page/userModify";
-        } else {
-            out.println("<script>");
-            out.println("alert('비밀번호가 틀렸습니다')");
-            out.println("</script>");
-            return "my-page/user";
+        if (session.getAttribute("mDTO") != null) {
+            MemberDTO memberInfo = (MemberDTO) session.getAttribute("mDTO");
+            if (passwordEncoder.matches(pwd, memberInfo.getMember_pwd())) {
+                out.println("<script>");
+                out.println("alert('비밀번호가 일치합니다.');");
+                out.println("location.href='/my-page/userModify';");
+                out.println("</script>");
+                out.flush();
+                return null;
+            }
+        }else if (session.getAttribute("cDTO") != null) {
+            MemberDTO companyInfo = (MemberDTO) session.getAttribute("cDTO");
 
+            if (passwordEncoder.matches(pwd, companyInfo.getMember_pwd())) {
+                out.println("<script>");
+                out.println("alert('비밀번호가 일치합니다.');");
+                out.println("location.href='/my-page/userModify';");
+                out.println("</script>");
+                out.flush();
+                return null;
+            }
         }
+
+        // 비밀번호가 틀린 경우
+        out.println("<script>");
+        out.println("alert('비밀번호가 틀렸습니다');");
+        out.println("location.href='/my-page/user';");
+        out.println("</script>");
+        out.flush();
+        return null;
     }
 
     @PostMapping("/mModifyOk")
     public String modifyOk(HttpServletResponse response, MemberDTO dto, HttpSession session) throws IOException {
 
+        MemberDTO originalDto = null;
 
-        MemberDTO originalDto = (MemberDTO) session.getAttribute("mDTO");
+        if (session.getAttribute("mDTO") != null) {
+            originalDto = (MemberDTO) session.getAttribute("mDTO");
+        } else if (session.getAttribute("cDTO") != null) {
+            originalDto = (MemberDTO) session.getAttribute("cDTO");
+        }
 
+        // 전화번호 포맷팅
         String phoneNumber = dto.getMember_phone().replaceAll("[^0-9]", "");
         if (phoneNumber.length() == 8) {
             phoneNumber = phoneNumber.substring(0, 4) + "-" + phoneNumber.substring(4);
@@ -403,10 +434,7 @@ public class MemberController {
         }
         dto.setMember_phone(phoneNumber);
 
-
-
-
-        //기존 비번 저장
+        // 기존 비밀번호 설정
         if (originalDto != null) {
             dto.setMember_pwd(originalDto.getMember_pwd());
         }
@@ -421,7 +449,12 @@ public class MemberController {
             out.println("alert('정보를 수정했습니다.')");
             out.println("</script>");
 
-            session.setAttribute("mDTO", dto);
+            // 수정된 dto를 세션에 저장
+            if (session.getAttribute("mDTO") != null) {
+                session.setAttribute("mDTO", dto);
+            } else if (session.getAttribute("cDTO") != null) {
+                session.setAttribute("cDTO", dto);
+            }
 
             return "my-page/userContent";
         } else {
@@ -431,7 +464,5 @@ public class MemberController {
 
             return "my-page/userModify";
         }
-
     }
-
 }

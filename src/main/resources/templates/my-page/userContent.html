@@ -72,31 +72,31 @@
                     <table>
                         <tr>
                             <th>회원 아이디</th>
-                            <td th:text="${session.mDTO.member_id}" readonly></td>
+                            <td th:text="${session.mDTO != null ? session.mDTO.member_id : session.cDTO.member_id}" readonly></td>
                         </tr>
                         <tr>
                             <th>회원 이름</th>
-                            <td th:text="${session.mDTO.member_name}"></td>
+                            <td th:text="${session.mDTO != null ? session.mDTO.member_name : session.cDTO.member_name}"></td>
                         </tr>
                         <tr>
-                            <th>회원 이름</th>
-                            <td th:text="${session.mDTO.member_nickname}"></td>
+                            <th>회원 닉네임</th>
+                            <td th:text="${session.mDTO != null ? session.mDTO.member_nickname : session.cDTO.member_nickname}"></td>
                         </tr>
                         <tr>
                             <th>휴대폰번호</th>
-                            <td th:text="${session.mDTO.member_phone}"></td>
+                            <td th:text="${session.mDTO != null ? session.mDTO.member_phone : session.cDTO.member_phone}"></td>
                         </tr>
                         <tr>
                             <th>이메일</th>
-                            <td th:text="${session.mDTO.member_email}"></td>
+                            <td th:text="${session.mDTO != null ? session.mDTO.member_email : session.cDTO.member_email}"></td>
                         </tr>
                         <tr>
                             <th>생년월일</th>
-                            <td th:text="${session.mDTO.member_birth}"></td>
+                            <td th:text="${session.mDTO != null ? session.mDTO.member_birth : session.cDTO.member_birth}"></td>
                         </tr>
                         <tr>
                             <th>성별</th>
-                            <td th:text="${session.mDTO.member_gender}"></td>
+                            <td th:text="${session.mDTO != null ? session.mDTO.member_gender : session.cDTO.member_gender}"></td>
                         </tr>
                     </table>
                      <a href="/my-page/userModify" class="btn oneMusic-btn mt-30">회원정보 수정</a>
