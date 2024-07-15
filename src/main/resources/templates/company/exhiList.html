@@ -16,15 +16,14 @@
 
     <!-- Stylesheet -->
     <link rel="stylesheet" href="/bootstrap/style.css">
+    <link rel="stylesheet" href="/css/company/exhiList.css">
 
     <style>
-
         .link-container{
             display: flex;
             justify-content: space-between;
             gap: 20px;
             margin-top: 10px;
-
         }
 
     </style>
@@ -58,10 +57,7 @@
             <div class="col-12 col-lg-3">
                 <div class="new-hits-area mb-100">
                     <div class="single-new-item d-flex align-items-center justify-content-between wow fadeInUp">
-                        <a href="/userMove">회원정보 수정</a>
-                    </div>
-                    <div class="single-new-item d-flex align-items-center justify-content-between wow fadeInUp">
-                        <a href="/userPwdUpdateMove">비밀번호 변경</a>
+                        <a href="/company/exList">내 전시회</a>
                     </div>
                     <div class="single-new-item d-flex align-items-center justify-content-between wow fadeInUp">
                         <a href="/userReserveList">예약리스트</a>
@@ -70,38 +66,40 @@
                         <a href="/userZZimList">찜리스트</a>
                     </div>
                     <div class="single-new-item d-flex align-items-center justify-content-between wow fadeInUp">
+                        <a href="/userMove">회원정보 수정</a>
+                    </div>
+                    <div class="single-new-item d-flex align-items-center justify-content-between wow fadeInUp">
+                        <a href="/userPwdUpdateMove">비밀번호 변경</a>
+                    </div>
+                    <div class="single-new-item d-flex align-items-center justify-content-between wow fadeInUp">
                         <a href="/userResign">회원탈퇴</a>
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-lg-9" style="border: solid 1px #000000;">
-                <h4>예약 내역</h4>
-                <hr>
-                <!--<th:block th:if="${userReserveList != null}">
-                    <div th:each="userReserve, stat : ${userReserveList}">
-                        <div class="single-contact-info d-flex align-items-center">
-                            <p class="mr-30">예약번호</p>
-                            <p th:text="${userReserve.reservation_id}"></p>
-                        </div>
-                        <div class="single-contact-info d-flex align-items-center">
-                            <p class="mr-30">전시회 이름</p>
-                            <p th:text="${exhibitionList[stat.index].exhibition_title}"></p>
-                        </div>
-                        <div class="single-contact-info d-flex align-items-center">
-                            <p class="mr-30">예약정보</p>
-                            <p>[[${userReserve.reservation_option}]]&nbsp;&nbsp;&nbsp;[[${userReserve.reservation_count}]] 매</p>
-                        </div>
-                        <div class="single-contact-info d-flex align-items-center">
-                            <p class="mr-30">결제금액</p>
-                            <p th:text="${userReserve.reservation_price}"></p>
-                        </div>
-                        <div class="single-contact-info d-flex align-items-center">
-                            <p class="mr-30">결제날짜</p>
-                            <p th:text="${userReserve.reservation_date}"></p>
-                        </div>
-                        <hr>
-                    </div>
-                </th:block>-->
+            <div class="col-12 col-lg-9">
+                <h4>내 전시회 리스트</h4>
+                <table class="exhiListTb">
+                    <tr>
+                        <th colspan="2">전시회 명</th>
+                        <th>예매자</th>
+                        <th>판매여부</th><!-- <= && >= -->
+                    </tr>
+                    <th:block th:each="list : ${list}">
+                        <tr>
+                            <td><img th:src="${list.getExhibition_thumnail()}"></td>
+                            <td style="text-align: left;">
+                                <p><a th:href="@{/exhi/content(no = ${list.getExhibition_key()})}" th:text="${list.getExhibition_title()}"></a></p>
+                                <p th:text="${(#dates.format(list.getExhibition_start_date(),'yyyy-MM-dd'))+'~'+(#dates.format(list.getExhibition_end_date(),'yyyy-MM-dd'))}"></p>
+                            </td>
+                            <td>
+                                <p><a th:text="${list.getCount()}"></a></p>
+                            </td>
+                            <td th:if="${(list.getExhibition_start_date()) le (#dates.createNow()) && (list.getExhibition_end_date()) ge (#dates.createNow())}">판매중</td><!-- <= && >= -->
+                            <td th:if="${(list.getExhibition_start_date()) gt (#dates.createNow())}">판매예정</td><!-- > -->
+                            <td th:if="${(list.getExhibition_end_date()) lt (#dates.createNow())}">판매종료</td><!-- < -->
+                        </tr>
+                    </th:block>
+                </table>
             </div>
         </div>
     </div>

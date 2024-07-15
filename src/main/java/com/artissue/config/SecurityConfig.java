@@ -37,7 +37,7 @@ public class SecurityConfig {
                             "/event","/elements","/findbyId","/findPwdProc","/findIdProc", "/updatePassword", "/exhi/**",
                             "/notice/**","/error/**").permitAll()
                         .requestMatchers( "/css/**", "/js/**", "/img/**", "/bootstrap/**", "/ajax/**").permitAll()
-                        .requestMatchers("/company").hasRole("COMPANY")
+                        .requestMatchers("/company/**").hasRole("COMPANY")
                         .requestMatchers("/my/**","/reserve/**","/my-page/**").hasAnyRole( "USER","COMPANY")
                         .anyRequest().authenticated());
 

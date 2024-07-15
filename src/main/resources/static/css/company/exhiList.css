@@ -1,0 +1,31 @@
+.exhiListTb{
+    border-top: 2px solid #787878;
+    width: 100%;
+    border-spacing: 0;
+}
+.exhiListTb tr{
+    border-bottom: 1px solid #c8c8c8;
+}
+.exhiListTb tr:hover{
+    background-color: #eeeeee;
+}
+.exhiListTb th{
+    text-align: center;
+    font-weight: normal;
+    padding: 10px;
+}
+.exhiListTb td{
+    padding: 10px;
+    text-align: center;
+}
+.exhiListTb td a{
+    font-size: 18px;
+    text-decoration: none;
+}
+.exhiListTb img{
+    width: 50px;
+    height: 70px;
+}
+.exhiListTb p{
+    margin: 0;
+}
