@@ -47,17 +47,6 @@ public class HomeController {
         return "index";
     }
 
-    @GetMapping("/company")
-    public String admin(Model model,HttpSession session){
-
-        MemberDTO userInfo = (MemberDTO)session.getAttribute("cDTO");
-
-        System.out.println("info>>>"+userInfo);
-
-        return "admin";
-    }
-
-
 
 
 
