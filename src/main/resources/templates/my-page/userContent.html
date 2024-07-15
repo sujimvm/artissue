@@ -18,6 +18,21 @@
     <!-- Stylesheet -->
     <link rel="stylesheet" href="/bootstrap/style.css">
 
+    <style>
+        .formLoc{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+
+        .inputMargin td {
+            padding: 10px 20px; /* 각 셀의 내부 여백 */
+        }
+
+    </style>
+
 </head>
 <body>
 <!-- Preloader -->
@@ -67,40 +82,39 @@
             <div class="col-12 col-lg-9" style="border: solid 1px #000000;">
                 <h3>회원정보 상세보기</h3>
                 <hr>
-
-                    <span style="font-size: 20px; font-weight: bold;">회원 정보 수정</span>
+                <div class="formLoc">
                     <table>
-                        <tr>
+                        <tr class="inputMargin">
                             <th>회원 아이디</th>
                             <td th:text="${session.mDTO != null ? session.mDTO.member_id : session.cDTO.member_id}" readonly></td>
                         </tr>
-                        <tr>
+                        <tr class="inputMargin">
                             <th>회원 이름</th>
                             <td th:text="${session.mDTO != null ? session.mDTO.member_name : session.cDTO.member_name}"></td>
                         </tr>
-                        <tr>
+                        <tr class="inputMargin">
                             <th>회원 닉네임</th>
                             <td th:text="${session.mDTO != null ? session.mDTO.member_nickname : session.cDTO.member_nickname}"></td>
                         </tr>
-                        <tr>
+                        <tr class="inputMargin">
                             <th>휴대폰번호</th>
                             <td th:text="${session.mDTO != null ? session.mDTO.member_phone : session.cDTO.member_phone}"></td>
                         </tr>
-                        <tr>
+                        <tr class="inputMargin">
                             <th>이메일</th>
                             <td th:text="${session.mDTO != null ? session.mDTO.member_email : session.cDTO.member_email}"></td>
                         </tr>
-                        <tr>
+                        <tr class="inputMargin">
                             <th>생년월일</th>
                             <td th:text="${session.mDTO != null ? session.mDTO.member_birth : session.cDTO.member_birth}"></td>
                         </tr>
-                        <tr>
+                        <tr class="inputMargin">
                             <th>성별</th>
                             <td th:text="${session.mDTO != null ? session.mDTO.member_gender : session.cDTO.member_gender}"></td>
                         </tr>
                     </table>
                      <a href="/my-page/userModify" class="btn oneMusic-btn mt-30">회원정보 수정</a>
-
+                </div>
 
             </div>
         </div>

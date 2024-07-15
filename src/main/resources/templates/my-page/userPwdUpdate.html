@@ -81,13 +81,33 @@
     </script>
     <style>
 
-        .link-container{
-            display: flex;
-            justify-content: space-between;
-            gap: 20px;
-            margin-top: 10px;
 
+        .formLoc{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            max-width: 600px;
         }
+
+        .inputMargin td {
+            padding: 10px 20px; /* 각 셀의 내부 여백 */
+        }
+
+        .pwdSize{
+            width: 400px;
+        }
+
+
+        .tableWidth{
+            width: 100%;
+        }
+
+        .tableWidth th {
+            white-space: nowrap;
+            font-size: 14px;
+        }
+
 
     </style>
 </head>
@@ -140,28 +160,28 @@
                 <h3>비밀번호 변경</h3>
                 <hr>
                 <form action="/pwdUpdate" method="POST">
-                    <span style="font-size: 20px; font-weight: bold;">본인 확인</span>
-                    <table class="company-table2">
-                        <tr>
+                    <div class="formLoc">
+                    <table class="tableWidth">
+                        <tr class="inputMargin">
                             <th>기존 비밀번호 확인</th>
                             <td>
-                                <input type="password" name="oriPwd">
+                                <input type="password" name="oriPwd" class="form-control pwdSize">
                             </td>
                         </tr>
 
-                        <tr>
+                        <tr class="inputMargin">
                             <th>새 비밀번호 입력</th>
                             <td>
-                                <input type="password" name="newPassword" id="Password1">
+                                <input type="password" name="newPassword" id="Password1" class="form-control pwdSize">
                                 <span id="pwdCheckmark" class="checkmark" style="display: none;">✔</span>
                                 <span id="pwdError" style="display: none; color: red; font-size: 12px;">비밀번호는 8자 이상 20자 이하이며 특수문자 1자를 포함해야 합니다.</span>
                             </td>
                         </tr>
 
-                        <tr>
+                        <tr class="inputMargin">
                             <th>새 비밀번호 확인</th>
                             <td>
-                                <input type="password" name="newPassword2" id="Password2">
+                                <input type="password" name="newPassword2" id="Password2" class="form-control pwdSize">
                                 <span id="pwd_check_err" style="display: none; color: red; font-size: 12px;">위의 비밀번호와 입력된 비밀번호가 다릅니다.</span>
                                 <span id="pwd_check_ok" class="checkmark" style="display: none;">✔</span>
                             </td>
@@ -169,6 +189,7 @@
                     </table>
                     <div>
                         <button type="submit" value="확인" class="btn oneMusic-btn mt-30">join</button>
+                    </div>
                     </div>
                 </form>
             </div>

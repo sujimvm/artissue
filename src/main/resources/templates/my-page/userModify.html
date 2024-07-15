@@ -17,6 +17,33 @@
 
     <!-- Stylesheet -->
     <link rel="stylesheet" href="/bootstrap/style.css">
+    <style>
+        .pwdLoc{
+            text-align: center;
+        }
+
+        .form-size{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 450px;
+            width: 800px;
+        }
+
+        form {
+
+            max-width: 600px;
+        }
+
+        table {
+            width: 100%;
+        }
+        .inputMargin{
+            margin-bottom: 15px;
+        }
+
+
+    </style>
 
 </head>
 <body>
@@ -64,55 +91,53 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-lg-9" style="border: solid 1px #000000;">
-                <h3>회원정보수정</h3>
-                <hr>
+
+
+
+            <div class="form-container form-size" style="border: solid 1px #000000;">
                 <form method="POST" action="/mModifyOk">
                     <table>
                         <input type="hidden" name="member_key"
                                th:value="${session.mDTO != null ? session.mDTO.member_key : session.cDTO.member_key}">
-
-
-                        <span style="font-size: 20px; font-weight: bold;">회원 정보 수정</span>
                         <tr>
                             <th>회원 아이디</th>
                             <td>
-                                <input name="member_id" readonly
+                                <input name="member_id" class="form-control inputMargin" readonly
                                        th:value="${session.mDTO != null ? session.mDTO.member_id : session.cDTO.member_id}">
                             </td>
                         </tr>
                         <tr>
                             <th>회원 이름</th>
                             <td>
-                                <input name="member_name"
+                                <input name="member_name" class="form-control inputMargin"
                                        th:value="${session.mDTO != null ? session.mDTO.member_name : session.cDTO.member_name}">
                             </td>
                         </tr>
                         <tr>
                             <th>회원 닉네임</th>
                             <td>
-                                <input name="member_nickname"
+                                <input name="member_nickname" class="form-control inputMargin"
                                        th:value="${session.mDTO != null ? session.mDTO.member_nickname : session.cDTO.member_nickname}">
                             </td>
                         </tr>
                         <tr>
                             <th>휴대폰번호</th>
                             <td>
-                                <input name="member_phone"
+                                <input name="member_phone" class="form-control inputMargin"
                                        th:value="${session.mDTO != null ? session.mDTO.member_phone : session.cDTO.member_phone}">
                             </td>
                         </tr>
                         <tr>
                             <th>이메일</th>
                             <td>
-                                <input name="member_email"
+                                <input name="member_email" class="form-control inputMargin"
                                        th:value="${session.mDTO != null ? session.mDTO.member_email : session.cDTO.member_email}">
                             </td>
                         </tr>
                         <tr>
                             <th>생년월일</th>
                             <td>
-                                <input type="date" name="member_birth" required
+                                <input type="date" name="member_birth" class="form-control inputMargin"  required
                                        th:value="${session.mDTO != null ? session.mDTO.member_birth : session.cDTO.member_birth}">
                             </td>
                         </tr>
@@ -133,9 +158,8 @@
                         <input type="reset" class="btn oneMusic-btn mt-30" value="다시작성">
                     </div>
                 </form>
-
-    </div>
-    </div>
+            </div>
+      </div>
     </div>
 </section>
 <!-- ##### Login Area End ##### -->
