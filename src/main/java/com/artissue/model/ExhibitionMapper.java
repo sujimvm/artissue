@@ -20,4 +20,7 @@ public interface ExhibitionMapper {
 
     void deleteZzim(int member_key, int exhibition_key);
 
+    /* (기업마이페이지) 내 전시회 */
+    List<ExhibitionDTO> getMyExhibitionsList(int member_key);
+
 }
