@@ -32,14 +32,26 @@
             text-align: center;
         }
 
-
         .form-container {
             width: 600px;
-            padding: 80px;
+            height: 280px;
+            padding: 70px;
             border: 1px solid #ccc;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             background-color: #f9f9f9;
+            margin: 0 auto;
+        }
+        .pwdWidth{
+            width: 250px;
+            margin-left: 20px;
+        }
+
+        .hMargin{
+            margin-bottom: 30px;
+        }
+        .formMargin{
+            margin-left: 50px;
         }
 
     </style>
@@ -91,16 +103,13 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-lg-9" style="border: solid 1px #000000;">
-                <h3>회원정보수정</h3>
-                <hr>
-                <div class="pwdLoc">
-                <h5>정보를 안전하게 보호하기 위해
-                    본인인증이 필요합니다.</h5>
-
-                    <div class="form-container">
-                    <form id="mModifyForm" method="post" action="/mModify">
-                        <table>
+                <div class="formMargin">
+                    <h3>회원정보수정</h3>
+                    <div class="form-container pwdLoc">
+                        <form id="mModifyForm" method="post" action="/mModify">
+                            <h6 class="hMargin">정보를 안전하게 보호하기 위해
+                                본인인증이 필요합니다.</h6>
+                            <table>
                             <tr>
                                 <th>아이디</th>
                                 <td th:text="${session.mDTO != null ? session.mDTO.member_id : session.cDTO.member_id}" readonly></td>
@@ -108,7 +117,7 @@
                             <tr>
                                 <th>비밀번호</th>
                                 <td>
-                                    <input type="password" name="member_pwd" placeholder="비밀번호를 입력해주세요" class="form-control">
+                                    <input type="password" name="member_pwd" placeholder="비밀번호를 입력해주세요" class="form-control pwdWidth" >
                                 </td>
                             </tr>
                         </table>
@@ -120,10 +129,6 @@
                  </div>
                 </div>
              </div>
-
-            </div>
-        </div>
-    </div>
 </section>
 <!-- ##### Login Area End ##### -->
 
