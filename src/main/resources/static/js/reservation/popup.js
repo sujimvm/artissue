@@ -19,7 +19,7 @@ $(document).ready(function() {
             totalPrice += Number($("[name='reservation_price_str']").eq(i).val());
         }
         $("#totalPrice").empty();
-        $("#totalPrice").text(totalPrice);
+        $("#totalPrice").text(totalPrice+"원");
         $("#totalPriceCk").val(totalPrice);
     });
 });
