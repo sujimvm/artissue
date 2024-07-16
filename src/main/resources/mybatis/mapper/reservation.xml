@@ -37,4 +37,9 @@
         select * from reservation where member_key = #{member_key} and exhibition_key = #{exhibition_key}
         and reservation_pay = 1
     </select>
+
+    <update id="updateReservationBV" parameterType="String">
+        update reservation set reservation_buyer_view = 0
+        where reservation_id = #{reservation_id}
+    </update>
 </mapper>

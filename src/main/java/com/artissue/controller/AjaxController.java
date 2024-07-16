@@ -1,11 +1,17 @@
 package com.artissue.controller;
 
 import com.artissue.model.*;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/ajax")
@@ -138,4 +144,26 @@ public class AjaxController {
         return result;
     }
 
+    @PostMapping("/updateReservation")
+    public ResponseEntity<Map<String, Object>> updateReservation(@RequestParam("reservation_id") String reservation_id) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            System.out.println("Received reservation_id: " + reservation_id);
+
+            int result = reservationMapper.updateReservationBV(reservation_id);
+
+            if(result > 0){
+                response.put("success", true);
+            } else {
+                response.put("success", false);
+                response.put("message", "삭제 실패");
+            }
+        } catch (Exception e) {
+            response.put("success", false);
+            response.put("message", "서버 오류: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return ResponseEntity.ok(response);
+    }
 }
+

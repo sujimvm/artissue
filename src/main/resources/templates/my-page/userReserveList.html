@@ -16,6 +16,7 @@
 
     <!-- Stylesheet -->
     <link rel="stylesheet" href="/bootstrap/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <style>
 
@@ -78,39 +79,47 @@
                 <hr>
                 <th:block th:if="${userReserveList != null}">
                     <div th:each="userReserve, stat : ${userReserveList}">
-                        <div class="single-contact-info d-flex align-items-center">
-                            <p class="mr-30">예약번호</p>
-                            <p th:text="${userReserve.reservation_id}"></p>
-                        </div>
-                        <div class="single-contact-info d-flex align-items-center">
-                            <p class="mr-30">전시회 이름</p>
-                            <a style="margin-bottom: 1rem;" th:href="@{/userReserveCont(reservation_id=${userReserve.reservation_id},
-                                                           exhibition_key=${userReserve.exhibition_key})}"
-                               th:text="${userReserve.exhibition_title}">
-                            </a>
-                        </div>
-                        <div class="single-contact-info d-flex align-items-center">
-                           <p><img style="width: 100px; height: 120px;"
-                                   th:src="@{${userReserve.exhibition_thumnail}}" alt="전시회 이미지"></p>
-                        </div>
-                        <div class="single-contact-info d-flex align-items-center">
-                            <p class="mr-30">결제날짜</p>
-                            <p th:text="${userReserve.reservation_date}"></p>
-                        </div>
-                        <input class="btn oneMusic-btn mt-30" type="button" value="내역삭제">
-                        <hr>
+                        <th:block th:if="${userReserve.reservation_buyer_view != 0}">
+                            <div class="single-contact-info d-flex align-items-center">
+                                <p class="mr-30">예약번호</p>
+                                <p th:text="${userReserve.reservation_id}"></p>
+                            </div>
+                            <div class="single-contact-info d-flex align-items-center">
+                                <p class="mr-30">전시회 이름</p>
+                                <a style="margin-bottom: 1rem;" th:href="@{/userReserveCont(reservation_id=${userReserve.reservation_id},
+                                                       exhibition_key=${userReserve.exhibition_key})}"
+                                   th:text="${userReserve.exhibition_title}">
+                                </a>
+                            </div>
+                            <div class="single-contact-info d-flex align-items-center">
+                                <p><img style="width: 100px; height: 120px;"
+                                        th:src="@{${userReserve.exhibition_thumnail}}" alt="전시회 이미지"></p>
+                            </div>
+                            <div class="single-contact-info d-flex align-items-center">
+                                <p class="mr-30">결제날짜</p>
+                                <p th:text="${userReserve.reservation_date}"></p>
+                            </div>
+                            <input class="btn oneMusic-btn mt-30" type="button" value="내역삭제"
+                                   th:data-reservation-id="${userReserve.reservation_id}"
+                                   onclick="deleteReservation(this)">
+                            <hr>
+                        </th:block>
+                        <th:block th:if="${userReserve.reservation_buyer_view == 0}">
+                            <h3>리스트 정보 x</h3>
+                        </th:block>
                     </div>
                 </th:block>
+
             </div>
         </div>
     </div>
 </section>
 <!-- ##### Login Area End ##### -->
 
-<div th:replace="~{include/footer}"></div>
 
-<!-- ##### All Javascript Script ##### -->
-<script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
+
+
+<div th:replace="~{include/footer}"></div>
 <!-- jQuery-2.2.4 js -->
 <script src="/bootstrap/js/jquery/jquery-2.2.4.min.js"></script>
 <!-- Popper js -->
@@ -121,25 +130,9 @@
 <script src="/bootstrap/js/plugins/plugins.js"></script>
 <!-- Active js -->
 <script src="/bootstrap/js/active.js"></script>
+
+<script src="/js/reservation/reserveDelete.js"></script>
 </body>
 
-<script>
-    ClassicEditor
-        .create(document.querySelector('#notice_cont'), {
-            removePlugins: ['Heading'],
-            language: "ko"
-        })
-        .then(editor => {
-            $('style').append('.ck-content { height: 400px; }');
-            let objEditor = editor;
-
-            editor.model.document.on('change:data', () => {
-                $('#notice_cont').val(editor.getData());
-            }, {priority: 'high'});
-        })
-        .catch(error => {
-            console.error(error);
-        });
-</script>
 
 </html>
