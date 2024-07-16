@@ -2,7 +2,14 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
     <title>ART ISSUE :: 결제</title>
+
+    <link rel="stylesheet" href="/bootstrap/style.css">
+
     <script src="https://js.tosspayments.com/v1/payment"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -34,29 +41,64 @@
 
 
         });
+
+
     </script>
 </head>
 <body>    <!-- Preloader -->
 
-<h1>결제 폼</h1>
-<form id="paymentForm" th:data-client-key="${clientKey}">
-    <ul>
-        <li>
-            주문번호 : <input type="text" id="orderId" name="orderId" th:value="${reserveList[0].getReservation_id()}" readonly/>
-        </li>
-        <li>
-            결제금액 : <input type="text" id="amount" name="amount" th:value="${totalPrice}"/>
-        </li>
-        <li>
-            전시회 이름 : <input type="text" id="orderName" name="orderName" th:value="${exhiDTO.getExhibition_title()}"/>
-        </li>
+<br>
+    <form class="ml-30" id="paymentForm" th:data-client-key="${clientKey}">
+        <div class="single-new-item d-flex mb-15">
+            <p style="margin-right: 13px;">전시회 이름</p>
+            <input class="form-control" style="width: 550px;"
+                   type="text" id="orderName" name="orderName" th:value="${exhiDTO.getExhibition_title()}" readonly/>
+        </div>
+        <div class="single-new-item d-flex mb-15">
+            <p class="mr-30">주문번호</p>
+            <input class="form-control" style="width: 550px;"
+                   type="text" id="orderId" name="orderId" th:value="${reserveList[0].getReservation_id()}" readonly/>
+        </div>
+        <div class="single-new-item d-flex mb-15">
+            <p style="margin-right: 13px;">예매자 성함</p>
+            <input class="form-control" style="width: 550px;"
+                   type="text" th:value="${session.mDTO.member_name}" readonly/>
+        </div>
+        <div class="single-new-item d-flex mb-15">
+            <p class="mr-30">전화번호</p>
+            <input class="form-control" style="width: 550px;"
+                   type="text" th:value="${session.mDTO.member_phone}" readonly/>
+        </div>
+        <div class="single-new-item d-flex mb-15">
+            <p class="mr-30">결제금액</p>
+            <input class="form-control" style="width: 550px;"
+                   type="text" id="amount" name="amount" th:value="${totalPrice}" readonly/>
+        </div>
+        <div class="single-new-item d-flex mb-15">
+            <p class="mr-30">취소기한</p>
+            <input class="form-control" style="width: 550px;"
+                    readonly/>
+        </div>
+        <div class="single-new-item d-flex mb-15">
+            <p style="margin-right: 13px;">취소수수료</p>
+            <input class="form-control" style="width: 550px;"
+                   type="text" value="X" readonly/>
+        </div>
             <input type="hidden" id="successUrl" name="successUrl" th:value="@{/payment/success-redirect}"/>
             <input type="hidden" id="failUrl" name="failUrl" th:value="@{/payment/fail}"/>
-        <li>
-            <button type="button" id="payButton">결제</button>
-        </li>
-    </ul>
-</form>
+            <button class="btn oneMusic-btn" type="button" id="payButton">결제</button>
+    </form>
+
+<!-- jQuery-2.2.4 js -->
+<script src="/bootstrap/js/jquery/jquery-2.2.4.min.js"></script>
+<!-- Popper js -->
+<script src="/bootstrap/js/bootstrap/popper.min.js"></script>
+<!-- Bootstrap js -->
+<script src="/bootstrap/js/bootstrap/bootstrap.min.js"></script>
+<!-- All Plugins js -->
+<script src="/bootstrap/js/plugins/plugins.js"></script>
+<!-- Active js -->
+<script src="/bootstrap/js/active.js"></script>
 
 </body>
 </html>
