@@ -41,52 +41,58 @@
 
 
         });
-
-
     </script>
 </head>
 <body>    <!-- Preloader -->
-
-<br>
+<section class="contact-area section-padding-100 bg-img bg-overlay bg-fixed has-bg-img" style="background-image: url(/bootstrap/img/bg-img/bg-2.jpg); padding: 0;">
+    <div class="section-heading white wow fadeInUp" data-wow-delay="100ms" style="margin: 0;">
+        <p>See what’s new</p>
+        <h2>RESERVATION</h2>
+    </div>
+</section>
     <form class="ml-30" id="paymentForm" th:data-client-key="${clientKey}">
-        <div class="single-new-item d-flex mb-15">
-            <p style="margin-right: 13px;">전시회 이름</p>
-            <input class="form-control" style="width: 550px;"
-                   type="text" id="orderName" name="orderName" th:value="${exhiDTO.getExhibition_title()}" readonly/>
-        </div>
-        <div class="single-new-item d-flex mb-15">
-            <p class="mr-30">주문번호</p>
-            <input class="form-control" style="width: 550px;"
-                   type="text" id="orderId" name="orderId" th:value="${reserveList[0].getReservation_id()}" readonly/>
-        </div>
-        <div class="single-new-item d-flex mb-15">
-            <p style="margin-right: 13px;">예매자 성함</p>
-            <input class="form-control" style="width: 550px;"
-                   type="text" th:value="${session.mDTO.member_name}" readonly/>
-        </div>
-        <div class="single-new-item d-flex mb-15">
-            <p class="mr-30">전화번호</p>
-            <input class="form-control" style="width: 550px;"
-                   type="text" th:value="${session.mDTO.member_phone}" readonly/>
-        </div>
-        <div class="single-new-item d-flex mb-15">
-            <p class="mr-30">결제금액</p>
-            <input class="form-control" style="width: 550px;"
-                   type="text" id="amount" name="amount" th:value="${totalPrice}" readonly/>
-        </div>
-        <div class="single-new-item d-flex mb-15">
-            <p class="mr-30">취소기한</p>
-            <input class="form-control" style="width: 550px;"
-                    readonly/>
-        </div>
-        <div class="single-new-item d-flex mb-15">
-            <p style="margin-right: 13px;">취소수수료</p>
-            <input class="form-control" style="width: 550px;"
-                   type="text" value="X" readonly/>
-        </div>
-            <input type="hidden" id="successUrl" name="successUrl" th:value="@{/payment/success-redirect}"/>
-            <input type="hidden" id="failUrl" name="failUrl" th:value="@{/payment/fail}"/>
-            <button class="btn oneMusic-btn" type="button" id="payButton">결제</button>
+        <table>
+            <tr>
+                <th>전시회</th>
+                <td>
+                    <input class="form-control" type="text" id="orderName" name="orderName" th:value="${exhiDTO.getExhibition_title()}" readonly/>
+                </td>
+            </tr>
+            <tr>
+                <th>주문번호</th>
+                <td>
+                    <input class="form-control" type="text" id="orderId" name="orderId" th:value="${reserveList[0].getReservation_id()}" readonly/>
+                </td>
+            </tr>
+            <tr>
+                <th>예매자</th>
+                <td>
+                    <input class="form-control" type="text" th:value="${session.mDTO.member_name}" readonly/>
+                </td>
+            </tr>
+            <tr>
+                <th>연락처</th>
+                <td>
+                    <input class="form-control" type="text" th:value="${session.mDTO.member_phone}" readonly/>
+                </td>
+            </tr>
+            <tr>
+                <th>결제금액</th>
+                <td>
+                    <input class="form-control" type="text" id="amount" name="amount" th:value="${totalPrice}" readonly/>
+                </td>
+            </tr>
+            <tr>
+                <th>취소기한</th>
+                <td>
+                    <input type="hidden" id="endDate" th:value="${#dates.format(exhiDTO.getExhibition_end_date(), 'yyyy-MM-dd')}" readonly/>
+                    <input class="form-control" id="cancelDate" readonly/>
+                </td>
+            </tr>
+        </table>
+        <input type="hidden" id="successUrl" name="successUrl" th:value="@{/payment/success-redirect}"/>
+        <input type="hidden" id="failUrl" name="failUrl" th:value="@{/payment/fail}"/>
+        <button class="btn oneMusic-btn" type="button" id="payButton">결제</button>
     </form>
 
 <!-- jQuery-2.2.4 js -->
@@ -99,6 +105,8 @@
 <script src="/bootstrap/js/plugins/plugins.js"></script>
 <!-- Active js -->
 <script src="/bootstrap/js/active.js"></script>
+
+<script src="/js/tosspay/payment.js"></script>
 
 </body>
 </html>

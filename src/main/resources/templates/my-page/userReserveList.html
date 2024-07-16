@@ -78,7 +78,7 @@
             <div class="col-12 col-lg-9" style="border: solid 1px #000000;">
                 <hr>
                 <th:block th:if="${userReserveList != null}">
-                    <div th:each="userReserve, stat : ${userReserveList}">
+                    <div th:each="userReserve:${userReserveList}">
                         <th:block th:if="${userReserve.reservation_buyer_view != 0}">
                             <div class="single-contact-info d-flex align-items-center">
                                 <p class="mr-30">예약번호</p>
