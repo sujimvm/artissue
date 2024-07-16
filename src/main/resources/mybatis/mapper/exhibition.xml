@@ -66,4 +66,47 @@
         GROUP BY e.exhibition_key
         ORDER BY e.exhibition_key
     </select>
+
+    <insert id="insertExhibition" parameterType="exhibitionDTO" useGeneratedKeys="true" keyColumn="exhibition_key" keyProperty="exhibition_key">
+        insert into exhibition (member_key, company_number, exhibition_thumnail, exhibition_title,
+        exhibition_start_date, exhibition_end_date, exhibition_place, exhibition_addr, exhibition_view_time,
+        exhibition_view_age, exhibition_notice, exhibition_detail_info, exhibition_seller_info, exhibition_product_info,
+        exhibition_date) values (#{member_key}, #{company_number}, #{exhibition_thumnail}, #{exhibition_title},
+        #{exhibition_start_date}, #{exhibition_end_date}, #{exhibition_place}, #{exhibition_addr}, #{exhibition_view_time},
+        #{exhibition_view_age}, #{exhibition_notice}, #{exhibition_detail_info}, #{exhibition_seller_info}, #{exhibition_product_info},
+        NOW())
+    </insert>
+
+    <select id="getExhibitionModifyCont" parameterType="map" resultType="exhibitionDTO">
+        select * from exhibition where exhibition_key = #{exhibition_key} and member_key = #{member_key}
+    </select>
+
+    <insert id="insertExhibitionPrice" parameterType="map">
+        insert into price (exhibition_key, price_option, price)
+        values (#{exhibition_key}, #{price_option}, #{price})
+    </insert>
+
+    <update id="updateExhibition" parameterType="exhibitionDTO">
+        update exhibition set
+        exhibition_title = #{exhibition_title},
+        exhibition_thumnail = #{exhibition_thumnail},
+        exhibition_start_date = #{exhibition_start_date},
+        exhibition_end_date = #{exhibition_end_date},
+        exhibition_place = #{exhibition_place},
+        exhibition_addr = #{exhibition_addr},
+        exhibition_view_time = #{exhibition_view_time},
+        exhibition_view_age = #{exhibition_view_age},
+        exhibition_notice = #{exhibition_notice},
+        exhibition_detail_info = #{exhibition_detail_info},
+        exhibition_seller_info = #{exhibition_seller_info},
+        exhibition_product_info = #{exhibition_product_info}
+        where exhibition_key = #{exhibition_key}
+    </update>
+
+    <update id="updateExhibitionPrice" parameterType="map">
+        update price set
+        price_option = #{price_option},
+        price = #{price}
+        where price_key = #{price_key}
+    </update>
 </mapper>

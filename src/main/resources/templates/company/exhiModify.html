@@ -68,68 +68,74 @@
         <div class="row justify-content-center">
             <div class="col-12 col-lg-8">
                 <div class="login-content">
-                    <form action="/company/insertOk" method="post">
+                    <form action="/company/modifyOk" method="post">
                         <input type="hidden" id="member_key" name="member_key" th:value="${session.cDTO.getMember_key()}">
+                        <input type="hidden" id="exhibition_key" name="exhibition_key" th:value="${exhibition.exhibition_key}">
                         <h3>전시회 등록</h3>
                         <table>
                             <tr>
                                 <td>제목</td>
-                                <td><input class="form-control mb-15" id="exhibition_title" name="exhibition_title" placeholder="제목을 입력하세요" required></td>
+                                <td><input class="form-control mb-15" id="exhibition_title" name="exhibition_title" th:value="${exhibition.getExhibition_title()}" required></td>
                             </tr>
                             <tr>
                                 <td>썸네일</td>
                                 <td>
-                                    <input class="form-control mb-15" id="exhibition_thumnail" name="exhibition_thumnail" required placeholder="이미지 경로를 입력하세요.">
+                                    <input class="form-control mb-15" id="exhibition_thumnail" name="exhibition_thumnail" required th:value="${exhibition.getExhibition_thumnail()}">
                                 </td>
                             </tr>
                             <tr>
                                 <td>시작 날짜</td>
                                 <td>
-                                    <input class="form-control mb-15" id="exhibition_start_date" name="exhibition_start_date" type="date" required>
+                                    <input class="form-control mb-15" id="exhibition_start_date" name="exhibition_start_date" type="date" required th:field="${exhibition.exhibition_start_date}">
                                 </td>
                             </tr>
                             <tr>
                                 <td>종료 날짜</td>
                                 <td>
-                                    <input class="form-control mb-15" id="exhibition_end_date" name="exhibition_end_date" type="date" required>
+                                    <input class="form-control mb-15" id="exhibition_end_date" name="exhibition_end_date" type="date" required th:field="${exhibition.exhibition_end_date}">
                                 </td>
                             </tr>
                             <tr>
                                 <td>전시회 장소</td>
                                 <td>
-                                    <input class="form-control mb-15" id="exhibition_place" name="exhibition_place" placeholder="전시회가 열릴 장소를 입력해 주세요." required>
+                                    <input class="form-control mb-15" id="exhibition_place" name="exhibition_place" th:value="${exhibition.getExhibition_place()}" required>
                                 </td>
                             </tr>
                             <tr>
                                 <td>전시회 주소</td>
                                 <td>
-                                    <input class="form-control mb-15" id="exhibition_addr" name="exhibition_addr" placeholder="전시회가 열릴 장소의 주소를 입력해 주세요." required>
+                                    <input class="form-control mb-15" id="exhibition_addr" name="exhibition_addr" th:value="${exhibition.getExhibition_addr()}" required>
                                 </td>
                             </tr>
                             <tr>
                                 <td>관람 시간</td>
                                 <td>
-                                    <input class="form-control mb-15" id="exhibition_view_time" name="exhibition_view_time" placeholder="전시회의 관람 가능한 시간을 입력해 주세요." required>
+                                    <input class="form-control mb-15" id="exhibition_view_time" name="exhibition_view_time" th:value="${exhibition.getExhibition_view_time()}" required>
                                 </td>
                             </tr>
                             <tr>
                                 <td>관람 연령</td>
                                 <td>
-                                    <select name="exhibition_view_age">
-                                        <option value="전체 이용가">전체 이용가</option>
-                                        <option value="만 5세 이상">만 5세 이상</option>
-                                        <option value="만 12세 이상">만 12세 이상</option>
-                                        <option value="만 15세 이상">만 15세 이상</option>
-                                        <option value="만 19세 이상">만 19세 이상</option>
+                                    <select name="exhibition_view_age" th:field="${exhibition.exhibition_view_age}">
+                                        <option value="전체 이용가" th:selected="${exhibition.getExhibition_view_age()} == '전체 이용가'">전체 이용가</option>
+                                        <option value="만 5세 이상" th:selected="${exhibition.getExhibition_view_age()} == '만 5세 이상'">만 5세 이상</option>
+                                        <option value="만 12세 이상" th:selected="${exhibition.getExhibition_view_age()} == '만 12세 이상'">만 12세 이상</option>
+                                        <option value="만 15세 이상" th:selected="${exhibition.getExhibition_view_age()} == '만 15세 이상'">만 15세 이상</option>
+                                        <option value="만 19세 이상" th:selected="${exhibition.getExhibition_view_age()} == '만 19세 이상'">만 19세 이상</option>
                                     </select>
                                 </td>
                             </tr>
                             <tr>
                                 <td>티켓가격</td>
                                 <td>
-                                    <div id="price_form">
-
+                                    <div id="price_form" th:if="${priceList != null && !priceList.isEmpty()}">
+                                        <div th:each="price : ${priceList}">
+                                            <input type="hidden" name="price_key[]" th:value="${price.price_key}">
+                                            <input name="ticket_name[]" th:value="${price.price_option}" />
+                                            <input name="ticket_price[]" type="number" th:value="${price.price}" />
+                                        </div>
                                     </div>
+                                    <div id="new_price_form"></div>
                                     <div>
                                         <button type="button" id="addPrice">가격 추가</button>
                                     </div>
@@ -137,22 +143,22 @@
                             </tr>
                             <tr>
                                 <td>공지사항</td>
-                                <td><textarea class="form-control mb-15" id="exhibition_notice" name="exhibition_notice" rows="7" placeholder="공지사항을 입력하세요" style="height: 200px; resize: none;"></textarea></td>
+                                <td><textarea class="form-control mb-15" id="exhibition_notice" name="exhibition_notice" rows="7" th:utext="${exhibition.getExhibition_notice()}" style="height: 200px; resize: none;"></textarea></td>
                             </tr>
                             <tr>
                                 <td>상세내용</td>
-                                <td><textarea class="form-control mb-15" id="exhibition_detail_info" name="exhibition_detail_info" rows="7" placeholder="상세 내용을 입력하세요" style="height: 500px; resize: none;" required></textarea></td>
+                                <td><textarea class="form-control mb-15" id="exhibition_detail_info" name="exhibition_detail_info" rows="7" th:utext="${exhibition.getExhibition_detail_info()}" style="height: 500px; resize: none;" required></textarea></td>
                             </tr>
                             <tr>
                                 <td>판매자 정보</td>
-                                <td><textarea class="form-control mb-15" id="exhibition_seller_info" name="exhibition_seller_info" rows="7" placeholder="판매자 정보를 입력하세요" style="height: 500px; resize: none;"></textarea></td>
+                                <td><textarea class="form-control mb-15" id="exhibition_seller_info" name="exhibition_seller_info" rows="7" th:utext="${exhibition.getExhibition_seller_info()}" style="height: 500px; resize: none;"></textarea></td>
                             </tr>
                             <tr>
                                 <td>상품 정보</td>
-                                <td><textarea class="form-control mb-15" id="exhibition_product_info" name="exhibition_product_info" rows="7" placeholder="상품 정보를 입력하세요" style="height: 500px; resize: none;"></textarea></td>
+                                <td><textarea class="form-control mb-15" id="exhibition_product_info" name="exhibition_product_info" rows="7" th:utext="${exhibition.getExhibition_product_info()}" style="height: 500px; resize: none;"></textarea></td>
                             </tr>
                             <tr>
-                                <td colspan="2" style="text-align: center;"><button type="submit" class="btn oneMusic-btn mt-30">등록하기</button></td>
+                                <td colspan="2" style="text-align: center;"><button type="submit" class="btn oneMusic-btn mt-30">수정하기</button></td>
                             </tr>
                         </table>
                     </form>
@@ -170,7 +176,7 @@
 <!-- jQuery-2.2.4 js -->
 <script src="/bootstrap/js/jquery/jquery-2.2.4.min.js"></script>
 
-<script src="/js/exhibition/exhiInsert.js"></script>
+<script src="/js/exhibition/exhiModify.js"></script>
 <!-- Popper js -->
 <script src="/bootstrap/js/bootstrap/popper.min.js"></script>
 <!-- Bootstrap js -->
