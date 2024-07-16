@@ -1,6 +1,7 @@
 package com.artissue.model;
 
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -11,7 +12,9 @@ public class ExhibitionDTO {
     private String company_number;
     private String exhibition_thumnail;
     private String exhibition_title;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date exhibition_start_date;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date exhibition_end_date;
     private String exhibition_place;
     private String exhibition_addr;

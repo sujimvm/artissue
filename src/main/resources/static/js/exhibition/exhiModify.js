@@ -1,4 +1,4 @@
-$(document).ready(function (){
+$(document).ready(function() {
     ClassicEditor
         .create(document.querySelector('#exhibition_notice'), {
             removePlugins: ['Heading'],
@@ -67,27 +67,28 @@ $(document).ready(function (){
             console.error(error);
         });
 
-    $('#addPrice').on('click', function (){
+    $('#addPrice').on('click', function() {
         var newPriceDiv = $('<div class="ticket-price"></div>');
 
-        // Create the ticket name input
+        var priceKeyInput = $('<input>')
+            .attr('type', 'hidden')
+            .attr('name', 'price_key[]')
+            .val('0'); // 새로운 가격 추가 시 기본값 0
+
         var ticketNameInput = $('<input>')
-            .attr('type', 'text')
             .attr('name', 'ticket_name[]')
             .attr('placeholder', '티켓 이름');
 
-        // Create the ticket price input
         var ticketPriceInput = $('<input>')
             .attr('type', 'number')
             .attr('name', 'ticket_price[]')
             .attr('placeholder', '가격')
             .attr('min', '0');
 
-        // Append the inputs to the new div
+        newPriceDiv.append(priceKeyInput);
         newPriceDiv.append(ticketNameInput);
         newPriceDiv.append(ticketPriceInput);
 
-        // Append the new div to the price_form div
-        $('#price_form').append(newPriceDiv);
-    })
+        $('#new_price_form').append(newPriceDiv);
+    });
 });
