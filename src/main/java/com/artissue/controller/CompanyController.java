@@ -6,10 +6,7 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -109,7 +106,7 @@ public class CompanyController {
                                    @RequestParam("price_key") List<Integer> priceKeys,
                                    @RequestParam("ticket_name") List<String> ticketNames,
                                    @RequestParam("ticket_price") List<Integer> ticketPrices,
-                                   HttpSession session, HttpServletResponse response) throws IOException {
+                                   HttpServletResponse response) throws IOException {
         response.setContentType("text/html;charset=UTF-8");
 
         PrintWriter out = response.getWriter();
@@ -141,6 +138,30 @@ public class CompanyController {
             out.println("history.back()");
             out.println("</script>");
         }
+    }
+
+    @PostMapping("/delete")
+    @ResponseBody
+    public int deleteExhibition(@RequestParam("exhibition_key") int exhibition_key, HttpSession session) {
+
+        ExhibitionDTO exhibitionDTO = this.exhibitionMapper.getExhibitionCont(exhibition_key);
+
+        MemberDTO company = (MemberDTO) session.getAttribute("cDTO");
+
+        int result = 0;
+        if(exhibitionDTO.getMember_key() == company.getMember_key()){
+            result = this.exhibitionMapper.deleteExhibition(exhibition_key);
+
+            if(result > 0){
+               result = 1;
+            }else{
+                result = 0;
+            }
+        }else{
+           result = -1;
+        }
+
+        return result;
     }
 
 }
