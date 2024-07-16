@@ -104,7 +104,7 @@
 
                             <td>
                                 <input type="button" th:onclick="|location.href='@{/company/modify(no=${list.getExhibition_key})}'|" value="수정">
-                                <input type="button" th:onclick="|location.href='@{/company/delete(no=${list.getExhibition_key})}'|" value="삭제">
+                                <input type="button" th:onclick="|confirmDelete(${list.getExhibition_key})|" value="삭제">
                             </td>
                         </tr>
                     </th:block>
@@ -134,6 +134,34 @@
 <script src="/bootstrap/js/plugins/plugins.js"></script>
 <!-- Active js -->
 <script src="/bootstrap/js/active.js"></script>
+
+<script>
+    function confirmDelete(exhibitionKey) {
+        if (confirm("정말로 삭제하시겠습니까?")) {
+            $.ajax({
+                url : "/company/delete",
+                type: "post",
+                data: {
+                    exhibition_key : exhibitionKey
+                },
+                success: function (result){
+                    if(result == 1){
+                        alert("전시회를 성공적으로 삭제하였습니다.");
+                        location.reload();
+                    }else if(result == 0){
+                        alert("전시회를 삭제하지 못하였습니다.");
+                        location.reload();
+                    }else{
+                        alert("권한이 없어 삭제하지 못하였습니다.");
+                        location.reload();
+                    }
+                },error: function(xhr, status, error) {
+                    console.error(xhr);
+                }
+            })
+        }
+    }
+</script>
 </body>
 
 </html>

@@ -109,4 +109,8 @@
         price = #{price}
         where price_key = #{price_key}
     </update>
+
+    <delete id="deleteExhibition" parameterType="int">
+        delete from exhibition where exhibition_key = #{exhibition_key}
+    </delete>
 </mapper>

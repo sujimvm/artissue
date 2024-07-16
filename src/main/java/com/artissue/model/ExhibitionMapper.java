@@ -32,4 +32,6 @@ public interface ExhibitionMapper {
     int updateExhibition(ExhibitionDTO exhibition);
 
     void updateExhibitionPrice(int price_key, int exhibition_key, String price_option, int price);
+
+    int deleteExhibition(int exhibition_key);
 }
