@@ -1,4 +1,40 @@
-.exhiTb img{
-    width: 50%;
+body{
+    min-width: 400px;
 }
-
+.popupDiv{
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+.popTb{
+    width: 100%;
+    margin-bottom: 3%;
+    font-size: 12px;
+}
+.exhiTb img{
+    width: 90%;
+}
+.priceTb th{
+    text-align: center;
+    font-weight: bold;
+    background-color: #dfdfdf;
+    border: 1px solid #ffffff;
+    padding: 2%;
+}
+.priceTb td{
+    border: 1px solid #dfdfdf;
+    padding: 1%;
+    text-align: center;
+}
+.textDiv{
+    text-align: center;
+}
+.textDiv p{
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0;
+}
+.btDiv{
+    text-align: center;
+}
