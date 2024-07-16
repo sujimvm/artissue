@@ -83,8 +83,9 @@
                         <th colspan="2">전시회 명</th>
                         <th>예매자</th>
                         <th>판매여부</th><!-- <= && >= -->
+                        <th></th><!-- <= && >= -->
                     </tr>
-                    <th:block th:each="list : ${list}">
+                    <th:block th:unless="${#lists.isEmpty(list)}" th:each="list : ${list}">
                         <tr>
                             <td><img th:src="${list.getExhibition_thumnail()}"></td>
                             <td style="text-align: left;">
@@ -97,6 +98,16 @@
                             <td th:if="${(list.getExhibition_start_date()) le (#dates.createNow()) && (list.getExhibition_end_date()) ge (#dates.createNow())}">판매중</td><!-- <= && >= -->
                             <td th:if="${(list.getExhibition_start_date()) gt (#dates.createNow())}">판매예정</td><!-- > -->
                             <td th:if="${(list.getExhibition_end_date()) lt (#dates.createNow())}">판매종료</td><!-- < -->
+
+                            <td>
+                                <input type="button" th:onclick="|location.href='@{/company/modify(no=${list.getExhibition_key})}'|" value="수정">
+                                <input type="button" th:onclick="|location.href='@{/company/delete(no=${list.getExhibition_key})}'|" value="삭제">
+                            </td>
+                        </tr>
+                    </th:block>
+                    <th:block th:if="${#lists.isEmpty(list)}" >
+                        <tr>
+                            <td colspan="4">등록된 전시회가 존재하지 않습니다.</td>
                         </tr>
                     </th:block>
                 </table>
