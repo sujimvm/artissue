@@ -22,20 +22,32 @@ $(document).ready(function (){
                 const exhibitions = list;
 
                 exhibitions.forEach(function(exhibition) {
-                    var row = "<div class='col-12 col-md-6 col-lg-4'>" +
-                        "<div class='single-event-area mb-30'>" +
-                        "<div class='event-thumbnail'>" +
-                        "<a href='/exhi/content?no="+exhibition.exhibition_key+"'><img src='"+ exhibition.exhibition_thumnail +"' alt=''></a>" +
-                        "</div>" +
-                        "<div class='event-text'>" +
-                        "<a href='/exhi/content?no="+exhibition.exhibition_key+"'><h4>"+ exhibition.exhibition_title +"</h4></a>" +
-                        "<div class='event-meta-data'>" +
-                        "<a href='/exhi/content?no="+exhibition.exhibition_key+"' class='event-place'>" + exhibition.exhibition_place + "</a>" +
-                        "<a href='/exhi/content?no="+exhibition.exhibition_key+"' class='event-date'>" + exhibition.exhibition_start_date + " ~ " + exhibition.exhibition_end_date +"</a>" +
-                        "</div>" +
-                        "<a href='/exhi/content?no="+exhibition.exhibition_key+"' class='btn see-more-btn'>자세히 보기</a>" +
-                        "</div>" +
-                        "</div>" +
+                    let start_date = new Date(exhibition.exhibition_start_date);
+                    let end_date = new Date(exhibition.exhibition_end_date);
+
+                    let exhibition_start_date = start_date.getFullYear() +
+                        '-' + ( (start_date.getMonth()+1) <= 9 ? "0" + (start_date.getMonth()+1) : (start_date.getMonth()+1) )+
+                        '-' + ( (start_date.getDate()) <= 9 ? "0" + (start_date.getDate()) : (start_date.getDate()) );
+
+                    let exhibition_end_date = end_date.getFullYear() +
+                        '-' + ( (end_date.getMonth()+1) <= 9 ? "0" + (end_date.getMonth()+1) : (end_date.getMonth()+1) )+
+                        '-' + ( (end_date.getDate()) <= 9 ? "0" + (end_date.getDate()) : (end_date.getDate()) );
+
+                    var row = "" +
+                        "<div class='col-12 col-md-6 col-lg-4'>" +
+                            "<div class='single-event-area mb-30'>" +
+                                "<div class='event-thumbnail'>" +
+                                    "<a href='/exhi/content?no="+exhibition.exhibition_key+"'><img src='"+ exhibition.exhibition_thumnail +"' alt=''></a>" +
+                                "</div>" +
+                                "<div class='event-text'>" +
+                                    "<a class='exhi-title' href='/exhi/content?no="+exhibition.exhibition_key+"'><h4>"+ exhibition.exhibition_title +"</h4></a>" +
+                                    "<div class='event-meta-data'><a style='color: transparent;'></a>" +
+                                        "<a href='/exhi/content?no="+exhibition.exhibition_key+"' class='event-place'>" + exhibition.exhibition_place + "</a><br>" +
+                                        "<a href='/exhi/content?no="+exhibition.exhibition_key+"' class='event-date'>" + exhibition_start_date + " ~ " + exhibition_end_date +"</a>" +
+                                    "</div>" +
+                                    "<a href='/exhi/content?no="+exhibition.exhibition_key+"' class='btn see-more-btn'>자세히 보기</a>" +
+                                "</div>" +
+                            "</div>" +
                         "</div>";
                     $('#exhibition-list').append(row);
                 });
@@ -58,7 +70,7 @@ $(document).ready(function (){
         getExhibitionList();
     });
 
-    function keywordSearch() {
+    $('#search-keyword').keyup(function (e) {
         keyword = $('#search-keyword').val();
 
         // 기존 목록 초기화
@@ -66,7 +78,8 @@ $(document).ready(function (){
         offset = 0;
 
         getExhibitionList(keyword);
-    }
+    });
+
     function filterList(){
 
         $('input[name="sellCode"]:checked').each(function() {

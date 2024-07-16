@@ -16,6 +16,7 @@
 
     <!-- Stylesheet -->
     <link rel="stylesheet" href="/bootstrap/style.css">
+    <link rel="stylesheet" href="/css/notice/list.css">
 
 </head>
 
@@ -56,22 +57,22 @@
                                 <!-- Notice Title -->
                                 <div class="post-title" style="cursor: pointer;" th:text="${notice.notice_title}" th:onclick="toggleContent(this)"></div>
                                 <!-- Notice Cont -->
-                                <div class="post-content" style="display: none;" th:utext="${notice.notice_cont}"></div>
+                                <div class="post-content noticeCon" style="display: none;" th:utext="${notice.notice_cont}"></div>
                                 <!-- Notice Date -->
                                 <p th:text="${notice.notice_date.substring(0, 10)}"></p>
                                 <a sec:authorize="isAuthenticated() and hasRole('ADMIN')" th:href="@{/notice/modify(no=${notice.notice_key})}">수정</a>
                                 <a sec:authorize="isAuthenticated() and hasRole('ADMIN')" style="cursor: pointer" th:onclick="'confirmDelete(' + ${notice.notice_key} + ')'">삭제</a>
                                 <hr>
-
                             </th:block>
                         </th:block>
 
-                        <th:block th:if="${noticeList == null}">
-                            <p>notice X</p>
+                        <th:block th:if="${noticeList != null}">
+                            <p>공지사항이 존재하지 않습니다.</p>
                         </th:block>
                     </div>
-                    <input type="button" class="btn oneMusic-btn mt-30" value="공지사항 등록"
-                           th:onclick="noticeInsert()" sec:authorize="isAuthenticated() and hasRole('ADMIN')">
+                    <div style="text-align: right;">
+                        <input type="button" class="btn oneMusic-btn mt-30" value="공지사항 등록" th:onclick="noticeInsert()" sec:authorize="isAuthenticated() and hasRole('ADMIN')">
+                    </div>
                 </div>
             </div>
         </div>

@@ -1,0 +1,32 @@
+.event-thumbnail img{
+    min-height: 466px;
+}
+.exhi-title h4{
+    min-height: 50px;
+    font-size: 18px;
+}
+.event-text{
+    min-height: 220px;
+}
+
+.searchDiv{
+    background-color: #f5f9fa;
+    border: 1px solid #d8d8d8;
+    padding: 1% 0;
+}
+
+.searchDiv div{
+    width: 70%;
+    min-width: 360px;
+    margin: 0 auto;
+    padding: 2% 0;
+    border-bottom: 1px solid #d8d8d8;
+}
+
+.searchDiv div table{
+    width: 100%;
+}
+
+.searchDiv div table td{
+    text-align: center;
+}

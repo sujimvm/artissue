@@ -84,7 +84,8 @@
         r.exhibition_key,
         e.exhibition_title,
         e.exhibition_thumnail,
-        r.reservation_date
+        r.reservation_date,
+        r.reservation_buyer_view
         FROM reservation r
         LEFT JOIN exhibition e ON r.exhibition_key = e.exhibition_key
         WHERE r.member_key = #{member_key}

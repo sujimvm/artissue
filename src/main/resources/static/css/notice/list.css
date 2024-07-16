@@ -1,0 +1,9 @@
+.noticeCon{
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #d8d8d8;
+}
+.noticeCon p{
+    font-size: 13px;
+    margin: 0;
+}
