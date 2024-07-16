@@ -34,13 +34,13 @@
     </div>
 </div>
 <div th:replace="~{include/header}"></div>
+<input type="hidden" sec:authorize="isAuthenticated() and hasRole('USER')" th:if="${session.mDTO.getMember_phone().equals('-')}" id="reCk" value="N">
 
 <!-- ##### Breadcumb Area Start ##### -->
 <section class="breadcumb-area bg-img bg-overlay" style="background-image: url(/bootstrap/img/bg-img/breadcumb3.jpg);">
     <div class="bradcumbContent">
         <p>See what’s new</p>
         <h2>Content</h2>
-
     </div>
 </section>
 
