@@ -44,6 +44,109 @@
 
 
     </style>
+    <script>
+
+        //모든 텍스트 창 입력확인
+        function validateForm() {
+                const fields = ['member_name', 'member_nickname', 'member_phone', 'member_email', 'member_birth'];
+                const fieldNames = {
+                    'member_name': '이름',
+                    'member_nickname': '닉네임',
+                    'member_phone': '휴대폰 번호',
+                    'member_email': '이메일',
+                    'member_birth': '생년월일'
+                };
+
+                for (let field of fields) {
+                    const input = document.getElementById(field);
+                    if (input.value.trim() === '') {
+                        alert(`${fieldNames[field]}을(를) 입력해주세요.`);
+                        input.focus();
+                        return false;
+                    }
+                }
+
+                const genderChecked = document.querySelector('input[name="member_gender"]:checked');
+                if (!genderChecked) {
+                    alert('성별을 선택해주세요.');
+                    return false;
+                }
+
+                return true;
+        }
+
+        // 닉네임 글자수 제한 및 실시간 유효성 검사
+        $(function() {
+            $('input[name="member_nickname"]').on('input', function () {
+                var charCount = $(this).val().length;
+
+                if (charCount < 2 || charCount > 10) {
+                    $(this).addClass('is-invalid'); //부트스트랩
+                    $('#charCount').text('닉네임을 2~10자로 입력해주세요(' + charCount + '/10글자)');
+                    $('#charCount').css('color', 'red');
+                } else {
+                    $(this).removeClass('is-invalid');
+                    $('#charCount').text('');
+                }
+            })
+        });
+
+        //휴대폰번호 유효성검사
+        $(function() {
+            function validatePhoneNumber() {
+                var phonePatternWithHyphen = /^010-\d{4}-\d{4}$/;
+                var phonePatternWithoutHyphen = /^010\d{8}$/;
+                var phoneError = $('#phoneError');
+                var lengthError = $('#lengthError');
+
+                // 입력된 값을 공백 제거하고 숫자만 남기기
+                var sanitizedValue = $('#member_phone').val().replace(/-/g, '');
+
+                // 입력된 값이 숫자가 아닌 경우 에러 메시지 표시
+                if (!/^\d+$/.test(sanitizedValue)) {
+                    phoneError.show();
+                    lengthError.hide(); // 숫자가 아닌 경우 길이 에러 메시지 숨김
+                } else {
+                    phoneError.hide();
+
+                    // 숫자인 경우에만 전화번호 길이 검사
+                    if (sanitizedValue.length !== 11) {
+                        lengthError.show();
+                    } else {
+                        lengthError.hide();
+                    }
+
+                    // 숫자인 경우에만 전화번호 형식 검사
+                    if ($('#member_phone').val().includes('-') || !phonePatternWithHyphen.test($('#member_phone').val()) && !phonePatternWithoutHyphen.test(phoneNumber)) {
+                        phoneError.hide();
+                    } else {
+                        phoneError.show(); // 조건을 만족하지 않을 때에만 보이도록 수정
+                    }
+                }
+            }
+
+            // 페이지 로드 시 초기 값 검사
+            validatePhoneNumber();
+
+            // 입력 이벤트가 발생할 때마다 유효성 검사 수행
+            $('#member_phone').on('input', validatePhoneNumber);
+        });
+
+
+        //이메일 유효성검사
+        $(function(){
+            $('#member_email').on('input', function() {
+                var email = $(this).val();
+                var email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
+                if (email_regex.test(email)) {
+                    $('#emailErr').hide();
+                } else {
+                    $('#emailErr').show();
+                }
+            });
+        });
+
+    </script>
 
 </head>
 <body>
@@ -95,7 +198,7 @@
 
 
             <div class="form-container form-size" style="border: solid 1px #000000;">
-                <form method="POST" action="/mModifyOk">
+                <form method="POST" action="/mModifyOk" onsubmit="return validateForm()">
                     <table>
                         <input type="hidden" name="member_key"
                                th:value="${session.mDTO != null ? session.mDTO.member_key : session.cDTO.member_key}">
@@ -109,47 +212,61 @@
                         <tr>
                             <th>회원 이름</th>
                             <td>
-                                <input name="member_name" class="form-control inputMargin"
+                                <input name="member_name" id="member_name" class="form-control inputMargin"
                                        th:value="${session.mDTO != null ? session.mDTO.member_name : session.cDTO.member_name}">
                             </td>
                         </tr>
                         <tr>
                             <th>회원 닉네임</th>
                             <td>
-                                <input name="member_nickname" class="form-control inputMargin"
-                                       th:value="${session.mDTO != null ? session.mDTO.member_nickname : session.cDTO.member_nickname}">
+                                <input name="member_nickname" id="member_nickname" class="form-control inputMargin" minlength="2" maxlength="10"
+                                       th:value="${session.mDTO != null ? session.mDTO.member_nickname : session.cDTO.member_nickname}"><span id="charCount"></span>
                             </td>
                         </tr>
                         <tr>
                             <th>휴대폰번호</th>
                             <td>
-                                <input name="member_phone" class="form-control inputMargin"
+                                <input name="member_phone" id="member_phone" class="form-control inputMargin"
                                        th:value="${session.mDTO != null ? session.mDTO.member_phone : session.cDTO.member_phone}">
+                                <span id="phoneError" style="display: none; color: red; font-size: 12px;">
+                                    휴대폰번호 형식에 맞게 작성해주세요.</span>
+                                <span id="lengthError" style="display: none; color: red; font-size: 12px;">
+                                    전화번호는 11자리여야 합니다.
+                                </span>
                             </td>
                         </tr>
                         <tr>
                             <th>이메일</th>
                             <td>
-                                <input name="member_email" class="form-control inputMargin"
+                                <input name="member_email" id="member_email" class="form-control inputMargin"
                                        th:value="${session.mDTO != null ? session.mDTO.member_email : session.cDTO.member_email}">
+                                <span id="emailErr" style="display: none; color: red; font-size: 12px;">
+                                    이메일 형식과 맞지 않습니다.</span>
                             </td>
                         </tr>
                         <tr>
                             <th>생년월일</th>
                             <td>
-                                <input type="date" name="member_birth" class="form-control inputMargin"  required
+                                <input type="date" id="member_birth" name="member_birth" class="form-control inputMargin"
                                        th:value="${session.mDTO != null ? session.mDTO.member_birth : session.cDTO.member_birth}">
                             </td>
                         </tr>
                         <tr>
                             <th>성별</th>
                             <td>
-                                <input type="radio" name="member_gender" value="여자"
-                                       th:checked="${session.mDTO != null && session.mDTO.member_gender == '여자'}" required>
+                                <input type="radio" id="gender_female" name="member_gender" value="여자"
+                                       th:checked="${(session.mDTO != null and session.mDTO.member_gender == '여자') or (session.cDTO != null and session.cDTO.member_gender == '여자')}">
                                 여자&nbsp;
-                                <input type="radio" name="member_gender" value="남자"
-                                       th:checked="${session.mDTO != null && session.mDTO.member_gender == '남자'}" required>
+                                <input type="radio" id="gender_male" name="member_gender" value="남자"
+                                       th:checked="${(session.mDTO != null and session.mDTO.member_gender == '남자') or (session.cDTO != null and session.cDTO.member_gender == '남자')}">
                                 남자
+                            </td>
+                        </tr>
+                        <tr class="inputMargin" sec:authorize="isAuthenticated() and hasRole('COMPANY')">
+                            <th>사업자 번호</th>
+                            <td>
+                                <input name="company_number" class="form-control inputMargin" readonly
+                                       th:value="${session.cDTO.company_number}">
                             </td>
                         </tr>
                     </table>

@@ -26,7 +26,7 @@
         $(document).ready(function() {
             var selectedValue = $('input[name="userType"]:checked').val();
             updateInputFields(selectedValue);
-
+            //선택 변경시
             $('body').on('change', 'input[name="userType"]', function() {
                 var selectedValue = $(this).val();
                 updateInputFields(selectedValue);
@@ -34,16 +34,29 @@
 
             function updateInputFields(selectedValue) {
                 if (selectedValue == 'company') {
-                    $('#inputContainer').html('<label for="companyName">기업명 </label><input type="text" id="companyName" name="member_nickname" class="form-control" required><br>');
+                    $('#inputContainer').html('<label for="companyName">기업명 </label><input type="text" id="companyName" ' +
+                        'name="member_nickname" class="form-control" required minlength="2" maxlength="10"><br><span id="charCount"></span>');
                 } else if (selectedValue == 'individual') {
-                    $('#inputContainer').html('<label for="nickname">닉네임 </label><input type="text" id="nickname" name="member_nickname" class="form-control" required><br>');
+                    $('#inputContainer').html('<label for="nickname">닉네임 </label><input type="text" id="nickname"' +
+                        ' name="member_nickname" class="form-control" required minlength="2" maxlength="10"><br><span id="charCount"></span>');
                 }
 
-                $('#hiddenUserType').val(selectedValue);
+
+                // 글자수 제한 및 실시간 유효성 검사
+                $('input[name="member_nickname"]').on('input', function() {
+                    var charCount = $(this).val().length;
+
+                    if (charCount < 2 || charCount > 10) {
+                        $(this).addClass('is-invalid'); //부트스트랩
+                        $('#charCount').text('닉네임을 2~10자로 입력해주세요(' + charCount + '/10글자)');
+                        $('#charCount').css('color', 'red');
+                    } else {
+                        $(this).removeClass('is-invalid');
+                        $('#charCount').text('');
+                    }
+                });
             }
         });
-
-
 
         //비밀번호 체크
         $(function(){
@@ -136,8 +149,6 @@
                 }
             });
         });
-
-
 
 
 
