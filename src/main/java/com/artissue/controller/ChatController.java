@@ -28,8 +28,6 @@ public class ChatController {
     @GetMapping("/create")
     public String createRoomForm() {
 
-        System.out.println(ArtissueApplication.getAdminRoomId());
-
         return "chatroom";
     }
 
@@ -38,4 +36,19 @@ public class ChatController {
     public ChatRoom createRoom(@RequestParam String name) {
         return chatService.createRoom(name);
     }
+
+    @PostMapping("/createAdmin")
+    @ResponseBody
+    public ChatRoom createAdminRoom(@RequestParam String name) {
+        return chatService.createAdminRoom();
+    }
+
+    @GetMapping("/removeRooms")
+    @ResponseBody
+    public ChatRoom removeRooms(@RequestParam String name) {
+        chatService.romoveRooms();
+
+        return null;
+    }
+
 }

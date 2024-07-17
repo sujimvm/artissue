@@ -2,13 +2,169 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Chat Room</title>
-    <script>
-        let socket;
-        function connect() {
-            // roomId ajax call get
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
 
+        .chat-container {
+            width: 400px;
+            max-width: 100%;
+            height: 600px;
+            max-height: 100%;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-size: 18px;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 10px;
+            overflow-y: auto;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-message {
+            margin-bottom: 10px;
+            padding: 8px;
+            border-radius: 10px;
+            max-width: 80%;
+            display: block;
+        }
+
+        .chat-message.sent {
+            background-color: #DCF8C6;
+            align-self: flex-end;
+        }
+
+        .chat-message.received {
+            background-color: #ECECEC;
+            align-self: flex-start;
+        }
+
+        .chat-input {
+            display: flex;
+            border-top: 1px solid #ddd;
+            padding: 10px;
+        }
+
+        .chat-input input[type="text"] {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            outline: none;
+        }
+
+        .chat-input button {
+            margin-left: 10px;
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+        }
+
+        .chat-input button:active {
+            background-color: #45a049;
+        }
+
+        .room-input {
+            display: flex;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .room-input input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            outline: none;
+        }
+
+        .room-input button {
+            margin-left: 10px;
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 20px;
+            color: white;
+            cursor: pointer;
+        }
+
+        .room-input button:active {
+            background-color: #45a049;
+        }
+    </style>
+    <script src="/bootstrap/js/jquery/jquery-2.2.4.min.js"></script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        let socket;
+        let sender = /*[[${session.mDTO.member_nickname}]]*/ '';
+
+        function createChat(){
             const roomId = document.getElementById('roomId').value;
-            const sender = document.getElementById('sender').value;
+            //roomId값을 name으로 parameter 전송하여, /chat/create post 호출
+
+            $.ajax({
+                url: '/chat/create',
+                type: 'POST',
+                data: { name: roomId },
+                success: function(response) {
+                    const id = response.roomId
+                    connect(id)
+
+                    callAdmin(id);
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error creating room:', error);
+                }
+            });
+
+        }
+
+        function callAdmin(roomId){
+            const adminSocket = new WebSocket(`ws://localhost:8181/ws/chat/admin_noti`);
+
+            adminSocket.onopen = function() {
+                const joinMessage = {
+                    type: "JOIN",
+                    sender: sender,
+                    message: roomId
+                };
+                adminSocket.send(JSON.stringify(joinMessage));
+            };
+
+            adminSocket.onclose = function(){
+                console.log('close');
+            }
+
+            adminSocket.onerror = function(error){
+                console.log('error',error)
+            }
+
+        }
+
+        function connect(roomId) {
             socket = new WebSocket(`ws://localhost:8181/ws/chat/${roomId}`);
 
             socket.onopen = function() {
@@ -22,29 +178,31 @@
 
             socket.onmessage = function(event) {
                 const message = JSON.parse(event.data);
-
-                const obj = JSON.parse(message.message)
-                if(obj.type == 'join'){
-                    confirm(obj.sender + 'enter, chat open?')
+                const messageElement = document.createElement('div');
+                messageElement.classList.add('chat-message');
+                if (message.sender === sender) {
+                    messageElement.classList.add('sent');
+                } else {
+                    messageElement.classList.add('received');
                 }
-
-                document.getElementById('messages').innerHTML += `<div><b>${message.sender}:</b> ${message.message}</div>`;
+                messageElement.innerHTML = `<b>${message.sender}:</b> ${message.message}`;
+                document.getElementById('messages').appendChild(messageElement);
+                document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight;
             }
         }
 
         function sendMessage() {
             const message = document.getElementById('message').value;
-            const sender = document.getElementById('sender').value;
             socket.send(JSON.stringify({
                 type: "CHAT",
                 sender: sender,
                 message: message
             }));
+            document.getElementById('message').value = '';
         }
 
         function disconnect() {
             if (socket) {
-                const sender = document.getElementById('sender').value;
                 const leaveMessage = {
                     type: "LEAVE",
                     sender: sender,
@@ -52,24 +210,35 @@
                 };
                 socket.send(JSON.stringify(leaveMessage));
                 socket.close();
+                socket = null;
             }
         }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('message').addEventListener('keypress', function(event) {
+                if (event.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+        });
+        /*]]>*/
     </script>
 </head>
 <body>
-<h1>Chat Room</h1>
-<div>
-    <label for="roomId">Room ID:</label>
-    <input type="text" id="roomId" placeholder="room ID 입력해주세요." />
-    <label for="sender">닉네임:</label>
-    <input type="text" id="sender" placeholder="닉네임 입력해주세요." />
-    <button onclick="connect()">create request</button>
-    <button onclick="disconnect()">나가기</button>
+<div class="chat-container">
+    <div class="chat-header">Chat Room</div>
+    <div class="room-input">
+        <input type="text" id="roomId" placeholder="room ID 입력해주세요." />
+        <button onclick="connect(document.getElementById('roomId').value)">채팅방 입장</button>
+        <!--<button onclick="connect()">채팅방 입장</button>-->
+        <button onclick="createChat()">채팅방 생성</button>
+        <button onclick="disconnect()">나가기</button>
+    </div>
+    <div id="messages" class="chat-messages"></div>
+    <div class="chat-input">
+        <input type="text" id="message" placeholder="메시지 입력해주세요." />
+        <button onclick="sendMessage()">전송</button>
+    </div>
 </div>
-<div>
-    <input type="text" id="message" placeholder="메시지 입력해주세요." />
-    <button onclick="sendMessage()">Send</button>
-</div>
-<div id="messages"></div>
 </body>
 </html>
