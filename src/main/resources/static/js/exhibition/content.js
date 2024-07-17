@@ -21,6 +21,19 @@ $(document).ready(function() {
         }
     });
 
+    $('.review-star').each(function() {
+        var score = $(this).data('score');
+        var stars = '';
+        for (var i = 0; i < 5; i++) {
+            if (i < score) {
+                stars += '<span class="star">★</span>';
+            } else {
+                stars += '<span class="empty-star">★</span>';
+            }
+        }
+        $(this).html(stars);
+    });
+
     $(".exhibitionNavBtn").on("click", "input[type='button']", function() {
         var btnValue = $(this).val(); // 클릭된 버튼의 값(이용정보, 판매정보, 이용후기)
 
@@ -41,7 +54,7 @@ $(document).ready(function() {
             $("#review-info").show(); // 이용후기 콘텐츠 표시
         }
 
-        $("html, body").animate({ scrollTop: 200 }, "fast");
+        $("html, body").animate({ scrollTop: 500 }, "fast");
     });
 
     $(document).on('click', '#reserveOpenBt', function() {
