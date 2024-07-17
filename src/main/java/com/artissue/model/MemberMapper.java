@@ -3,6 +3,7 @@ package com.artissue.model;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.data.repository.query.Param;
 
+import java.lang.reflect.Member;
 import java.util.List;
 
 @Mapper
@@ -47,13 +48,14 @@ public interface MemberMapper {
     ExhibitionDTO userExhibition(int exhibition_key);
 
     List<ZzimDTO> userZzimList(int member_key);
-
+    //정보수정
     int memberUpdate(MemberDTO dto);
 
+    //비밀번호 변경
     int updatePwd(String member_id, String member_pwd);
 
     //사업자 번호 조회
-    MemberMapper companyInfoByNo(String company_number);
+    MemberDTO companyInfoByNo(String company_number);
 
     String getMemberNickname(int member_key);
 

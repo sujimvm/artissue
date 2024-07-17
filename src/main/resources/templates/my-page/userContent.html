@@ -88,6 +88,10 @@
                             <th>회원 아이디</th>
                             <td th:text="${session.mDTO != null ? session.mDTO.member_id : session.cDTO.member_id}" readonly></td>
                         </tr>
+                        <tr class="inputMargin" sec:authorize="isAuthenticated() and hasRole('COMPANY')">
+                            <th>사업자 번호</th>
+                            <td th:text="${session.cDTO.company_number}"></td>
+                        </tr>
                         <tr class="inputMargin">
                             <th>회원 이름</th>
                             <td th:text="${session.mDTO != null ? session.mDTO.member_name : session.cDTO.member_name}"></td>
@@ -112,10 +116,7 @@
                             <th>성별</th>
                             <td th:text="${session.mDTO != null ? session.mDTO.member_gender : session.cDTO.member_gender}"></td>
                         </tr>
-                        <tr class="inputMargin" sec:authorize="isAuthenticated() and hasRole('COMPANY')">
-                            <th>사업자 번호</th>
-                            <td th:text="${session.cDTO.company_number}"></td>
-                        </tr>
+
                     </table>
                      <a href="/my-page/userModify" class="btn oneMusic-btn mt-30">회원정보 수정</a>
                 </div>

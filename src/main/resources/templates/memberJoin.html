@@ -36,27 +36,31 @@
                 if (selectedValue == 'company') {
                     $('#inputContainer').html(`
                         <label for="companyName">기업명 </label>
-                        <input id="companyName" name="member_nickname" class="form-control" required minlength="2" maxlength="10" placeholder="기업명을 입력해주세요">
+                        <input id="companyName" name="member_nickname" class="form-control" required minlength="2" maxlength="10" placeholder="기업명을 입력해주세요" required>
                         <br><span id="charCount"></span>
                         <div class="mt-3">
                             <label for="businessNumber">사업자등록번호 </label>
                             <div class="input-group">
-                                <input id="company_number" name="company_number" class="form-control" placeholder="사업자등록번호를 입력해주세요" required>
+                                <input type="text" id="company_number" name="company_number" class="form-control testWidth" placeholder="사업자등록번호를 입력해주세요" required>
                                 <div class="input-group-append">
                                     <button class="btn btn-outline-secondary" type="button" id="company_number_btn">조회</button>
-                                    <br>
                                 </div>
                             </div>
+                            <span id="companyNumberCheckmark" class="checkmark" style="display: none; float: left; margin-right: 5px;">✔</span>
                         </div>
                      `);
                 } else if (selectedValue == 'individual') {
                     $('#inputContainer').html('<label for="nickname">닉네임 </label><input id="nickname"' +
-                        ' name="member_nickname" class="form-control" required minlength="2" maxlength="10" placeholder="닉네임을 입력해주세요"><br><span id="charCount"></span>');
+                        ' name="member_nickname" class="form-control" required minlength="2" maxlength="10" placeholder="닉네임을 입력해주세요" required><br><span id="charCount"></span>');
                 }
 
 
                 //사업자번호 유효성검사
                 $(function() {
+                    $('#company_number').on('input', function() {
+
+                        $('#company_number_checkmark').hide();
+                    });
                     $('#company_number_btn').on('click', function() {
                         var data = $("#company_number").val();
                         console.log("Input data:", data);
@@ -74,7 +78,7 @@
                                 var data2 = result.data[0].tax_type_cd;
 
                                 if (data2 === "") {
-                                    $('#company_number_checkmark').hide();
+                                    $('#companyNumberCheckmark').hide();
                                     alert("비정상적인 사업자 등록번호입니다.");
                                 } else {
                                     $.ajax({
@@ -85,10 +89,10 @@
                                         success: function(result) {
                                             console.log("Result from second API:", result);
                                             if (result === "available") {
-                                                $('#company_number_checkmark').show();
+                                                $('#companyNumberCheckmark').show();
                                                 alert("사용 가능한 사업자등록번호입니다.");
                                             } else {
-                                                $('#company_number_checkmark').hide();
+                                                $('#companyNumberCheckmark').hide();
                                                 alert("이미 사용 중인 사업자등록번호입니다.");
                                             }
                                         },
@@ -164,10 +168,18 @@
 
 
         //중복 아이디 검사
+        let isIdChecked = false; // 전역 변수로 아이디 중복 확인 상태 추가
+
         document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('Idcheckmark').style.display = 'none';
-            document.getElementById('checkIdBtn').addEventListener('click', function() {
+            document.getElementById('checkIdBtn').addEventListener('click', function(event) {
+                event.preventDefault();
                 checkId();
+            });
+
+            document.getElementById("member_id").addEventListener("input", function() {
+                document.getElementById('Idcheckmark').style.display = 'none';
+                isIdChecked = false; // 입력 변경 시 중복 확인 상태 리셋
             });
         });
 
@@ -180,26 +192,24 @@
                     if (responseData === 'exists') {
                         alert("이미 사용 중인 아이디입니다.");
                         document.getElementById('Idcheckmark').style.display = 'none';
+                        isIdChecked = false;
                     } else if (responseData === 'available') {
                         alert("사용 가능한 아이디입니다.");
                         document.getElementById('Idcheckmark').style.display = 'inline';
+                        isIdChecked = true;
                     } else {
                         alert("서버에서 알 수 없는 응답을 받았습니다: " + responseData);
                         document.getElementById('Idcheckmark').style.display = 'none';
+                        isIdChecked = false;
                     }
                 })
                 .catch(function(error) {
                     console.error("AJAX 요청 실패:", error);
                     alert("서버 요청 중 오류가 발생했습니다.");
                     document.getElementById('Idcheckmark').style.display = 'none';
+                    isIdChecked = false;
                 });
         }
-
-        document.addEventListener("DOMContentLoaded", function() {
-            document.getElementById("member_id").addEventListener("input", function() {
-                document.getElementById('Idcheckmark').style.display = 'none';
-            });
-        });
 
         //이메일 유효성검사
         $(function(){
@@ -220,12 +230,22 @@
 
 
         function insertCheck(){
+            var selectedValue = $('input[name="userType"]:checked').val();
 
             var isIdValid = $('#Idcheckmark').is(':visible');
             var ispwdValid = $('#pwdCheckmark').is(':visible');
             var ispwd2Valid = $('#pwdCheckOk').is(':visible');
             var isPhoneValid = $('#phoneCheckOkMark').is(':visible');
             debugger;
+
+            if (selectedValue === 'company') {
+            var isCompanyNum = $('#companyNumberCheckmark').is(':visible');
+                if(!isCompanyNum){
+                    console.log("Company number check failed");
+                    alert("사업자번호를 확인해주세요.");
+                    return false;
+                }
+            }
 
             if (!isIdValid) {
                 alert("아이디가 유효하지 않습니다.");
@@ -248,6 +268,7 @@
                 $("#userNum").focus();
                 return false;
             }
+
         };
 
 
@@ -402,7 +423,7 @@
                         <form action="/joinProc" method="post" name="joinForm"  onsubmit="return insertCheck()">
                             <span>*가입 유형을 선택해주세요</span><br>
                             <label for="companyRadio"></label>
-                                <input type="radio" name="userType" value="company" id="companyRadio" required> 기업
+                            <input type="radio" name="userType" value="company" id="companyRadio" required> 기업
 
                             <label for="individualRadio">
                                 <input type="radio" name="userType" value="individual" id="individualRadio" required> 개인
@@ -410,11 +431,11 @@
 
                             <div id="inputContainer"></div>
 
-                            <div class="form-group">
+                            <div class="form-group mt-4">
                                 <label for="member_id">아이디</label>
                                 <div class="input-group">
                                     <input type="text" id="member_id" name="member_id" class="form-control testWidth" aria-describedby="emailHelp" placeholder="아이디를 입력하세요" required>
-                                    <button onclick="checkId()" class="btn btn-outline-secondary">중복확인</button>
+                                    <button id="checkIdBtn" class="btn btn-outline-secondary">중복확인</button>
                                 </div>
                                 <span id="Idcheckmark" class="checkmark">✔</span>
                             </div>
@@ -463,28 +484,28 @@
                                     <input type="radio" name="member_gender" value="남자" required> 남자
                                 </label>
                             </div><br>
-                          <div class="form-group">
+                            <div class="form-group">
                                 <label>휴대폰 본인확인(문자) &nbsp;</label><br>
-                              <div class="custom-input-group">
-                                     <input type="text" class="to form-control tSize" id="to" name="veriPhone" required/>
-                                     <button type="button" class="btn btn-outline-secondary" id="send">전송</button>
-                                     <button type="button" class="btn btn-outline-secondary" id="resendbtn" style="display: none;">재전송</button>
-                              </div>
-                          </div>
-                              <div class="form-group">
+                                <div class="custom-input-group">
+                                    <input type="text" class="to form-control tSize" id="to" name="veriPhone" required/>
+                                    <button type="button" class="btn btn-outline-secondary" id="send">전송</button>
+                                    <button type="button" class="btn btn-outline-secondary" id="resendbtn" style="display: none;">재전송</button>
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <label>인증번호 &nbsp;</label><br>
-                                  <div class="custom-input-group">
-                                 <input type="text" class="form-control tSize" id="userNum" name="userNum" required>
-                                           <button type="button" class="btn btn-outline-secondary" id="enterBtn">확인</button>
-                                            <span id="phoneCheckOkMark" class="checkmark">✔</span>
+                                <div class="custom-input-group">
+                                    <input type="text" class="form-control tSize" id="userNum" name="userNum" required>
+                                    <button type="button" class="btn btn-outline-secondary" id="enterBtn">확인</button>
+                                    <span id="phoneCheckOkMark" class="checkmark">✔</span>
 
-                                            <span id="phoneCheckErr" style="display: none; color: red; font-size: 12px;">
+                                    <span id="phoneCheckErr" style="display: none; color: red; font-size: 12px;">
                                             인증번호가 일치하지 않습니다.
                                           </span>
-                                          <span id="checkMessage" style="display: none; color: red; font-size: 12px;">
+                                    <span id="checkMessage" style="display: none; color: red; font-size: 12px;">
                                         인증번호 입력 후 확인을 클릭해 주세요.
                                      </span>
-                                  </div>
+                                </div>
                             </div><br><br>
 
                             <input type="checkbox" id="requiredAgreeCheck1" required>

@@ -26,9 +26,9 @@
 
     <insert id="insertMember" parameterType="mDTO">
 
-        insert into member (member_id, member_pwd, role, enabled,member_name,member_email,member_phone,
+        insert into member (member_id, member_pwd, company_number, role, enabled,member_name,member_email,member_phone,
         member_birth,member_gender,member_join_date,member_nickname)
-        values (#{member_id}, #{member_pwd}, #{role},1,#{member_name},#{member_email},#{member_phone},
+        values (#{member_id}, #{member_pwd}, #{company_number}, #{role},1,#{member_name},#{member_email},#{member_phone},
         #{member_birth},#{member_gender},NOW(),#{member_nickname});
 
     </insert>

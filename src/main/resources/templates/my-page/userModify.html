@@ -26,7 +26,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 450px;
+            height: 600px;
             width: 800px;
         }
 
@@ -39,7 +39,7 @@
             width: 100%;
         }
         .inputMargin{
-            margin-bottom: 15px;
+            margin-bottom: 18px;
         }
 
 
@@ -105,7 +105,7 @@
                 // 입력된 값이 숫자가 아닌 경우 에러 메시지 표시
                 if (!/^\d+$/.test(sanitizedValue)) {
                     phoneError.show();
-                    lengthError.hide(); // 숫자가 아닌 경우 길이 에러 메시지 숨김
+                    lengthError.hide();
                 } else {
                     phoneError.hide();
 
@@ -120,7 +120,7 @@
                     if ($('#member_phone').val().includes('-') || !phonePatternWithHyphen.test($('#member_phone').val()) && !phonePatternWithoutHyphen.test(phoneNumber)) {
                         phoneError.hide();
                     } else {
-                        phoneError.show(); // 조건을 만족하지 않을 때에만 보이도록 수정
+                        phoneError.show();
                     }
                 }
             }
@@ -209,6 +209,13 @@
                                        th:value="${session.mDTO != null ? session.mDTO.member_id : session.cDTO.member_id}">
                             </td>
                         </tr>
+                        <tr class="inputMargin" sec:authorize="isAuthenticated() and hasRole('COMPANY')">
+                            <th>사업자 번호</th>
+                            <td>
+                                <input name="company_number" class="form-control inputMargin" readonly
+                                       th:value="${session.cDTO.company_number}">
+                            </td>
+                        </tr>
                         <tr>
                             <th>회원 이름</th>
                             <td>
@@ -254,21 +261,15 @@
                         <tr>
                             <th>성별</th>
                             <td>
-                                <input type="radio" id="gender_female" name="member_gender" value="여자"
+                                <input type="radio" id="gender_female" name="member_gender" value="여자" class="inputMargin"
                                        th:checked="${(session.mDTO != null and session.mDTO.member_gender == '여자') or (session.cDTO != null and session.cDTO.member_gender == '여자')}">
                                 여자&nbsp;
-                                <input type="radio" id="gender_male" name="member_gender" value="남자"
+                                <input type="radio" id="gender_male" name="member_gender" value="남자" class="inputMargin"
                                        th:checked="${(session.mDTO != null and session.mDTO.member_gender == '남자') or (session.cDTO != null and session.cDTO.member_gender == '남자')}">
                                 남자
                             </td>
                         </tr>
-                        <tr class="inputMargin" sec:authorize="isAuthenticated() and hasRole('COMPANY')">
-                            <th>사업자 번호</th>
-                            <td>
-                                <input name="company_number" class="form-control inputMargin" readonly
-                                       th:value="${session.cDTO.company_number}">
-                            </td>
-                        </tr>
+
                     </table>
                     <div>
                         <input type="submit" class="btn oneMusic-btn mt-30" value="회원수정" onclick="return modify()">&nbsp;&nbsp;
