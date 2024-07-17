@@ -10,9 +10,15 @@ $(document).ready(function() {
 
     changeHeart();
 
-    $(window).scroll(function( ){  //스크롤이 움직일때마다 이벤트 발생
-        var position = $(window).scrollTop(); // 현재 스크롤바의 위치값을 반환합니다.
-        $(".exhibitionNavBtn").stop().animate({top:position+"px"}, 1); //해당 오브젝트 위치값 재설정
+    $(window).scroll(function() {
+        var position = $(window).scrollTop();
+        var limit = 300; // 고정 상태로 유지할 스크롤 위치
+
+        if (position >= limit) {
+            $(".exhibitionNavBtn").addClass("fixed");
+        } else {
+            $(".exhibitionNavBtn").removeClass("fixed");
+        }
     });
 
     $(".exhibitionNavBtn").on("click", "input[type='button']", function() {

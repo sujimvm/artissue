@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -18,6 +19,8 @@ public class ExhibitionController {
     private ExhibitionMapper exhibitionMapper;
     @Autowired
     private ReviewMapper reviewMapper;
+    @Autowired
+    private MemberMapper memberMapper;
 
     @GetMapping("/list")
     public String exhibitionList(){
@@ -32,9 +35,17 @@ public class ExhibitionController {
         List<PriceDTO> exhibitionPrice = this.exhibitionMapper.getExhibitionPrice(no);
         List<ReviewDTO> exhibitionReview = this.reviewMapper.getExhibitionReview(no);
 
+        List<String> nicknames = new ArrayList<>();
+        for(ReviewDTO review : exhibitionReview){
+            String member_nickname = this.memberMapper.getMemberNickname(review.getMember_key());
+
+            nicknames.add(member_nickname);
+        }
+
         model.addAttribute("Exhibition", exhibitionCont);
         model.addAttribute("Price", exhibitionPrice);
         model.addAttribute("Review", exhibitionReview);
+        model.addAttribute("Nicknames", nicknames);
 
         return "exhibition/content";
     }
