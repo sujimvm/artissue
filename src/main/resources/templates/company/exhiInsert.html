@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <!-- Title -->
+    <title>ART ISSUE :: 전시회 등록</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="/bootstrap/img/core-img/favicon.ico">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="/bootstrap/style.css">
+
+    <style>
+
+        .link-container{
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            margin-top: 10px;
+
+        }
+        .custom-editor-height-200 .ck-content {
+            height: 200px !important;
+        }
+
+        .custom-editor-height-400 .ck-content {
+            height: 400px !important;
+        }
+
+        .custom-editor-height-500 .ck-content {
+            height: 500px !important;
+        }
+
+    </style>
+</head>
+<body>
+<!-- Preloader -->
+<div class="preloader d-flex align-items-center justify-content-center">
+    <div class="lds-ellipsis">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+</div>
+
+<div th:replace="~{include/header}"></div>
+
+<!-- ##### Breadcumb Area Start ##### -->
+<section class="breadcumb-area bg-img bg-overlay" style="background-image: url(/bootstrap/img/bg-img/breadcumb3.jpg);">
+    <div class="bradcumbContent">
+        <p>See what’s new</p>
+        <h2>EXHIBITION WRITE</h2>
+    </div>
+</section>
+<!-- ##### Breadcumb Area End ##### -->
+
+<!-- ##### Login Area Start ##### -->
+<section class="login-area section-padding-100">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-8">
+                <div class="login-content">
+                    <form action="/company/insertOk" method="post">
+                        <input type="hidden" id="member_key" name="member_key" th:value="${session.cDTO.getMember_key()}">
+                        <h3>전시회 등록</h3>
+                        <table>
+                            <tr>
+                                <td>제목</td>
+                                <td><input class="form-control mb-15" id="exhibition_title" name="exhibition_title" placeholder="제목을 입력하세요" required></td>
+                            </tr>
+                            <tr>
+                                <td>썸네일</td>
+                                <td>
+                                    <input class="form-control mb-15" id="exhibition_thumnail" name="exhibition_thumnail" required placeholder="이미지 경로를 입력하세요.">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>시작 날짜</td>
+                                <td>
+                                    <input class="form-control mb-15" id="exhibition_start_date" name="exhibition_start_date" type="date" required>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>종료 날짜</td>
+                                <td>
+                                    <input class="form-control mb-15" id="exhibition_end_date" name="exhibition_end_date" type="date" required>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>전시회 장소</td>
+                                <td>
+                                    <input class="form-control mb-15" id="exhibition_place" name="exhibition_place" placeholder="전시회가 열릴 장소를 입력해 주세요." required>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>전시회 주소</td>
+                                <td>
+                                    <input class="form-control mb-15" id="exhibition_addr" name="exhibition_addr" placeholder="전시회가 열릴 장소의 주소를 입력해 주세요." required>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>관람 시간</td>
+                                <td>
+                                    <input class="form-control mb-15" id="exhibition_view_time" name="exhibition_view_time" placeholder="전시회의 관람 가능한 시간을 입력해 주세요." required>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>관람 연령</td>
+                                <td>
+                                    <select name="exhibition_view_age">
+                                        <option value="전체 이용가">전체 이용가</option>
+                                        <option value="만 5세 이상">만 5세 이상</option>
+                                        <option value="만 12세 이상">만 12세 이상</option>
+                                        <option value="만 15세 이상">만 15세 이상</option>
+                                        <option value="만 19세 이상">만 19세 이상</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>티켓가격</td>
+                                <td>
+                                    <div id="price_form">
+
+                                    </div>
+                                    <div>
+                                        <button type="button" id="addPrice">가격 추가</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>공지사항</td>
+                                <td><textarea class="form-control mb-15" id="exhibition_notice" name="exhibition_notice" rows="7" placeholder="공지사항을 입력하세요" style="height: 200px; resize: none;"></textarea></td>
+                            </tr>
+                            <tr>
+                                <td>상세내용</td>
+                                <td><textarea class="form-control mb-15" id="exhibition_detail_info" name="exhibition_detail_info" rows="7" placeholder="상세 내용을 입력하세요" style="height: 500px; resize: none;" required></textarea></td>
+                            </tr>
+                            <tr>
+                                <td>판매자 정보</td>
+                                <td><textarea class="form-control mb-15" id="exhibition_seller_info" name="exhibition_seller_info" rows="7" placeholder="판매자 정보를 입력하세요" style="height: 500px; resize: none;"></textarea></td>
+                            </tr>
+                            <tr>
+                                <td>상품 정보</td>
+                                <td><textarea class="form-control mb-15" id="exhibition_product_info" name="exhibition_product_info" rows="7" placeholder="상품 정보를 입력하세요" style="height: 500px; resize: none;"></textarea></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" style="text-align: center;"><button type="submit" class="btn oneMusic-btn mt-30">등록하기</button></td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- ##### Login Area End ##### -->
+
+<div th:replace="~{include/footer}"></div>
+
+<!-- ##### All Javascript Script ##### -->
+<script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
+<!-- jQuery-2.2.4 js -->
+<script src="/bootstrap/js/jquery/jquery-2.2.4.min.js"></script>
+
+<script src="/js/exhibition/exhiInsert.js"></script>
+<!-- Popper js -->
+<script src="/bootstrap/js/bootstrap/popper.min.js"></script>
+<!-- Bootstrap js -->
+<script src="/bootstrap/js/bootstrap/bootstrap.min.js"></script>
+<!-- All Plugins js -->
+<script src="/bootstrap/js/plugins/plugins.js"></script>
+<!-- Active js -->
+<script src="/bootstrap/js/active.js"></script>
+</body>
+</html>

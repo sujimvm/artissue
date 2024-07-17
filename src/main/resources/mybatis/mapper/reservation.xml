@@ -23,14 +23,26 @@
     <update id="updateReservePay" parameterType="String">
         update reservation set reservation_pay = 1 where reservation_id = #{reservation_id}
     </update>
-    <!---->
+    <!--QR 저장-->
     <update id="insertQrCode">
         update reservation set reservation_qr = #{qrCode} where reservation_id = #{reservation_id}
     </update>
+    <!-- 내 전시회 예매자 리스트 조회 -->
+    <select id="getMyExhibitionsReservationList" parameterType="int" resultType="mDTO">
+        select m.*,r.reservation_id,sum(r.reservation_price) reservation_price, r.reservation_date
+        from reservation r left join member m on r.member_key = m.member_key
+        where exhibition_key = #{exhibition_key}
+        group by r.reservation_id
+    </select>
 
 
-    <select id="checkReservation" parameterType="map" resultType="reserveDTO">
+    <select id="checkReservation" parameterType="int" resultType="reserveDTO">
         select * from reservation where member_key = #{member_key} and exhibition_key = #{exhibition_key}
         and reservation_pay = 1
     </select>
+
+    <update id="updateReservationBV" parameterType="String">
+        update reservation set reservation_buyer_view = 0
+        where reservation_id = #{reservation_id}
+    </update>
 </mapper>

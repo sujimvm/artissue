@@ -107,7 +107,20 @@
                     <p class="mr-30">결제날짜</p>
                     <p th:text="${userReserveCont.get(0).getReservation_date()}"></p>
                 </div>
-                <input type="button" class="btn oneMusic-btn" value="결제 취소">
+                <hr>
+               <form action="">
+                   <input type="hidden" name="paymentKey">
+                       <select name="reason" class="form-control" style="width: 350px;">
+                           <option>단순변심</option>
+                           <option>단순변</option>
+                           <option>단순</option>
+                           <option>단</option>
+                           <option>단순변</option>
+                           <option>단순변심</option>
+                           <option>그냥</option>
+                       </select>
+                   <input class="btn oneMusic-btn mt-30" type="submit" value="환불하기">
+               </form>
                 <hr>
             </div>
         </div>

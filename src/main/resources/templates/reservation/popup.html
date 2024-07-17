@@ -3,59 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <title>ART ISSUE :: 예매하기</title>
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="/bootstrap/style.css">
+    <link rel="stylesheet" href="/css/reservation/popup.css">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
-<div>
-
-</div>
-
-
-<div>
-    <table>
+<section class="contact-area section-padding-100 bg-img bg-overlay bg-fixed has-bg-img" style="background-image: url(/bootstrap/img/bg-img/bg-2.jpg); padding: 0;">
+    <div class="section-heading white wow fadeInUp" data-wow-delay="100ms" style="margin: 0;">
+        <p>See what’s new</p>
+        <h2>RESERVATION</h2>
+    </div>
+</section>
+<div class="popupDiv">
+    <table class="exhiTb popTb">
         <tr>
-            <td rowspan="3" ><img th:src="${ExhiDTO.getExhibition_thumnail()}"></td>
-            <td th:text="${ExhiDTO.getExhibition_title()}"></td>
+            <td rowspan="4" style="text-align: center; width: 25%;"><img th:src="${ExhiDTO.getExhibition_thumnail()}"></td>
+            <td style="font-size: 18px; font-weight: 500;" th:text="${ExhiDTO.getExhibition_title()}"></td>
         </tr>
         <tr>
-            <td th:text="${ExhiDTO.getExhibition_start_date() +'~'+ ExhiDTO.getExhibition_end_date()}"></td>
+            <td th:text="${'기&nbsp;&nbsp;간 : '+(#dates.format(ExhiDTO.getExhibition_start_date(),'yyyy-MM-dd'))+' ~ '+(#dates.format(ExhiDTO.getExhibition_end_date(),'yyyy-MM-dd'))}"></td>
         </tr>
         <tr>
-            <td th:text="${ExhiDTO.getExhibition_place()}"></td>
+            <td th:text="${'장&nbsp;&nbsp;소 : '+ExhiDTO.getExhibition_place()}"></td>
         </tr>
     </table>
-</div>
-<div>
     <form action="/reserve/sendReserve" id="reserveFrom" method="post">
-        <div>
-            <input type="hidden" name="exhibition_key" th:value="${ExhiDTO.getExhibition_key()}">
-            <table th:if="${#lists.isEmpty(PriceList)}" >
-                <tr>
-                    <td>판매종료 된 상품입니다.</td>
-                </tr>
-            </table>
-            <table th:unless="${#lists.isEmpty(PriceList)}" >
-                <tr th:each="dto:${PriceList}">
-                    <td th:text="${dto.getPrice_option()}"></td>
-                    <td th:text="${dto.getPrice()}"></td>
-                    <td>
-                        <input type="hidden" th:id="${'reservation_option_'+dto.getPrice_key()}" name="reservation_option" th:value="${dto.getPrice_option()}">
-                        <input type="hidden" th:id="${'price_'+dto.getPrice_key()}" th:value="${dto.getPrice}">
-                        <input type="hidden" th:id="${'reservation_price_'+dto.getPrice_key()}" name="reservation_price_str" value=0>
-                        <select name="reservation_count_str" th:id="${'reservation_count_'+dto.getPrice_key()}">
-                            <option th:each="num : ${#numbers.sequence(0, 10)}" th:value="${num+'/'+dto.getPrice_key()}" th:text="${num}"></option>
-                        </select>
-                    </td>
-                </tr>
-            </table>
-            <div>
-                <span>총 결제 금액 : </span>
-                <span id="totalPrice"></span>
-            </div>
-            <button type="submit" class="btn oneMusic-btn mt-30">Reserve</button>
+        <input type="hidden" name="exhibition_key" th:value="${ExhiDTO.getExhibition_key()}">
+        <table th:unless="${#lists.isEmpty(PriceList)}" class="priceTb popTb">
+            <tr>
+                <th>이용권</th>
+                <th>가격</th>
+                <th></th>
+            </tr>
+            <tr th:each="dto:${PriceList}">
+                <td th:text="${dto.getPrice_option()}" style="text-align: left"></td>
+                <td th:text="${dto.getPrice()+'원'}"></td>
+                <td>
+                    <input type="hidden" th:id="${'reservation_option_'+dto.getPrice_key()}" name="reservation_option" th:value="${dto.getPrice_option()}">
+                    <input type="hidden" th:id="${'price_'+dto.getPrice_key()}" th:value="${dto.getPrice}">
+                    <input type="hidden" th:id="${'reservation_price_'+dto.getPrice_key()}" name="reservation_price_str" value=0>
+                    <select name="reservation_count_str" th:id="${'reservation_count_'+dto.getPrice_key()}">
+                        <option th:each="num : ${#numbers.sequence(0, 10)}" th:value="${num+'/'+dto.getPrice_key()}" th:text="${num+'매'}"></option>
+                    </select>
+                </td>
+            </tr>
+            <tr style="font-weight: bold; font-size: 15px;">
+                <td>
+                    <input type="hidden" id="totalPriceCk" value=0>
+                    총 결제 금액
+                </td>
+                <td colspan="2" id="totalPrice">0 원</td>
+            </tr>
+        </table>
+        <div class="btDiv">
+            <button type="button" id="reserveBt" class="btn oneMusic-btn">Reserve</button>
         </div>
     </form>
 </div>
+
 <script src="/js/reservation/popup.js"></script>
 </body>
 </html>

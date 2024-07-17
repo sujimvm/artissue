@@ -112,6 +112,10 @@
                             <th>성별</th>
                             <td th:text="${session.mDTO != null ? session.mDTO.member_gender : session.cDTO.member_gender}"></td>
                         </tr>
+                        <tr class="inputMargin" sec:authorize="isAuthenticated() and hasRole('COMPANY')">
+                            <th>사업자 번호</th>
+                            <td th:text="${session.cDTO.company_number}"></td>
+                        </tr>
                     </table>
                      <a href="/my-page/userModify" class="btn oneMusic-btn mt-30">회원정보 수정</a>
                 </div>

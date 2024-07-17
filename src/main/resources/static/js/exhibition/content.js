@@ -39,10 +39,15 @@ $(document).ready(function() {
     });
 
     $(document).on('click', '#reserveOpenBt', function() {
-        var url = "/reserve/open?No="+$("#exhibition_key").val();
-        var name = "reserve";
-        var option = "width = 1000, height = 500, top = 100, left = 200, location = no"
-        window.open(url, name, option);
+        if($("#reCk").val()=='N'){
+            alert("기본정보를 입력 후 이용해주세요.");
+            location.href="/my-page/userModify";
+        }else{
+            var url = "/reserve/open?No="+$("#exhibition_key").val();
+            var name = "reserve";
+            var option = "width = 700, height = 650, top = 50, left = 200, location = no"
+            window.open(url, name, option);
+        }
     });
 
     $(document).on('click', '.nav-menu', function () {

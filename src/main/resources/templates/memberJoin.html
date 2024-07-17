@@ -26,7 +26,7 @@
         $(document).ready(function() {
             var selectedValue = $('input[name="userType"]:checked').val();
             updateInputFields(selectedValue);
-
+            //선택 변경시
             $('body').on('change', 'input[name="userType"]', function() {
                 var selectedValue = $(this).val();
                 updateInputFields(selectedValue);
@@ -34,16 +34,95 @@
 
             function updateInputFields(selectedValue) {
                 if (selectedValue == 'company') {
-                    $('#inputContainer').html('<label for="companyName">기업명 </label><input type="text" id="companyName" name="member_nickname" class="form-control" required><br>');
+                    $('#inputContainer').html(`
+                        <label for="companyName">기업명 </label>
+                        <input id="companyName" name="member_nickname" class="form-control" required minlength="2" maxlength="10" placeholder="기업명을 입력해주세요">
+                        <br><span id="charCount"></span>
+                        <div class="mt-3">
+                            <label for="businessNumber">사업자등록번호 </label>
+                            <div class="input-group">
+                                <input id="company_number" name="company_number" class="form-control" placeholder="사업자등록번호를 입력해주세요" required>
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" type="button" id="company_number_btn">조회</button>
+                                    <br>
+                                </div>
+                            </div>
+                        </div>
+                     `);
                 } else if (selectedValue == 'individual') {
-                    $('#inputContainer').html('<label for="nickname">닉네임 </label><input type="text" id="nickname" name="member_nickname" class="form-control" required><br>');
+                    $('#inputContainer').html('<label for="nickname">닉네임 </label><input id="nickname"' +
+                        ' name="member_nickname" class="form-control" required minlength="2" maxlength="10" placeholder="닉네임을 입력해주세요"><br><span id="charCount"></span>');
                 }
 
-                $('#hiddenUserType').val(selectedValue);
+
+                //사업자번호 유효성검사
+                $(function() {
+                    $('#company_number_btn').on('click', function() {
+                        var data = $("#company_number").val();
+                        console.log("Input data:", data);
+                        var data1 = { "b_no": [data] };
+                        console.log("data1:", data1);
+
+                        $.ajax({
+                            url: "https://api.odcloud.kr/api/nts-businessman/v1/status?serviceKey=cjlBlZd9MpuLsL8wGluvUW%2F2cbWcUcNP7nr%2FuWO7Gbl%2Be7Li1KYbOlQm3cWN0GKnxnFI%2BjSewI3AAMiTKFJk0Q%3D%3D",
+                            type: "POST",
+                            data: JSON.stringify(data1), // json을 string으로 변환하여 전송
+                            dataType: "json",
+                            contentType: "application/json",
+                            success: function(result) {
+                                console.log("Result from first API:", result);
+                                var data2 = result.data[0].tax_type_cd;
+
+                                if (data2 === "") {
+                                    $('#company_number_checkmark').hide();
+                                    alert("비정상적인 사업자 등록번호입니다.");
+                                } else {
+                                    $.ajax({
+                                        url: "/ajax/companyNumberCheck",
+                                        data: { company_no: data },
+                                        type: "POST",
+                                        dataType: "text",
+                                        success: function(result) {
+                                            console.log("Result from second API:", result);
+                                            if (result === "available") {
+                                                $('#company_number_checkmark').show();
+                                                alert("사용 가능한 사업자등록번호입니다.");
+                                            } else {
+                                                $('#company_number_checkmark').hide();
+                                                alert("이미 사용 중인 사업자등록번호입니다.");
+                                            }
+                                        },
+                                        error: function(xhr, status, error) {
+                                            console.error("Error from second API:", status, error);
+                                            alert("데이터 통신 오류입니다.~~~");
+                                        }
+                                    });
+                                }
+                            },
+                            error: function(xhr, status, error) {
+                                console.error("Error from first API:", status, error);
+                                alert("데이터 통신 오류입니다.~~~");
+                            }
+                        });
+                    });
+                });
+
+
+                // 글자수 제한 및 실시간 유효성 검사
+                $('input[name="member_nickname"]').on('input', function() {
+                    var charCount = $(this).val().length;
+
+                    if (charCount < 2 || charCount > 10) {
+                        $(this).addClass('is-invalid'); //부트스트랩
+                        $('#charCount').text('닉네임을 2~10자로 입력해주세요(' + charCount + '/10글자)');
+                        $('#charCount').css('color', 'red');
+                    } else {
+                        $(this).removeClass('is-invalid');
+                        $('#charCount').text('');
+                    }
+                });
             }
         });
-
-
 
         //비밀번호 체크
         $(function(){
@@ -136,8 +215,6 @@
                 }
             });
         });
-
-
 
 
 

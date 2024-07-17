@@ -1,8 +1,11 @@
 // 화면 시작
 $(document).ready(function() {
-
     $(document).on('click', '#reserveBt', function() {
-        sendReserve();
+        if($("#totalPriceCk").val() > 0){
+            $("#reserveFrom").submit();
+        }else{
+            alert("예매권을 선택해주세요.");
+        }
     });
     $(document).on('change', 'select[name=\'reservation_count_str\']', function() {
         var count = $(this).val().split('/')[0];
@@ -16,21 +19,7 @@ $(document).ready(function() {
             totalPrice += Number($("[name='reservation_price_str']").eq(i).val());
         }
         $("#totalPrice").empty();
-        $("#totalPrice").text(totalPrice);
+        $("#totalPrice").text(totalPrice+"원");
+        $("#totalPriceCk").val(totalPrice);
     });
 });
-
-function sendReserve() {
-    var reserveFrom = $("#reserveFrom").serialize();
-
-    $.ajax({
-        url: '/reserve/sendReserve',
-        type: 'post',
-        data: reserveFrom,
-        success: function() {
-            window.close();
-        },error: function(xhr, status, error) {
-            console.error(xhr);
-        }
-    });
-}

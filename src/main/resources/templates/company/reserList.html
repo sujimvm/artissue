@@ -16,7 +16,7 @@
 
     <!-- Stylesheet -->
     <link rel="stylesheet" href="/bootstrap/style.css">
-    <link rel="stylesheet" href="/css/company/exhiList.css">
+    <link rel="stylesheet" href="/css/company/reserList.css">
 
     <style>
         .link-container{
@@ -45,7 +45,7 @@
 <section class="breadcumb-area bg-img bg-overlay" style="background-image: url(/bootstrap/img/bg-img/breadcumb3.jpg);">
     <div class="bradcumbContent">
         <p>See what’s new</p>
-        <h2>MY EXHIBITION</h2>
+        <h2>RESERVE LIST</h2>
     </div>
 </section>
 <!-- ##### Breadcumb Area End ##### -->
@@ -58,9 +58,6 @@
                 <div class="new-hits-area mb-100">
                     <div class="single-new-item d-flex align-items-center justify-content-between wow fadeInUp">
                         <a href="/company/exList">내 전시회</a>
-                    </div>
-                    <div class="single-new-item d-flex align-items-center justify-content-between wow fadeInUp">
-                        <a href="/company/insert">전시회 등록</a>
                     </div>
                     <div class="single-new-item d-flex align-items-center justify-content-between wow fadeInUp">
                         <a href="/userReserveList">예약리스트</a>
@@ -80,38 +77,26 @@
                 </div>
             </div>
             <div class="col-12 col-lg-9">
-                <h4>내 전시회 리스트</h4>
-                <table class="exhiListTb">
+                <h4>예약자 리스트</h4>
+                <table class="reserListTb">
                     <tr>
-                        <th colspan="2">전시회 명</th>
-                        <th>예매자</th>
-                        <th>판매여부</th><!-- <= && >= -->
-                        <th></th><!-- <= && >= -->
+                        <th>예약번호</th>
+                        <th>예약자명</th>
+                        <th>결제금액</th>
+                        <th>연락처</th>
+                        <th>예약일</th>
                     </tr>
                     <th:block th:unless="${#lists.isEmpty(list)}" th:each="list : ${list}">
                         <tr>
-                            <td><img th:src="${list.getExhibition_thumnail()}"></td>
-                            <td style="text-align: left;">
-                                <p><a th:href="@{/exhi/content(no = ${list.getExhibition_key()})}" th:text="${list.getExhibition_title()}"></a></p>
-                                <p th:text="${(#dates.format(list.getExhibition_start_date(),'yyyy-MM-dd'))+'~'+(#dates.format(list.getExhibition_end_date(),'yyyy-MM-dd'))}"></p>
-                            </td>
-                            <td>
-                                <p><a th:href="@{/company/reList(no = ${list.getExhibition_key()})}" th:text="${list.getCount()}"></a></p>
-                            </td>
-                            <td th:if="${(list.getExhibition_start_date()) le (#dates.createNow()) && (list.getExhibition_end_date()) ge (#dates.createNow())}">판매중</td><!-- <= && >= -->
-                            <td th:if="${(list.getExhibition_start_date()) gt (#dates.createNow())}">판매예정</td><!-- > -->
-                            <td th:if="${(list.getExhibition_end_date()) lt (#dates.createNow())}">판매종료</td><!-- < -->
-
-                            <td>
-                                <input type="button" th:onclick="|location.href='@{/company/modify(no=${list.getExhibition_key})}'|" value="수정">
-                                <input type="button" th:onclick="|confirmDelete(${list.getExhibition_key})|" value="삭제">
-                            </td>
+                            <td th:text="${list.reservation_id}"></td>
+                            <td th:text="${list.member_name}"></td>
+                            <td th:text="${list.reservation_price}"></td>
+                            <td th:text="${list.member_phone}"></td>
+                            <td th:text="${(#dates.format(list.reservation_date,'yyyy-MM-dd'))}"></td>
                         </tr>
                     </th:block>
-                    <th:block th:if="${#lists.isEmpty(list)}" >
-                        <tr>
-                            <td colspan="4">등록된 전시회가 존재하지 않습니다.</td>
-                        </tr>
+                    <th:block th:if="${#lists.isEmpty(list)}">
+                        <td colspan="5">등록된 전시회가 존재하지 않습니다.</td>
                     </th:block>
                 </table>
             </div>
@@ -134,34 +119,6 @@
 <script src="/bootstrap/js/plugins/plugins.js"></script>
 <!-- Active js -->
 <script src="/bootstrap/js/active.js"></script>
-
-<script>
-    function confirmDelete(exhibitionKey) {
-        if (confirm("정말로 삭제하시겠습니까?")) {
-            $.ajax({
-                url : "/company/delete",
-                type: "post",
-                data: {
-                    exhibition_key : exhibitionKey
-                },
-                success: function (result){
-                    if(result == 1){
-                        alert("전시회를 성공적으로 삭제하였습니다.");
-                        location.reload();
-                    }else if(result == 0){
-                        alert("전시회를 삭제하지 못하였습니다.");
-                        location.reload();
-                    }else{
-                        alert("권한이 없어 삭제하지 못하였습니다.");
-                        location.reload();
-                    }
-                },error: function(xhr, status, error) {
-                    console.error(xhr);
-                }
-            })
-        }
-    }
-</script>
 </body>
 
 </html>

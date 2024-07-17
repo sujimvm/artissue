@@ -2,6 +2,8 @@ package com.artissue.model;
 
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
 public class MemberDTO {
     private int member_key;
@@ -17,5 +19,9 @@ public class MemberDTO {
     private String company_number;
     private String role;
     private int enabled;
+
+    private String reservation_id;
+    private int reservation_price;
+    private Date reservation_date;
 
 }

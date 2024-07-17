@@ -30,6 +30,18 @@
         }
 
     </style>
+    <script>
+        window.onload = function() {
+            var urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('error') === 'true') {
+                var errorMessage = '아이디 또는 비밀번호가 일치하지 않습니다.';
+                if (errorMessage) {
+                    alert(errorMessage);
+                }
+            }
+        }
+    </script>
+
 </head>
 <body>
     <!-- Preloader -->

@@ -1,6 +1,5 @@
 package com.artissue.controller;
 
-import com.artissue.model.CustomOAuth2User;
 import com.artissue.model.MemberDTO;
 import com.artissue.model.MemberMapper;
 import jakarta.servlet.http.HttpSession;
