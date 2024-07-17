@@ -77,7 +77,7 @@ public class VeriController {
     private String generateVerificationCode() {
 
         Random random = new Random();
-        int code = 1000 + random.nextInt(9000);
+        String code = String.format("%06d", (int) (Math.random() * 1000000));
         return String.valueOf(code);
     }
 }

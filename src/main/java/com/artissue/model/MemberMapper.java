@@ -52,4 +52,7 @@ public interface MemberMapper {
 
     int updatePwd(String member_id, String member_pwd);
 
+    //사업자 번호 조회
+    MemberMapper companyInfoByNo(String company_number);
+
 }

@@ -124,4 +124,8 @@
         update member set member_pwd = #{member_pwd} where member_id= #{member_id}
     </update>
 
+    <select id="companyInfoByNo" parameterType="String" resultType="mDTO">
+        select * from member where company_number = #{company_number}
+    </select>
+
 </mapper>
