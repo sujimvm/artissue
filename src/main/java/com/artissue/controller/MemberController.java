@@ -39,20 +39,25 @@ public class MemberController {
         return "memberJoin";
     }
 
+    //회원가입
     @PostMapping("/joinProc")
     public void joinProc(MemberDTO memberDTO, @RequestParam("userType") String userType, HttpServletResponse response) throws IOException {
         System.out.println("userType: " + userType);
         if ("company".equals(userType)) {
             memberDTO.setRole("ROLE_COMPANY");
+            //사업자번호
+            String str1 = memberDTO.getCompany_number().substring(0, 3);
+            String str2 = memberDTO.getCompany_number().substring(3, 5);
+            String str3 = memberDTO.getCompany_number().substring(5);
+
+            memberDTO.setCompany_number(str1 + "-" + str2 + "-" + str3);
+
         } else if ("individual".equals(userType)) {
             memberDTO.setRole("ROLE_USER");
-        }
-        //사업자번호
-        String str1 = memberDTO.getCompany_number().substring(0, 3);
-        String str2 = memberDTO.getCompany_number().substring(3, 5);
-        String str3 = memberDTO.getCompany_number().substring(5);
 
-        memberDTO.setCompany_number(str1 + "-" + str2 + "-" + str3);
+            memberDTO.setCompany_number(null);
+        }
+
         
 
         //전화번호
@@ -92,11 +97,13 @@ public class MemberController {
 
     }
 
+
     @GetMapping("/findbyId")
     public String findId() {
         return "findbyId";
     }
 
+    //아이디 찾기
     @PostMapping("/findIdProc")
     public String findIdProc(@RequestParam("member_name") String member_name, @RequestParam("member_email") String member_email,
                              Model model,HttpServletResponse response) throws IOException {
@@ -200,6 +207,7 @@ public class MemberController {
         return "my-page/userPwdUpdate";
     }
 
+    //비밀번호 변경
     @PostMapping("/pwdUpdate")
     public String pwdUpdate(@RequestParam("oriPwd") String oriPwd,@RequestParam("newPassword") String newPassword,
                             HttpSession session, HttpServletResponse response) throws IOException {
@@ -253,6 +261,7 @@ public class MemberController {
         return "my-page/user";
     }
 
+    //소셜로그인,일반 로그인 이동
     @GetMapping("/userMove")
     public String updateUserMove(HttpSession session, Model model) {
 
@@ -271,6 +280,7 @@ public class MemberController {
             }
     }
 
+    //비밀번호 변경 경로
     @GetMapping("userPwdUpdateMove")
     public String userPwdUpdateMove(HttpSession session, Model model) {
 
@@ -374,7 +384,7 @@ public class MemberController {
         return "my-page/userModify";
     }
 
-
+    //비밀번호 일치 시 수정폼 이동
     @PostMapping("/mModify")
     public String modifyOk(@RequestParam("member_pwd") String pwd,
                            HttpSession session,
@@ -388,23 +398,15 @@ public class MemberController {
         if (session.getAttribute("mDTO") != null) {
             MemberDTO memberInfo = (MemberDTO) session.getAttribute("mDTO");
             if (passwordEncoder.matches(pwd, memberInfo.getMember_pwd())) {
-                out.println("<script>");
-                out.println("alert('비밀번호가 일치합니다.');");
-                out.println("location.href='/my-page/userModify';");
-                out.println("</script>");
-                out.flush();
-                return null;
+
+                return "/my-page/userModify";
             }
         }else if (session.getAttribute("cDTO") != null) {
             MemberDTO companyInfo = (MemberDTO) session.getAttribute("cDTO");
 
             if (passwordEncoder.matches(pwd, companyInfo.getMember_pwd())) {
-                out.println("<script>");
-                out.println("alert('비밀번호가 일치합니다.');");
-                out.println("location.href='/my-page/userModify';");
-                out.println("</script>");
-                out.flush();
-                return null;
+
+                return "/my-page/userModify";
             }
         }
 
@@ -417,6 +419,7 @@ public class MemberController {
         return null;
     }
 
+    //정보수정완료
     @PostMapping("/mModifyOk")
     public String modifyOk(HttpServletResponse response, MemberDTO dto, HttpSession session) throws IOException {
 
