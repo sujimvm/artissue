@@ -84,7 +84,7 @@
                         <input class="btn oneMusic-btn" type="button" id="reserveOpenBt" value="예매하기"
                                th:if="${Exhibition.getExhibition_end_date().after(#dates.createNow()) or Exhibition.getExhibition_end_date().equals(#dates.createNow())}">
 
-                        <input class="btn oneMusic-btn" type="text" value="판매종료"
+                        <input class="btn oneMusic-btn" type="button" value="판매종료"
                                th:if="${Exhibition.getExhibition_end_date().before(#dates.createNow())}">
                         <br>
                         <div id="oneMusic-chk" class="oneMusic-chk">
@@ -191,12 +191,15 @@
             <div>
                 <th:block th:if="${!Review.isEmpty() && Review != null}">
                     <ul id="review-list">
-                        <li th:each="review : ${Review}">
+                        <li th:each="review,iter : ${Review}">
                             <div class="review-title">
                                 <input type="hidden" id="review_key" th:value="${review.getReview_key()}">
                                 <h5 th:text="${review.getReview_title()}"></h5>
                             </div>
                             <div class="review-star"></div>
+                            <div class="review-nickname">
+                                <p th:text="${Nicknames[iter.index]}"></p>
+                            </div>
                             <div class="review-date">
                                 <p th:text="${review.getReview_date()}"></p>
                             </div>

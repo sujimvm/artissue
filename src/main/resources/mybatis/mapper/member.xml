@@ -128,4 +128,8 @@
         select * from member where company_number = #{company_number}
     </select>
 
+    <select id="getMemberNickname" parameterType="int" resultType="String">
+        select member_nickname from member where member_key = #{member_key}
+    </select>
+
 </mapper>

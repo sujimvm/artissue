@@ -55,4 +55,6 @@ public interface MemberMapper {
     //사업자 번호 조회
     MemberMapper companyInfoByNo(String company_number);
 
+    String getMemberNickname(int member_key);
+
 }

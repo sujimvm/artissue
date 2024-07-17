@@ -58,3 +58,9 @@
     top: 0px;
     margin-top: 50px;
 }
+
+.fixed{
+    position: fixed;
+    right: 183px;
+    top: 150px;
+}
