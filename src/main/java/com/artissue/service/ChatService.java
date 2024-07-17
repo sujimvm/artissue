@@ -54,4 +54,20 @@ public class ChatService {
             log.error(e.getMessage(), e);
         }
     }
+
+    public ChatRoom createAdminRoom() {
+        String roomId = "admin_noti";
+
+        ChatRoom room = ChatRoom.builder()
+                .roomId(roomId)
+                .name("admin_noti")
+                .build();
+
+        chatRooms.put(roomId, room);
+        return room;
+    }
+
+    public void romoveRooms(){
+        chatRooms = new LinkedHashMap<>();
+    }
 }

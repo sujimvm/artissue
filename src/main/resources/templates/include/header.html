@@ -114,6 +114,86 @@
             </div>
         </div>
     </div>
+    <script src="/bootstrap/js/jquery/jquery-2.2.4.min.js"></script>
+
+    <script th:inline="javascript">
+
+        var session = /*[[${session}]]*/ {};
+
+
+        if(session != {}){
+            if(session.mDTO.member_id === 'test123') {
+                createChat();
+
+                //alert('@###@connect'+session.mDTO.member_id);
+            }
+        }
+
+
+        function createChat() {
+            //roomId값을 name으로 parameter 전송하여, /chat/create post 호출
+
+            $.ajax({
+                url: '/chat/createAdmin',
+                type: 'POST',
+                data: {name: 'ttt'},
+                success: function (response) {
+                    const id = response.roomId
+                    connect()
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error creating room:', error);
+                }
+            });
+        }
+
+        function connect() {
+            // roomId ajax call get
+
+            // const roomId = document.getElementById('roomId').value;
+            // const sender = document.getElementById('sender').value;
+            const sender = 'rhksflawk';
+            const roomId = 'admin_noti'
+            socket = new WebSocket(`ws://localhost:8181/ws/chat/${roomId}`);
+
+            socket.onopen = function() {
+                const joinMessage = {
+                    type: "JOIN",
+                    sender: sender,
+                    message: `${sender} joined the room`
+                };
+                socket.send(JSON.stringify(joinMessage));
+            };
+
+            socket.onmessage = function(event) {
+                const message = JSON.parse(event.data);
+
+                console.log(message)
+
+                const obj = JSON.parse(message.message)
+                if(obj.type == 'join'){
+                    if(obj.sender != 'rhksflawk'){
+                        if(confirm(obj.sender + 'enter, chat open?')){
+                            location.href = "/chat/rooms?id=" + obj.roomId;
+                        }
+                    }
+                }
+
+                //document.getElementById('messages').innerHTML += `<div><b>${message.sender}:</b> ${message.message}</div>`;
+            }
+
+
+            socket.onclose = function(){
+                console.log('close');
+            }
+
+            socket.onerror = function(error){
+                console.log('error',error)
+            }
+        }
+
+
+    </script>
 </header>
 <!-- ##### Header Area End ##### -->
 </body>

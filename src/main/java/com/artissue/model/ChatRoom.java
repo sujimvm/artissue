@@ -35,10 +35,13 @@ public class ChatRoom {
             if (type == ChatMessage.MessageType.JOIN) {
                 sessions.add(session);
 
+
                 Map<String, String> messageMap = new HashMap<String, String>();
 
-                messageMap.put("type", "join");
                 messageMap.put("sender", message.getSender());
+                messageMap.put("type", "join");
+                messageMap.put("roomId", message.getMessage());
+
 
                 ObjectMapper om = new ObjectMapper();
                 String msg = "";

@@ -28,7 +28,7 @@ public class ArtissueApplication {
 
             System.out.println(chatRoom.getRoomId());
 
-            adminRoomId = chatRoom.getRoomId();
+            adminRoomId = "admin_noti";
 
         };
     }
