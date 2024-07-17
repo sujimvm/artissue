@@ -1,6 +1,7 @@
 package com.artissue.controller;
 
 import com.artissue.model.*;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,8 @@ public class AjaxController {
     private ReviewMapper reviewMapper;
     @Autowired
     private ReservationMapper reservationMapper;
+    @Autowired
+    private MemberMapper memberMapper;
 
     @GetMapping("/exhibition")
     public List<ExhibitionDTO> exhibitionList(@RequestParam("offset") int offset,
@@ -164,6 +167,26 @@ public class AjaxController {
             e.printStackTrace();
         }
         return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/companyNumberCheck")
+    public String companyNoCheck(@RequestParam("company_no") String company_no, HttpServletRequest request,
+                                 HttpServletResponse response) {
+        String res = "available"; //사용가능
+        System.out.println("company_no"+company_no);
+        response.setContentType("text/html; charset=UTF-8");
+
+        String str1 = company_no.substring(0, 3);
+        String str2 = company_no.substring(3, 5);
+        String str3 = company_no.substring(5);
+        String newCompanyNo = str1 + "-" + str2 + "-" + str3;
+
+        MemberDTO idCheck = (MemberDTO) this.memberMapper.companyInfoByNo(newCompanyNo);
+
+        if (idCheck != null) {
+            res = "unavailable";
+        }
+        return res;
     }
 }
 

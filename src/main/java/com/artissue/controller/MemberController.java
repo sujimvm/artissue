@@ -47,7 +47,15 @@ public class MemberController {
         } else if ("individual".equals(userType)) {
             memberDTO.setRole("ROLE_USER");
         }
+        //사업자번호
+        String str1 = memberDTO.getCompany_number().substring(0, 3);
+        String str2 = memberDTO.getCompany_number().substring(3, 5);
+        String str3 = memberDTO.getCompany_number().substring(5);
 
+        memberDTO.setCompany_number(str1 + "-" + str2 + "-" + str3);
+        
+
+        //전화번호
         String phoneNumber = memberDTO.getMember_phone().replaceAll("[^0-9]", "");
         if (phoneNumber.length() == 8) {
             phoneNumber = phoneNumber.substring(0, 4) + "-" + phoneNumber.substring(4);
