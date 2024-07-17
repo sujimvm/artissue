@@ -6,11 +6,55 @@
     list-style-type: none;
     padding: 0;
     margin-bottom: -10px;
+    border-bottom: 1px solid;
+    width: 82%;
 }
 
-.nav-menu.is-active{
-    font-weight: bold;
-    border-bottom: 2px solid #000;
+.nav-menu{
+    background-color: #fff;
+    -webkit-transition-duration: 500ms;
+    transition-duration: 500ms;
+    position: relative;
+    z-index: 1;
+    display: inline-block;
+    width: 33.33%;
+    height: 49px;
+    color: #000;
+    border: 1px solid #000;
+    border-radius: 0;
+    font-size: 16px;
+    line-height: 47px;
+    font-weight: 700;
+    text-transform: capitalize;
+    text-align: center;
+    margin-right: -10px;
+
+    h4{
+        margin: 8px;
+    }
+}
+
+.nav-menu:hover, .nav-menu:focus {
+    font-size: 16px;
+    font-weight: 700;
+    background-color: #000000;
+
+    h4{
+        color: #fff;
+        margin: 8px;
+    }
+}
+
+.is-active{
+    font-size: 16px;
+    font-weight: 700;
+    background-color: #000000;
+    text-align: center;
+
+    h4{
+        color: #fff;
+        margin: 8px;
+    }
 }
 
 .heart {
@@ -54,13 +98,163 @@
 
 .exhibitionNavBtn{
     position: absolute;
-    right: -7px;
-    top: 0px;
-    margin-top: 50px;
+    right: 10%;
+    top: 0;
+    margin-top: 33%;
 }
 
 .fixed{
     position: fixed;
-    right: 183px;
-    top: 150px;
+    right: 10%;
+    top: -40%;
+}
+
+.star {
+    color: #f73c32;
+    font-size: 20px;
+}
+.empty-star {
+    color: lightgray;
+    font-size: 20px;
+}
+
+.contentTitle{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.moreInfoTitle{
+    padding-bottom: 20px;
+}
+
+.moreInfoTable{
+    width: 82%;
+    padding: 10px;
+    border: 1px solid #000000;
+
+    th, td {
+        border: 1px solid #000000; /* 셀 사이에 구분선을 추가 */
+        padding: 10px; /* 셀 안쪽 여백 */
+    }
+
+    th {
+        background-color: #f2f2f2; /* 연한 회색 배경 */
+    }
+
+    .col1{
+        width: 20%;
+    }
+    .col2{
+        width: 30%;
+    }
+    .col3{
+        width: 20%;
+    }
+    .col4{
+        width: 30%;
+    }
+}
+
+.escrowGuide{
+    padding-top: 20px;
+}
+
+.escrowText{
+    width: 82%;
+}
+
+.bbsNotice{
+    width: 82%;
+    border: 1px solid;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.bbsNoticeHead{
+    padding-bottom: 10px;
+    text-align: center;
+    color: red;
+}
+
+.bbsNoticeText{
+    margin-bottom: 0;
+    padding: 10px;
+    border-top: 1px solid;
+}
+
+.review-header{
+    padding-bottom: 10px;
+    padding-top: 10px;
+    width: 82%;
+}
+
+.review-body{
+    width: 82%;
+}
+
+.review-list{
+    border: 1px solid #dfe5ed;
+    border-radius: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+    h5{
+        margin: 3px;
+    }
+
+    p{
+        margin: 3px;
+    }
+
+}
+
+.review-list-header{
+    display: flex;
+    padding: 15px;
+    height: 65px;
+}
+
+.review-title{
+    width: 60%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.review-star{
+    width: 15%;
+    border-left: 1px solid #dfe5ed;
+    text-align: center;
+}
+
+.review-nickname{
+    width: 12.5%;
+    text-align: right;
+    padding-right: 15px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space:nowrap;
+}
+
+.review-date{
+    width: 12.5%;
+    text-align: center;
+    border-left: 1px solid #dfe5ed;
+
+}
+
+.review-list-body{
+    padding: 15px;
+}
+
+.review-content-wrapper{
+    display: flex;
+}
+
+.review-cont {
+    width: 85%;
+}
+
+.review-actions {
+    width: 15%;
 }
