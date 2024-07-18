@@ -18,78 +18,22 @@
     <!-- Stylesheet -->
     <link rel="stylesheet" href="/bootstrap/style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script>
 
-        $(function(){
-            $('#Password1').on('input', function() {
-                var pwd = $(this).val();
-                var pwdPattern = /^(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,20}$/;
-                if (pwdPattern.test(pwd)) {
-                    $('#pwdCheckmark').show();
-                    $('#pwdError').hide();
-                } else {
-                    $('#pwdCheckmark').hide();
-                    $('#pwdError').show();
-                }
-            });
-        });
-
-        $(function(){
-            var pwd_check = false;
-            $("#Password2").focusout(function(){
-                pwdCheck($(this).val());
-            });
-
-            function pwdCheck(pwd){
-                if(pwd==""){
-                    $("#pwd_check").text("");
-                    return;
-                }
-
-                if($("#Password2").val() === $("#Password1").val()){
-                    $("#pwd_check_ok").show();
-                    $("#pwd_check_err").hide();
-                }else{
-                    $("#pwd_check_ok").hide();
-                    $("#pwd_check_err").show();
-                }
-            };
-        });
-
-        function insertCheck(){
-            var pwd = $('#Password1').val();
-            var pwdPattern = /^(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,20}$/;
-
-            debugger;
-
-            if(!pwdPattern.test(pwd)){
-                debugger;
-                alert('비밀번호를 확인하여주십시오.');
-                $("#Password1").focus();
-                return false;
-            }
-
-            if($("#Password1").val()!=$("#Password2").val()){
-                debugger;
-                alert('비밀번호 확인을 확인하여주십시오.');
-                $("#Password2").focus();
-                return false;
-            }
-
-        };
-
-    </script>
     <style>
-
-        .link-container{
+        .formLoc {
             display: flex;
-            justify-content: space-between;
-            gap: 20px;
-            margin-top: 10px;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
 
+        .formLoc img {
+            margin-bottom: 30px;
         }
 
     </style>
+
 </head>
 <body>
 <!-- Preloader -->
@@ -136,10 +80,13 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-lg-9" style="border: solid 1px #000000;">
+            <div class="col-12 col-lg-9">
                 <h3>비밀번호 변경</h3>
                 <hr>
-                <h4>소셜 로그인으로 로그인 한 경우 비밀번호 변경이 불가합니다.</h4>
+                <div class="formLoc">
+                    <img th:src="@{/img/lock.png}" alt="잠금 이미지" width="250"/>
+                    <h4>소셜 로그인으로 로그인 한 경우 비밀번호 변경이 불가합니다.</h4>
+                </div>
             </div>
         </div>
     </div>

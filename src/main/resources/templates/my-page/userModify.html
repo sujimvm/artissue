@@ -18,9 +18,7 @@
     <!-- Stylesheet -->
     <link rel="stylesheet" href="/bootstrap/style.css">
     <style>
-        .pwdLoc{
-            text-align: center;
-        }
+
 
         .form-size{
             display: flex;
@@ -34,14 +32,24 @@
 
             max-width: 600px;
         }
-
+        th {
+            text-align: center;
+        }
         table {
             width: 100%;
         }
         .inputMargin{
-            margin-bottom: 18px;
+            margin-bottom: 10px;
+        }
+        .twidth{
+            width: 600px;
         }
 
+        .btnloc{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
     </style>
     <script>
@@ -82,7 +90,7 @@
 
                 if (charCount < 2 || charCount > 10) {
                     $(this).addClass('is-invalid'); //부트스트랩
-                    $('#charCount').text('닉네임을 2~10자로 입력해주세요(' + charCount + '/10글자)');
+                    $('#charCount').text('2~10자로 입력해주세요(' + charCount + '/10)');
                     $('#charCount').css('color', 'red');
                 } else {
                     $(this).removeClass('is-invalid');
@@ -196,10 +204,9 @@
             </div>
 
 
-
-            <div class="form-container form-size" style="border: solid 1px #000000;">
+            <div class="form-container form-size">
                 <form method="POST" action="/mModifyOk" onsubmit="return validateForm()">
-                    <table>
+                    <table class="table table-bordered twidth">
                         <input type="hidden" name="member_key"
                                th:value="${session.mDTO != null ? session.mDTO.member_key : session.cDTO.member_key}">
                         <tr>
@@ -271,7 +278,7 @@
                         </tr>
 
                     </table>
-                    <div>
+                    <div class="btnloc">
                         <input type="submit" class="btn oneMusic-btn mt-30" value="회원수정" onclick="return modify()">&nbsp;&nbsp;
                         <input type="reset" class="btn oneMusic-btn mt-30" value="다시작성">
                     </div>
