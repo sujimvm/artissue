@@ -20,8 +20,9 @@ public class ChatController {
     }
 
     @GetMapping("/rooms")
-    public String rooms(Model model) {
+    public String rooms(Model model, @RequestParam(required = false) String id) {
         model.addAttribute("rooms", chatService.findAllRooms());
+        model.addAttribute("id", id);
         return "chat";
     }
 
