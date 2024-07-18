@@ -30,6 +30,10 @@
         .inputMargin td {
             padding: 10px 20px; /* 각 셀의 내부 여백 */
         }
+        .taWidth{
+            width: 600px;
+            text-align: center;
+        }
 
     </style>
 
@@ -79,11 +83,11 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-lg-9" style="border: solid 1px #000000;">
+            <div class="col-12 col-lg-9">
                 <h3>회원정보 상세보기</h3>
                 <hr>
                 <div class="formLoc">
-                    <table>
+                    <table class="table table-bordered taWidth">
                         <tr class="inputMargin">
                             <th>회원 아이디</th>
                             <td th:text="${session.mDTO != null ? session.mDTO.member_id : session.cDTO.member_id}" readonly></td>
