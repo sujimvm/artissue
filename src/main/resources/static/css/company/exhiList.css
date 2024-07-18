@@ -17,6 +17,12 @@
 .exhiListTb td{
     padding: 10px;
     text-align: center;
+
+    .MD-btn{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
 }
 .exhiListTb td a{
     font-size: 18px;
@@ -28,4 +34,20 @@
 }
 .exhiListTb p{
     margin: 0;
+}
+
+.md-btn{
+    width: 100%;
+    margin: 5px;
+    background-color: #fff;
+    -webkit-transition-duration: 500ms;
+    transition-duration: 500ms;
+    color: #000;
+    border: 1px solid #000;
+}
+
+.md-btn:hover, .md-btn:focus{
+    font-weight: 700;
+    background-color: #000000;
+    color: #fff;
 }

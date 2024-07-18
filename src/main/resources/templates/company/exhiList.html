@@ -102,9 +102,9 @@
                             <td th:if="${(list.getExhibition_start_date()) gt (#dates.createNow())}">판매예정</td><!-- > -->
                             <td th:if="${(list.getExhibition_end_date()) lt (#dates.createNow())}">판매종료</td><!-- < -->
 
-                            <td>
-                                <input type="button" th:onclick="|location.href='@{/company/modify(no=${list.getExhibition_key})}'|" value="수정">
-                                <input type="button" th:onclick="|confirmDelete(${list.getExhibition_key})|" value="삭제">
+                            <td class="MD-btn">
+                                <input type="button" class="md-btn" th:onclick="|location.href='@{/company/modify(no=${list.getExhibition_key})}'|" value="수정">
+                                <input type="button" class="md-btn" th:onclick="|confirmDelete(${list.getExhibition_key})|" value="삭제">
                             </td>
                         </tr>
                     </th:block>

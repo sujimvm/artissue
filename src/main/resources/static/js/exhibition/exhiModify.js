@@ -5,7 +5,6 @@ $(document).ready(function() {
             language: "ko"
         })
         .then(editor => {
-            editor.ui.view.editable.element.classList.add('custom-editor-height-200');
             let objEditor = editor;
 
             editor.model.document.on('change:data', () => {
@@ -22,7 +21,6 @@ $(document).ready(function() {
             language: "ko"
         })
         .then(editor => {
-            editor.ui.view.editable.element.classList.add('custom-editor-height-500');
             let objEditor = editor;
 
             editor.model.document.on('change:data', () => {
@@ -39,7 +37,6 @@ $(document).ready(function() {
             language: "ko"
         })
         .then(editor => {
-            editor.ui.view.editable.element.classList.add('custom-editor-height-400');
             let objEditor = editor;
 
             editor.model.document.on('change:data', () => {
@@ -56,7 +53,6 @@ $(document).ready(function() {
             language: "ko"
         })
         .then(editor => {
-            editor.ui.view.editable.element.classList.add('custom-editor-height-400');
             let objEditor = editor;
 
             editor.model.document.on('change:data', () => {

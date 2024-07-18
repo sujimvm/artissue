@@ -1,0 +1,87 @@
+.searchDiv{
+    width: 70%;
+    min-width: 360px;
+    margin: 0 auto;
+    padding: 2% 0;
+    border-bottom: 1px solid #d8d8d8;
+}
+
+.insert-content{
+    -webkit-transition-duration: 500ms;
+    transition-duration: 500ms;
+    position: relative;
+    z-index: 1;
+    background-color: #f5f9fa;
+    border: 1px solid #d8d8d8;
+    padding: 50px 100px;
+    box-shadow: 0 2px 70px 0 rgba(0, 0, 0, 0.15);
+}
+
+.insert-tb{
+    width: 100%;
+    border-collapse: separate;
+}
+
+.insert-tb th, .insert-tb td {
+    height: 50px;
+}
+
+.insert-tb th {
+    width: 15%;
+    text-align: center;
+}
+
+.insert-tb td{
+    width: 85% !important;
+
+    select{
+        height: 38px;
+        border-radius: 5px;
+        width: 20%;
+        border: 1px solid #d8d8d8;
+    }
+}
+
+.price-btn{
+    width: 20%;
+    background-color: #fff;
+    -webkit-transition-duration: 500ms;
+    transition-duration: 500ms;
+    color: #000;
+    border: 1px solid #d8d8d8;
+    height: 30px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.price-form{
+    width: 100%;
+}
+
+.ticket-option{
+    width: 55%;
+    margin-bottom: 5px;
+    height: 30px;
+    border: 1px solid #d8d8d8;
+    border-radius: 5px;
+}
+
+.ticket-price{
+    width: 20%;
+    margin-bottom: 5px;
+    height: 30px;
+    margin-right: 5px;
+    border: 1px solid #d8d8d8;
+    border-radius: 5px;
+}
+
+.ck.ck-editor{
+    max-width: 100% !important;
+    height: 300px;
+}
+
+.ck-editor__editable{
+    max-width: 100% !important;
+    height: 300px;
+    overflow-y: auto;
+}
