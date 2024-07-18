@@ -16,29 +16,8 @@
 
     <!-- Stylesheet -->
     <link rel="stylesheet" href="/bootstrap/style.css">
+    <link rel="stylesheet" href="/css/exhibition/insert.css">
 
-    <style>
-
-        .link-container{
-            display: flex;
-            justify-content: space-between;
-            gap: 20px;
-            margin-top: 10px;
-
-        }
-        .custom-editor-height-200 .ck-content {
-            height: 200px !important;
-        }
-
-        .custom-editor-height-400 .ck-content {
-            height: 400px !important;
-        }
-
-        .custom-editor-height-500 .ck-content {
-            height: 500px !important;
-        }
-
-    </style>
 </head>
 <body>
 <!-- Preloader -->
@@ -64,56 +43,56 @@
 
 <!-- ##### Login Area Start ##### -->
 <section class="login-area section-padding-100">
-    <div class="container">
+    <div class="container insertDiv">
         <div class="row justify-content-center">
-            <div class="col-12 col-lg-8">
-                <div class="login-content">
+            <div class="col-12">
+                <div class="insert-content">
                     <form action="/company/insertOk" method="post">
                         <input type="hidden" id="member_key" name="member_key" th:value="${session.cDTO.getMember_key()}">
-                        <h3>전시회 등록</h3>
-                        <table>
+                        <h3 style="text-align: center">전시회 등록</h3>
+                        <table class="insert-tb">
                             <tr>
-                                <td>제목</td>
-                                <td><input class="form-control mb-15" id="exhibition_title" name="exhibition_title" placeholder="제목을 입력하세요" required></td>
+                                <th>제목</th>
+                                <td><input class="form-control" id="exhibition_title" name="exhibition_title" placeholder="제목을 입력하세요" required></td>
                             </tr>
                             <tr>
-                                <td>썸네일</td>
+                                <th>썸네일</th>
                                 <td>
-                                    <input class="form-control mb-15" id="exhibition_thumnail" name="exhibition_thumnail" required placeholder="이미지 경로를 입력하세요.">
+                                    <input class="form-control" id="exhibition_thumnail" name="exhibition_thumnail" required placeholder="이미지 경로를 입력하세요.">
                                 </td>
                             </tr>
                             <tr>
-                                <td>시작 날짜</td>
+                                <th>시작 날짜</th>
                                 <td>
-                                    <input class="form-control mb-15" id="exhibition_start_date" name="exhibition_start_date" type="date" required>
+                                    <input class="form-control" id="exhibition_start_date" name="exhibition_start_date" type="date" required style="width: 50%">
                                 </td>
                             </tr>
                             <tr>
-                                <td>종료 날짜</td>
+                                <th>종료 날짜</th>
                                 <td>
-                                    <input class="form-control mb-15" id="exhibition_end_date" name="exhibition_end_date" type="date" required>
+                                    <input class="form-control" id="exhibition_end_date" name="exhibition_end_date" type="date" required style="width: 50%">
                                 </td>
                             </tr>
                             <tr>
-                                <td>전시회 장소</td>
+                                <th>전시회 장소</th>
                                 <td>
-                                    <input class="form-control mb-15" id="exhibition_place" name="exhibition_place" placeholder="전시회가 열릴 장소를 입력해 주세요." required>
+                                    <input class="form-control" id="exhibition_place" name="exhibition_place" placeholder="전시회가 열릴 장소를 입력해 주세요." required>
                                 </td>
                             </tr>
                             <tr>
-                                <td>전시회 주소</td>
+                                <th>전시회 주소</th>
                                 <td>
-                                    <input class="form-control mb-15" id="exhibition_addr" name="exhibition_addr" placeholder="전시회가 열릴 장소의 주소를 입력해 주세요." required>
+                                    <input class="form-control" id="exhibition_addr" name="exhibition_addr" placeholder="전시회가 열릴 장소의 주소를 입력해 주세요." required>
                                 </td>
                             </tr>
                             <tr>
-                                <td>관람 시간</td>
+                                <th>관람 시간</th>
                                 <td>
-                                    <input class="form-control mb-15" id="exhibition_view_time" name="exhibition_view_time" placeholder="전시회의 관람 가능한 시간을 입력해 주세요." required>
+                                    <input class="form-control" id="exhibition_view_time" name="exhibition_view_time" placeholder="전시회의 관람 가능한 시간을 입력해 주세요." required>
                                 </td>
                             </tr>
                             <tr>
-                                <td>관람 연령</td>
+                                <th>관람 연령</th>
                                 <td>
                                     <select name="exhibition_view_age">
                                         <option value="전체 이용가">전체 이용가</option>
@@ -125,31 +104,31 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>티켓가격</td>
+                                <th>티켓가격</th>
                                 <td>
-                                    <div id="price_form">
+                                    <div id="price_form" class="price-form">
 
                                     </div>
                                     <div>
-                                        <button type="button" id="addPrice">가격 추가</button>
+                                        <button type="button" class="price-btn" id="addPrice">가격 추가</button>
                                     </div>
                                 </td>
                             </tr>
                             <tr>
-                                <td>공지사항</td>
-                                <td><textarea class="form-control mb-15" id="exhibition_notice" name="exhibition_notice" rows="7" placeholder="공지사항을 입력하세요" style="height: 200px; resize: none;"></textarea></td>
+                                <th style="height: 300px">공지사항</th>
+                                <td><textarea id="exhibition_notice" name="exhibition_notice" placeholder="공지사항을 입력하세요"></textarea></td>
                             </tr>
                             <tr>
-                                <td>상세내용</td>
-                                <td><textarea class="form-control mb-15" id="exhibition_detail_info" name="exhibition_detail_info" rows="7" placeholder="상세 내용을 입력하세요" style="height: 500px; resize: none;" required></textarea></td>
+                                <th style="height: 300px">상세내용</th>
+                                <td><textarea id="exhibition_detail_info" name="exhibition_detail_info" placeholder="상세 내용을 입력하세요" required></textarea></td>
                             </tr>
                             <tr>
-                                <td>판매자 정보</td>
-                                <td><textarea class="form-control mb-15" id="exhibition_seller_info" name="exhibition_seller_info" rows="7" placeholder="판매자 정보를 입력하세요" style="height: 500px; resize: none;"></textarea></td>
+                                <th style="height: 300px">판매자 정보</th>
+                                <td><textarea id="exhibition_seller_info" name="exhibition_seller_info" placeholder="판매자 정보를 입력하세요"></textarea></td>
                             </tr>
                             <tr>
-                                <td>상품 정보</td>
-                                <td><textarea class="form-control mb-15" id="exhibition_product_info" name="exhibition_product_info" rows="7" placeholder="상품 정보를 입력하세요" style="height: 500px; resize: none;"></textarea></td>
+                                <th style="height: 300px">상품 정보</th>
+                                <td><textarea id="exhibition_product_info" name="exhibition_product_info" placeholder="상품 정보를 입력하세요"></textarea></td>
                             </tr>
                             <tr>
                                 <td colspan="2" style="text-align: center;"><button type="submit" class="btn oneMusic-btn mt-30">등록하기</button></td>

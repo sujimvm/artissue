@@ -151,7 +151,7 @@
                         <table>
                             <tr>
                                 <th>제 목</th>
-                                <td><input type="text" id="review-title" required></td>
+                                <td><input type="text" class="form-control" id="review-title" required></td>
                             </tr>
                             <tr>
                                 <th>별 점</th>
@@ -168,12 +168,15 @@
                             <tr>
                                 <th>내 용</th>
                                 <td>
-                                    <textarea id="review-cont" name="review_cont" rows="3" cols="113" placeholder="솔직하고 따뜻한 리븊를 남겨주세요~" required></textarea>
+                                    <textarea id="review-cont" class="form-control" name="review_cont" placeholder="솔직하고 따뜻한 리뷰를 남겨주세요~" required></textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" style="text-align: center">
+                                    <input id="review-btn" class="review-btn" type="button" value="리뷰 작성">
                                 </td>
                             </tr>
                         </table>
-
-                        <input id="review-btn" class="review-btn" type="button" value="리뷰 작성">
                     </div>
                 </th:block>
                 <th:block sec:authorize="!isAuthenticated()">
@@ -214,14 +217,15 @@
                                 </div>
                                 <th:block sec:authorize="isAuthenticated() and hasRole('ROLE_USER')" th:if="${review.getMember_key() == session.mDTO.getMember_key()}">
                                     <div class="review-actions">
-                                        <input type="button" id="rewriteReview" value="수정">
-                                        <input type="button" id="deleteReview" value="삭제">
+                                        <input type="button" id="rewriteReview" class="review-btn" value="수정">
+                                        <input type="button" id="deleteReview" class="review-btn" value="삭제">
                                     </div>
-                                    <div id="reWriteReview-form" class="" style="display:none;">
+                                    <br>
+                                    <div id="reWriteReview-form" class="review-form" style="display:none;">
                                         <table>
                                             <tr>
                                                 <th>제 목</th>
-                                                <td><input type="text" id="re-review-title" required th:value="${review.getReview_title()}"></td>
+                                                <td><input type="text" class="form-control" id="re-review-title" required th:value="${review.getReview_title()}"></td>
                                             </tr>
                                             <tr>
                                                 <th>별 점</th>
@@ -238,12 +242,15 @@
                                             <tr>
                                                 <th>내 용</th>
                                                 <td>
-                                                    <textarea id="re-review-cont" name="reply_cont" rows="3" cols="113" th:text="${review.getReview_cont()}" required></textarea>
+                                                    <textarea id="re-review-cont" class="form-control" name="reply_cont" rows="3" cols="113" th:text="${review.getReview_cont()}" required></textarea>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2" style="text-align: center">
+                                                    <input id="re-review-btn" class="review-btn" type="button" value="리뷰 수정">
                                                 </td>
                                             </tr>
                                         </table>
-
-                                        <input id="re-review-btn" class="reply-btn" type="button" value="리뷰 수정">
                                     </div>
                                 </th:block>
                             </div>

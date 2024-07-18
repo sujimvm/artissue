@@ -83,7 +83,7 @@
     text-align: center; /* 텍스트 중앙 정렬 */
 }
 
-.rate { display: inline-block;border: 0;margin-right: 15px;}
+.rate { display: inline-block;border: 0;margin-right: 15px; margin-bottom: -15px;}
 .rate > input {display: none;}
 .rate > label {float: right;color: #ddd}
 .rate > label:before {display: inline-block;font-size: 1rem;padding: .3rem .2rem;margin: 0;cursor: pointer;font-family: FontAwesome;content: "\f005 ";}
@@ -233,7 +233,7 @@
     padding-right: 15px;
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space:nowrap;
+    white-space: nowrap;
 }
 
 .review-date{
@@ -243,18 +243,71 @@
 
 }
 
-.review-list-body{
+.review-list-body {
     padding: 15px;
 }
 
-.review-content-wrapper{
-    display: flex;
-}
-
 .review-cont {
-    width: 85%;
+    width: 100%;
+    justify-content: flex-start;
 }
 
 .review-actions {
-    width: 15%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: 10px; /* 여백 추가 */
+}
+
+.review-form {
+    margin-top: 10px;
+    width: 100%;
+    border: 1px solid #dfe5ed;
+    border-radius: 10px;
+
+    table{
+        width: 90%;
+        align-content: center;
+        margin: 5%;
+        border-radius: 10px;
+    }
+
+    th, td {
+        padding: 10px; /* 셀 안쪽 여백 */
+    }
+
+    th {
+        width: 15%;
+        text-align: center;
+    }
+
+    .review-btn{
+        align-self: center;
+    }
+}
+
+.review-btn{
+    background-color: #fff;
+    -webkit-transition-duration: 500ms;
+    transition-duration: 500ms;
+    position: relative;
+    z-index: 1;
+    display: inline-block;
+    width: 100px;
+    height: 30px;
+    color: #000;
+    border: 1px solid #000;
+    border-radius: 0;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: capitalize;
+    text-align: center;
+}
+
+.review-btn:hover, .review-btn:focus{
+    font-size: 14px;
+    font-weight: 700;
+    background-color: #000000;
+    color: #fff;
 }

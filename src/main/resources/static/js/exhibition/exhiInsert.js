@@ -5,7 +5,6 @@ $(document).ready(function (){
             language: "ko"
         })
         .then(editor => {
-            editor.ui.view.editable.element.classList.add('custom-editor-height-200');
             let objEditor = editor;
 
             editor.model.document.on('change:data', () => {
@@ -22,7 +21,6 @@ $(document).ready(function (){
             language: "ko"
         })
         .then(editor => {
-            editor.ui.view.editable.element.classList.add('custom-editor-height-500');
             let objEditor = editor;
 
             editor.model.document.on('change:data', () => {
@@ -39,7 +37,6 @@ $(document).ready(function (){
             language: "ko"
         })
         .then(editor => {
-            editor.ui.view.editable.element.classList.add('custom-editor-height-400');
             let objEditor = editor;
 
             editor.model.document.on('change:data', () => {
@@ -56,7 +53,6 @@ $(document).ready(function (){
             language: "ko"
         })
         .then(editor => {
-            editor.ui.view.editable.element.classList.add('custom-editor-height-400');
             let objEditor = editor;
 
             editor.model.document.on('change:data', () => {
@@ -68,26 +64,45 @@ $(document).ready(function (){
         });
 
     $('#addPrice').on('click', function (){
-        var newPriceDiv = $('<div class="ticket-price"></div>');
+        var PriceDiv = $('.price-form');
+
+        // Create a new div to hold the ticket name, price inputs and delete button
+        var newPriceEntry = $('<div>').attr('class', 'price-entry');
 
         // Create the ticket name input
         var ticketNameInput = $('<input>')
             .attr('type', 'text')
             .attr('name', 'ticket_name[]')
+            .attr('class', 'ticket-option')
             .attr('placeholder', '티켓 이름');
 
         // Create the ticket price input
         var ticketPriceInput = $('<input>')
             .attr('type', 'number')
             .attr('name', 'ticket_price[]')
+            .attr('class', 'ticket-price')
             .attr('placeholder', '가격')
             .attr('min', '0');
 
-        // Append the inputs to the new div
-        newPriceDiv.append(ticketNameInput);
-        newPriceDiv.append(ticketPriceInput);
+        // Create the delete button
+        var deletePrice = $('<input>')
+            .attr('type', 'button')
+            .attr('class', 'price-btn')
+            .attr('id', 'delete_price')
+            .attr('value', '가격 삭제')
+            .on('click', function() {
+                newPriceEntry.remove(); // Remove the entire price entry div
+            });
 
-        // Append the new div to the price_form div
-        $('#price_form').append(newPriceDiv);
-    })
+        // Append the inputs and delete button to the new div
+        newPriceEntry.append(ticketNameInput);
+        newPriceEntry.append(ticketPriceInput);
+        newPriceEntry.append(deletePrice);
+
+        // Append the new div to the price-form
+        PriceDiv.append(newPriceEntry);
+    });
+
 });
+
+
