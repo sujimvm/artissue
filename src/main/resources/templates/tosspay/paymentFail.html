@@ -3,9 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <title>ART ISSUE :: 결제</title>
+    <link rel="stylesheet" href="/bootstrap/style.css">
 </head>
 <body>
-    <h1>결제 실패</h1>
-    <p>오류 메시지: <span th:text="${errorMessage}"></span></p>
+    <section class="contact-area section-padding-100 bg-img bg-overlay bg-fixed has-bg-img" style="background-image: url(/bootstrap/img/bg-img/bg-2.jpg); padding: 0;">
+        <div class="section-heading white wow fadeInUp" data-wow-delay="100ms" style="margin: 0;">
+            <p>See what’s new</p>
+            <h2>RESERVATION</h2>
+        </div>
+    </section>
+    <div style="text-align: center; margin-top: 100px; margin-bottom: 100px;">
+        <h1>결제에 실패했습니다</h1>
+        <p>오류 메시지: <span th:text="${errorMessage}"></span></p>
+    </div>
+    <div style="text-align: center; margin-bottom: 100px;">
+        <button class="btn oneMusic-btn" onclick="window.close()">창 닫기</button>
+    </div>
 </body>
 </html>
