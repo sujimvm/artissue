@@ -120,6 +120,15 @@
         /*<![CDATA[*/
         let socket;
         let sender = /*[[${session.mDTO.member_nickname}]]*/ '';
+        let paramId = /*[[${id}]]*/ '';
+
+        console.log(paramId)
+
+        $(function(){
+            if(paramId != null && paramId != ''){
+                connect(paramId)
+            }
+        })
 
         function createChat(){
             const roomId = document.getElementById('roomId').value;
@@ -227,6 +236,7 @@
 <body>
 <div class="chat-container">
     <div class="chat-header">Chat Room</div>
+
     <div class="room-input">
         <input type="text" id="roomId" placeholder="room ID 입력해주세요." />
         <button onclick="connect(document.getElementById('roomId').value)">채팅방 입장</button>
