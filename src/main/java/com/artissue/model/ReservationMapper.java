@@ -3,6 +3,7 @@ package com.artissue.model;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Mapper
@@ -11,7 +12,8 @@ public interface ReservationMapper {
     int addReservation(ReservationDTO dto);
 
     List<ReservationDTO> getReserveList(String reservation_id);
-    int updateReservePay(String reservation_id);
+    void updateReservePay(String reservation_id);
+    void deleteReserveFail(HashMap<String,String> map);
 
     ReservationDTO checkReservation(int member_key, int exhibition_key);
 

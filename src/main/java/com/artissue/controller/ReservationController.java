@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Base64;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 @Controller
@@ -89,14 +90,21 @@ public class ReservationController {
 
     @GetMapping("/success")
     public String reserveSuccess(@RequestParam("id") String reservation_id, HttpSession session, Model model) throws IOException, WriterException {
+        MemberDTO memberDTO = (MemberDTO)session.getAttribute("mDTO");
 
+        HashMap<String,String> map = new HashMap<>();
+        map.put("member_key", String.valueOf(memberDTO.getMember_key()));
+        map.put("reservation_id", reservation_id);
+
+        this.reservationMapper.deleteReserveFail(map);
         this.reservationMapper.updateReservePay(reservation_id);
+
         List<ReservationDTO> reserveList= this.reservationMapper.getReserveList(reservation_id);
         int exhibition_key = reserveList.get(0).getExhibition_key();
         int totalPrice = 0;
 
         ExhibitionDTO exhiDTO = this.exhibitionMapper.getExhibitionCont(exhibition_key);
-        MemberDTO memberDTO = (MemberDTO)session.getAttribute("mDTO");
+
         for(int i=0;i<reserveList.size();i++){
             totalPrice += reserveList.get(i).getReservation_price();
         }
@@ -130,10 +138,6 @@ public class ReservationController {
             .addAttribute("totalPrice", totalPrice)
             .addAttribute("reserveList", reserveList)
             .addAttribute("qrCode", qrCode);
-
-        System.out.println(qrCode+" qrCode");
-        System.out.println(qrCodeBytes+" qrCodeBytes");
-        System.out.println(reserveList.get(0).getReservation_qr()+" getReservation_qr");
 
         return "tosspay/paymentSuccess";
     }

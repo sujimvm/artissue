@@ -1,8 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <title>ART ISSUE :: 결제</title>
+    <link rel="stylesheet" href="/bootstrap/style.css">
+    <link rel="stylesheet" href="/css/reservation/payment.css">
 </head>
 <body>    <!-- Preloader -->
     <section class="contact-area section-padding-100 bg-img bg-overlay bg-fixed has-bg-img" style="background-image: url(/bootstrap/img/bg-img/bg-2.jpg); padding: 0;">
@@ -11,51 +13,49 @@
             <h2>RESERVATION</h2>
         </div>
     </section>
-    <h1>예매</h1>
-    <table>
-        <tr>
-            <td rowspan="7">
-                <img th:src="${exhiDTO.getExhibition_thumnail()}">
-            </td>
-            <th>주문번호</th>
-            <td th:text="${reserveList.get(0).getReservation_id()}"></td>
-        </tr>
-        <tr>
-            <th>전시회명</th>
-            <td th:text="${exhiDTO.getExhibition_title()}"></td>
-        </tr>
-        <tr>
-            <th>날짜</th>
-            <td th:text="${exhiDTO.getExhibition_start_date()+' ~ '+exhiDTO.getExhibition_end_date()}"></td>
-        </tr>
-        <tr>
-            <th>장소</th>
-            <td th:text="${exhiDTO.getExhibition_place()}"></td>
-        </tr>
-        <tr>
-            <th>예매자</th>
-            <td th:text="${session.mDTO.getMember_name()}"></td>
-        </tr>
-        <tr>
-            <th>옵션</th>
-            <td  th:each="reserveList : ${reserveList}">
-                <p>
-                    <span th:text="${reserveList.getReservation_option()}"></span>&nbsp;
-                    <span th:text="${reserveList.getReservation_count()}"></span>매
-                    <span th:text="${reserveList.getReservation_price()}"></span>원
-                </p>
-            </td>
-        </tr>
-        <tr>
-            <th>결제금액</th>
-            <td th:text="${totalPrice}"></td>
-        </tr>
-        <tr>
-            <td colspan="3"><img th:src="'data:image/png;base64,'+${reserveList.get(0).getReservation_qr()}" alt="QR Code"></td>
-        </tr>
-        <tr>
-            <td colspan="3"><img th:src="'data:image/png;base64,'+${qrCode}" alt="QR Code"></td>
-        </tr>
-    </table>
+    <div class="checkDiv">
+        <table>
+            <tr>
+                <td colspan="2" style="text-align: center;">
+                    <img th:src="${exhiDTO.getExhibition_thumnail()}">
+                </td>
+            </tr>
+            <tr>
+                <th>주문번호</th>
+                <td th:text="${reserveList.get(0).getReservation_id()}"></td>
+            </tr>
+            <tr>
+                <th>전시회명</th>
+                <td th:text="${exhiDTO.getExhibition_title()}"></td>
+            </tr>
+            <tr>
+                <th>날짜</th>
+                <td th:text="${#dates.format(exhiDTO.getExhibition_start_date(), 'yyyy-MM-dd')+'~'+#dates.format(exhiDTO.getExhibition_end_date(), 'yyyy-MM-dd')}"></td>
+            </tr>
+            <tr>
+                <th>장소</th>
+                <td th:text="${exhiDTO.getExhibition_place()}"></td>
+            </tr>
+            <tr>
+                <th>예매자</th>
+                <td th:text="${session.mDTO.getMember_name()}"></td>
+            </tr>
+            <tr>
+                <th>옵션</th>
+                <td>
+                    <th:block th:each="reserveList : ${reserveList}">
+                        <p th:text="${reserveList.getReservation_option()+'&nbsp;'+reserveList.getReservation_count()+'매&nbsp;'+reserveList.getReservation_price()+'원'}"></p>
+                    </th:block>
+                </td>
+            </tr>
+            <tr>
+                <th>결제금액</th>
+                <td th:text="${totalPrice+'원'}"></td>
+            </tr>
+        </table>
+        <div class="btDiv">
+            <button class="btn oneMusic-btn" onclick="window.close()">확인</button>
+        </div>
+    </div>
 </body>
 </html>

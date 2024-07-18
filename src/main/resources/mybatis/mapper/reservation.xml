@@ -23,6 +23,13 @@
     <update id="updateReservePay" parameterType="String">
         update reservation set reservation_pay = 1 where reservation_id = #{reservation_id}
     </update>
+    <!-- 이전 결제 실패 데이터 삭제 -->
+    <update id="deleteReserveFail" parameterType="HashMap">
+        delete from reservation
+        where member_key = #{member_key}
+        and reservation_id != #{reservation_id}
+        and reservation_pay = 0
+    </update>
     <!--QR 저장-->
     <update id="insertQrCode">
         update reservation set reservation_qr = #{qrCode} where reservation_id = #{reservation_id}

@@ -9,6 +9,7 @@
     <title>ART ISSUE :: 결제</title>
 
     <link rel="stylesheet" href="/bootstrap/style.css">
+    <link rel="stylesheet" href="/css/reservation/payment.css">
 
     <script src="https://js.tosspayments.com/v1/payment"></script>
     <script>
@@ -50,7 +51,15 @@
         <h2>RESERVATION</h2>
     </div>
 </section>
-    <form class="ml-30" id="paymentForm" th:data-client-key="${clientKey}">
+<div class="payment-form">
+    <div class="warning-text">
+        <p>[본인 확인 안내]</p>
+        <p>본 공연은 암표 거래 및 불법 양도를 방지하기 위해 현장에서 <span class="red-text">본인확인</span>을 진행합니다.</p>
+        <p>티켓 소지 시라도 예매자 본인 명의와 일치하는 신분증 확인이 되지 않는 경우, <span class="red-text">입장이 제한</span>되오니 반드시 본인확인이 가능한 지정 유효 <span class="red-text">신분증을 지참</span> 바랍니다.</p>
+        <p>티켓 예매자와 실 관람자의 명의가 모두 <span class="red-text">일치</span>해야 합니다.</p>
+        <p>티켓 예매 시 반드시 <span class="red-text">본인 명의의 ID</span>를 개설 바랍니다. <span class="red-text">만 14세 미만 고객도 본인 명의의 ID</span>로 예매해야 합니다.</p>
+    </div>
+    <form id="paymentForm" th:data-client-key="${clientKey}">
         <table>
             <tr>
                 <th>전시회</th>
@@ -92,9 +101,11 @@
         </table>
         <input type="hidden" id="successUrl" name="successUrl" th:value="@{/payment/success-redirect}"/>
         <input type="hidden" id="failUrl" name="failUrl" th:value="@{/payment/fail}"/>
-        <button class="btn oneMusic-btn" type="button" id="payButton">결제</button>
+        <div class="btDiv">
+            <button class="btn oneMusic-btn" type="button" id="payButton">결제</button>
+        </div>
     </form>
-
+</div>
 <!-- jQuery-2.2.4 js -->
 <script src="/bootstrap/js/jquery/jquery-2.2.4.min.js"></script>
 <!-- Popper js -->

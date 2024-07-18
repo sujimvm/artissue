@@ -47,37 +47,36 @@
 <!-- ##### Notice Area Start ##### -->
 <div class="blog-area section-padding-100">
     <div class="container">
-        <div class="row w-100">
-            <div class="col-lg-12 col-12">
-                <div class="single-blog-post mb-100 wow fadeInUp" data-wow-delay="100ms">
-                    <div class="blog-content">
-
-                        <th:block th:if="${noticeList != null}">
-                            <th:block th:each="notice : ${noticeList}">
-                                <!-- Notice Title -->
-                                <div class="post-title" style="cursor: pointer;" th:text="${notice.notice_title}" th:onclick="toggleContent(this)"></div>
-                                <!-- Notice Cont -->
-                                <div class="post-content noticeCon" style="display: none;" th:utext="${notice.notice_cont}"></div>
-                                <!-- Notice Date -->
-                                <p th:text="${notice.notice_date.substring(0, 10)}"></p>
-                                <a sec:authorize="isAuthenticated() and hasRole('ADMIN')" th:href="@{/notice/modify(no=${notice.notice_key})}">수정</a>
-                                <a sec:authorize="isAuthenticated() and hasRole('ADMIN')" style="cursor: pointer" th:onclick="'confirmDelete(' + ${notice.notice_key} + ')'">삭제</a>
-                                <hr>
-                            </th:block>
-                        </th:block>
-
-                        <th:block th:if="${noticeList != null}">
-                            <p>공지사항이 존재하지 않습니다.</p>
-                        </th:block>
+        <div style="width: 80%; min-width: 360px; margin: 0 auto;">
+            <th:block th:if="${noticeList != null}" th:each="notice : ${noticeList}">
+                <div class="noticeAll">
+                    <!-- Notice Title -->
+                    <div class="notice-title" style="cursor: pointer;" th:onclick="toggleContent(this)">
+                        <span class="title-span" th:text="${notice.notice_title}"></span>
+                        <span class="date-span" th:text="${notice.notice_date.substring(0, 10)}"></span>
                     </div>
-                    <div style="text-align: right;">
-                        <input type="button" class="btn oneMusic-btn mt-30" value="공지사항 등록" th:onclick="noticeInsert()" sec:authorize="isAuthenticated() and hasRole('ADMIN')">
+                    <!-- Notice Cont -->
+                    <div class="post-content noticeCon" style="display: none;" >
+                        <div th:utext="${notice.notice_cont}"></div>
+                        <div class="adminBt">
+                            <a sec:authorize="isAuthenticated() and hasRole('ADMIN')" th:href="@{/notice/modify(no=${notice.notice_key})}">수정</a>
+                            <a sec:authorize="isAuthenticated() and hasRole('ADMIN')" style="cursor: pointer" th:onclick="'confirmDelete(' + ${notice.notice_key} + ')'">삭제</a>
+                        </div>
                     </div>
                 </div>
+            </th:block>
+
+            <th:block th:if="${noticeList == null}">
+                <p>공지사항이 존재하지 않습니다.</p>
+            </th:block>
+
+            <div style="text-align: right;">
+                <input type="button" class="btn oneMusic-btn mt-30" value="공지사항 등록" th:onclick="noticeInsert()" sec:authorize="isAuthenticated() and hasRole('ADMIN')">
             </div>
         </div>
     </div>
 </div>
+
 <script>
     function toggleContent(titleElement) {
         var contentElement = titleElement.nextElementSibling;
