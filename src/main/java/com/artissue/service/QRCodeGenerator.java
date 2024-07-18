@@ -11,6 +11,7 @@ import javax.imageio.ImageIO;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.WriterException;
+import com.google.zxing.client.j2se.MatrixToImageConfig;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
@@ -32,13 +33,18 @@ public class QRCodeGenerator {
         hintMap.put(EncodeHintType.MARGIN, 0);
         hintMap.put(EncodeHintType.CHARACTER_SET,"UTF-8");
 
+        // 큐알코드 바코드 생상값
+        int qrcodeColor =   0xFFFFFFFF;
+        // 큐알코드 배경색상값
+        int backgroundColor = 0xFF000000;
+
         // QR 코드 생성
         QRCodeWriter qrCodeWriter = new QRCodeWriter();
         BitMatrix bitMatrix = qrCodeWriter.encode(link, BarcodeFormat.QR_CODE, 200, 200, hintMap);
+        MatrixToImageConfig matrixToImageConfig = new MatrixToImageConfig(qrcodeColor,backgroundColor); /*색상*/
 
         // QR 코드 이미지 생성
-        BufferedImage qrCodeImage = MatrixToImageWriter.toBufferedImage(bitMatrix);
-
+        BufferedImage qrCodeImage = MatrixToImageWriter.toBufferedImage(bitMatrix,matrixToImageConfig);
         // QR 코드 이미지를 바이트 배열로 변환, byteArrayOutputStream에 저장
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         ImageIO.write(qrCodeImage,"png", byteArrayOutputStream);
