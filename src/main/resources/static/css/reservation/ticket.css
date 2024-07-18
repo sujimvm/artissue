@@ -1,0 +1,27 @@
+.tc-logo{
+    text-align: center;
+    background-color: #000000;
+    padding: 10px 0;
+}
+.tc-all{
+    width: 100%;
+    min-width: 300px;
+}
+.tc-img img{
+    width: 100%;
+}
+.tc-num{
+    text-align: center;
+}
+.tc-num p{
+    margin: 0;
+    font-size: 12px;
+}
+.tc-qr{
+    text-align: center;
+    background-color: #000000;
+    padding: 20px 0;
+}
+.tc-qr img{
+    width: 100px;
+}

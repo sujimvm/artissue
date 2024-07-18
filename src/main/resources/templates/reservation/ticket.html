@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>ART ISSUE :: 결제</title>
+    <link rel="stylesheet" href="/bootstrap/style.css">
+    <link rel="stylesheet" href="/css/reservation/ticket.css">
+</head>
+<body>    <!-- Preloader -->
+<div class="checkDiv">
+    <div class="tc-all">
+        <div class="tc-logo"><img src="/bootstrap/img/core-img/logo.png" alt=""></div>
+        <div class="tc-img"><img th:src="${exhiDTO.getExhibition_thumnail()}"></div>
+        <div class="tc-qr"><img th:src="'data:image/png;base64,'+${reserveList.get(0).getReservation_qr()}" alt="QR Code"></div>
+        <div class="tc-num"><p th:text="${'예매번호 : '+reserveList.get(0).getReservation_id()}"></p></div>
+    </div>
+</div>
+</body>
+</html>
