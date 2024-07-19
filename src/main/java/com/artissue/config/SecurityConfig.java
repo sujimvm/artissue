@@ -43,6 +43,7 @@ public class SecurityConfig {
                         .requestMatchers( "/css/**", "/js/**", "/img/**", "/bootstrap/**", "/ajax/**").permitAll()
                         .requestMatchers("/company/**").hasRole("COMPANY")
                         .requestMatchers("/my/**","/reserve/**","/my-page/**").hasAnyRole( "USER","COMPANY")
+                        .requestMatchers("/chat/**").hasAnyRole( "USER","ADMIN")
                         .anyRequest().authenticated());
 
 

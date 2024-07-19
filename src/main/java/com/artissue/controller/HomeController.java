@@ -51,6 +51,12 @@ public class HomeController {
             MemberDTO companyDTO = memberMapper.findUsername(id);
             session.setAttribute("cDTO", companyDTO);
 
+        } else if (role.equals("ROLE_ADMIN")) {
+            session.setAttribute("role", role);
+
+            MemberDTO adminDTO = memberMapper.findUsername(id);
+            session.setAttribute("aDTO", adminDTO);
+            System.out.println(session.getAttribute("aDTO"));
         }
 
         return "index";

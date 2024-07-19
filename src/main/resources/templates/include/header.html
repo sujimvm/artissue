@@ -122,8 +122,10 @@
 
 
         if(session != {}){
-            if(session.mDTO.member_id === 'test123') {
+            if(session.aDTO.member_id === 'admin') {
                 createChat();
+
+                //session.SPRING_SECURITY_CONTEXT.authentication.name
 
                 //alert('@###@connect'+session.mDTO.member_id);
             }

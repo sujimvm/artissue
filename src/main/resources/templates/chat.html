@@ -119,7 +119,25 @@
     <script th:inline="javascript">
         /*<![CDATA[*/
         let socket;
-        let sender = /*[[${session.mDTO.member_nickname}]]*/ '';
+
+        var session = /*[[${session}]]*/ {};
+
+        let sender =  null;
+
+        if(session != {}){
+            if(session.aDTO === undefined) {
+                sender =  session.mDTO.member_nickname;
+            }else if(session.mDTO === undefined){
+                sender =  session.aDTO.member_nickname;
+            }
+        }
+
+
+
+
+
+
+
         let paramId = /*[[${id}]]*/ '';
 
         console.log(paramId)
