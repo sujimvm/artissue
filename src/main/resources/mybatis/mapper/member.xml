@@ -132,4 +132,8 @@
         select member_nickname from member where member_key = #{member_key}
     </select>
 
+    <delete id="memberDelete" parameterType="int">
+        delete from member where member_key = #{member_key}
+    </delete>
+
 </mapper>
