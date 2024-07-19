@@ -1,15 +1,17 @@
 package com.artissue.service;
 
 import com.artissue.model.PaymentResponseDTO;
+import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 @Service
@@ -56,5 +58,36 @@ public class PaymentService {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public boolean cancelPayment(String paymentKey, String cancelReason) {
+        RestTemplate restTemplate = new RestTemplate();
+        String url = baseUrl + "/v1/payments/" + paymentKey + "/cancel";
+
+        HttpHeaders headers = getHeaders();
+        JSONObject params = new JSONObject();
+        params.put("cancelReason", cancelReason);
+
+        try {
+            ResponseEntity<Map> response = restTemplate.postForEntity(url, new HttpEntity<>(params.toString(), headers), Map.class);
+            System.out.println("결제 취소 성공: " + response.getBody());
+            return true;
+        } catch (HttpClientErrorException e) {
+            System.err.println("결제 취소 오류: " + e.getResponseBodyAsString());
+            return false;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    private HttpHeaders getHeaders() {
+        HttpHeaders headers = new HttpHeaders();
+        String encodedAuthKey = new String(Base64.getEncoder().encode((secretKey + ":").getBytes(StandardCharsets.UTF_8)));
+
+        headers.setBasicAuth(encodedAuthKey);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        return headers;
     }
 }
