@@ -2,7 +2,8 @@ $(document).ready(function (){
     ClassicEditor
         .create(document.querySelector('#exhibition_notice'), {
             removePlugins: ['Heading'],
-            language: "ko"
+            language: "ko",
+            blockElements: 'div'
         })
         .then(editor => {
             let objEditor = editor;
@@ -18,7 +19,8 @@ $(document).ready(function (){
     ClassicEditor
         .create(document.querySelector('#exhibition_detail_info'), {
             removePlugins: ['Heading'],
-            language: "ko"
+            language: "ko",
+            blockElements: 'div'
         })
         .then(editor => {
             let objEditor = editor;
@@ -34,7 +36,8 @@ $(document).ready(function (){
     ClassicEditor
         .create(document.querySelector('#exhibition_seller_info'), {
             removePlugins: ['Heading'],
-            language: "ko"
+            language: "ko",
+            blockElements: 'div'
         })
         .then(editor => {
             let objEditor = editor;
@@ -50,7 +53,8 @@ $(document).ready(function (){
     ClassicEditor
         .create(document.querySelector('#exhibition_product_info'), {
             removePlugins: ['Heading'],
-            language: "ko"
+            language: "ko",
+            blockElements: 'div'
         })
         .then(editor => {
             let objEditor = editor;

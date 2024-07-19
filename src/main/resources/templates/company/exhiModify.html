@@ -107,17 +107,16 @@
                             <tr>
                                 <th>티켓가격</th>
                                 <td>
-                                    <div id="price_form" th:if="${priceList != null && !priceList.isEmpty()}">
+                                    <div id="price_form" class="price-form" th:if="${priceList != null && !priceList.isEmpty()}">
                                         <th:block th:each="price : ${priceList}">
                                             <div class="price-entry">
                                                 <input type="hidden" name="price_key[]" th:value="${price.price_key}">
                                                 <input class="ticket-option" name="ticket_name[]" th:value="${price.price_option}" />
                                                 <input class="ticket-price" name="ticket_price[]" type="number" th:value="${price.price}" />
-                                                <input type="button" class="price-btn" id="delete_price" value="가격 삭제" onclick="">
+                                                <input type="button" class="price-btn" id="delete_price" value="가격 삭제" onclick="deletePrice(this)">
                                             </div>
                                         </th:block>
                                     </div>
-                                    <div id="new_price_form"></div>
                                     <div>
                                         <button type="button" class="price-btn" id="addPrice">가격 추가</button>
                                     </div>
