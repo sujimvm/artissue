@@ -19,12 +19,62 @@
 
     <style>
 
-        .link-container{
+        .form-size{
             display: flex;
-            justify-content: space-between;
-            gap: 20px;
-            margin-top: 10px;
+            justify-content: center;
+            align-items: center;
+            width: 800px;
+        }
 
+        form {
+
+            max-width: 600px;
+        }
+        th {
+            text-align: center;
+        }
+        table {
+            width: 100%;
+        }
+        .inputMargin{
+            margin-bottom: 10px;
+        }
+        .twidth{
+            width: 600px;
+        }
+
+        .submitBtnContainer{
+            position: relative; /* 상대적 위치 설정 */
+            bottom: 0; /* 테이블 아래에 위치 설정 */
+            width: 100%; /* 테이블 너비와 동일하게 설정 */
+            text-align: center;
+        }
+
+        .helpNoticeBox {
+            padding:25px 23px 23px 23px;
+            background:#fafafa;
+            border:1px solid #edeef0;
+            width: 100%;
+        }
+        .helpNoticeBoxTitle {
+            font-size:16px;
+            letter-spacing: 0px;
+            color:#333;
+        }
+        .helpNoticeBoxList {
+            margin-top:11px;
+            margin-bottom: 11px;
+        }
+        .helpNoticeBoxList li {
+            padding-left:7px;
+            font-size:13px;
+            letter-spacing: 0px;
+            color:#666;
+            line-height:28px;
+        }
+
+        .clef3f3f {
+            color:#ef3f3f;
         }
 
     </style>
@@ -80,8 +130,107 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-lg-9" style="border: solid 1px #000000;">
-                <h3>회원탈퇴</h3>
+            <div class="form-container form-size">
+                <div sec:authorize="isAuthenticated() and hasRole('USER')">
+                    <form action="/deleteSocialMember" method="post" th:if="${session.mDTO.getMember_pwd() == '-'}">
+                        <div class="helpNoticeBox">
+                            <strong class="helpNoticeBoxTitle">지금까지 이용해주셔서 감사 드립니다. 탈퇴하기 전 아래 유의사항을 확인해주세요. </strong>
+                            <ul class="helpNoticeBoxList">
+                                <li>· 탈퇴하신 아이디는 <span class="clef3f3f">복구가 불가능</span>하며, 추후 동일한 아이디로 재가입이 되지 않습니다.</li>
+                                <li>· 회원과 관련된 정보 모두 삭제되며, <span class="clef3f3f">삭제된 데이터는 복구되지 않습니다.</span></li>
+                            </ul>
+                        </div>
+                        <table class="table table-bordered twidth">
+                            <tr>
+                                <th>아이디</th>
+                                <td>
+                                    <input class="form-control inputMargin" name="member_id" th:value="${session.mDTO.member_id}">
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th>E-MAIL</th>
+                                <td>
+                                    <input class="form-control inputMargin" name="member_email">
+                                </td>
+                            </tr>
+                        </table>
+                        <div class="submitBtnContainer">
+                            <input type="submit" class="btn oneMusic-btn mt-30" value="회원 탈퇴" onclick="return check()">
+                        </div>
+                    </form>
+
+                    <form action="/deleteMember" method="post" th:if="${session.mDTO.getMember_pwd() != '-'}">
+                        <div class="helpNoticeBox">
+                            <strong class="helpNoticeBoxTitle">지금까지 이용해주셔서 감사 드립니다. 탈퇴하기 전 아래 유의사항을 확인해주세요. </strong>
+                            <ul class="helpNoticeBoxList">
+                                <li>· 탈퇴하신 아이디는 <span class="clef3f3f">복구가 불가능</span>하며, 추후 동일한 아이디로 재가입이 되지 않습니다.</li>
+                                <li>· 회원과 관련된 정보 모두 삭제되며, <span class="clef3f3f">삭제된 데이터는 복구되지 않습니다.</span></li>
+                            </ul>
+                        </div>
+                        <table class="table table-bordered twidth">
+                            <tr>
+                                <th>아이디</th>
+                                <td>
+                                    <input class="form-control inputMargin" name="member_id" th:value="${session.mDTO.member_id}">
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th>E-MAIL</th>
+                                <td>
+                                    <input class="form-control inputMargin" name="member_email" th:value="${session.mDTO.member_email}">
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th>비밀번호</th>
+                                <td>
+                                    <input type="password" class="form-control inputMargin" name="member_pwd">
+                                </td>
+                            </tr>
+                        </table>
+                        <div class="submitBtnContainer">
+                            <input type="submit" class="btn oneMusic-btn mt-30" value="회원 탈퇴" onclick="return check()">
+                        </div>
+                    </form>
+                </div>
+
+                <div sec:authorize="isAuthenticated() and hasRole('ROLE_COMPANY')">
+                    <form action="/deleteMember" method="post">
+                        <div class="helpNoticeBox">
+                            <strong class="helpNoticeBoxTitle">지금까지 이용해주셔서 감사 드립니다. 탈퇴하기 전 아래 유의사항을 확인해주세요. </strong>
+                            <ul class="helpNoticeBoxList">
+                                <li>· 탈퇴하신 아이디는 <span class="clef3f3f">복구가 불가능</span>하며, 추후 동일한 아이디로 재가입이 되지 않습니다.</li>
+                                <li>· 회원과 관련된 정보 모두 삭제되며, <span class="clef3f3f">삭제된 데이터는 복구되지 않습니다.</span></li>
+                            </ul>
+                        </div>
+                        <table class="table table-bordered twidth">
+                            <tr>
+                                <th>아이디</th>
+                                <td>
+                                    <input class="form-control inputMargin" name="member_id" th:value="${session.cDTO.member_id}">
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th>E-MAIL</th>
+                                <td>
+                                    <input class="form-control inputMargin" name="member_email" th:value="${session.cDTO.member_email}">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>비밀번호</th>
+                                <td>
+                                    <input type="password" class="form-control inputMargin" name="member_pwd">
+                                </td>
+                            </tr>
+                        </table>
+                        <div class="submitBtnContainer">
+                            <input type="submit" class="btn oneMusic-btn mt-30" value="회원 탈퇴" onclick="return check()">
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -104,23 +253,16 @@
 <script src="/bootstrap/js/active.js"></script>
 </body>
 
-<script>
-    ClassicEditor
-        .create(document.querySelector('#notice_cont'), {
-            removePlugins: ['Heading'],
-            language: "ko"
-        })
-        .then(editor => {
-            $('style').append('.ck-content { height: 400px; }');
-            let objEditor = editor;
+<script type="text/javascript">
 
-            editor.model.document.on('change:data', () => {
-                $('#notice_cont').val(editor.getData());
-            }, {priority: 'high'});
-        })
-        .catch(error => {
-            console.error(error);
-        });
+    function check(){
+        if(confirm("정말로 회원삭제를 하시겠습니까?")){
+            return true
+        }else{
+            return false
+        }
+    }
+
 </script>
 
 </html>

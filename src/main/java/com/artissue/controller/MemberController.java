@@ -369,6 +369,73 @@ public class MemberController {
         return "my-page/userResign";
     }
 
+    @PostMapping("/deleteMember")
+    public void userResignOk(@RequestParam("member_pwd") String member_pwd, HttpSession session, HttpServletResponse response) throws IOException {
+
+        response.setContentType("text/html; charset=UTF-8");
+
+        PrintWriter out = response.getWriter();
+
+        int result = 0;
+
+        System.out.println(result);
+
+        if(session.getAttribute("mDTO") != null) {
+            MemberDTO memberInfo = (MemberDTO) session.getAttribute("mDTO");
+            if(passwordEncoder.matches(member_pwd, memberInfo.getMember_pwd())) {
+                result = this.memberMapper.memberDelete(memberInfo.getMember_key());
+            }
+        }else if(session.getAttribute("cDTO") != null) {
+            MemberDTO memberInfo = (MemberDTO) session.getAttribute("cDTO");
+            if(passwordEncoder.matches(member_pwd, memberInfo.getMember_pwd())) {
+                result = this.memberMapper.memberDelete(memberInfo.getMember_key());
+            }
+        }
+
+        if(result == 1) {
+            session.invalidate();
+
+            out.println("<script>");
+            out.println("alert('회원삭제에 성공했습니다.')");
+            out.println("location.href='/'");
+            out.println("</script>");
+        }else {
+            out.println("<script>");
+            out.println("alert('등록된 회원정보와 입력하신 정보가 다릅니다.')");
+            out.println("history.back()");
+            out.println("</script>");
+        }
+    }
+
+    @PostMapping("/deleteSocialMember")
+    public void deleteSocialMember(@RequestParam("member_email") String member_email, HttpSession session, HttpServletResponse response) throws IOException {
+        response.setContentType("text/html; charset=UTF-8");
+
+        PrintWriter out = response.getWriter();
+
+        int result = 0;
+
+        MemberDTO memberInfo = (MemberDTO) session.getAttribute("mDTO");
+
+        if(member_email.equals(memberInfo.getMember_email())) {
+            result = this.memberMapper.memberDelete(memberInfo.getMember_key());
+        }
+
+        if(result == 1) {
+            session.invalidate();
+
+            out.println("<script>");
+            out.println("alert('회원삭제에 성공했습니다.')");
+            out.println("location.href='/'");
+            out.println("</script>");
+        }else {
+            out.println("<script>");
+            out.println("alert('등록된 회원정보와 입력하신 정보가 다릅니다.')");
+            out.println("history.back()");
+            out.println("</script>");
+        }
+    }
+
   @GetMapping("/my-page/user")
     public String showUserProfile(Model model,HttpSession session) {
 

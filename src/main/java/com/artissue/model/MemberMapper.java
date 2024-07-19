@@ -59,4 +59,5 @@ public interface MemberMapper {
 
     String getMemberNickname(int member_key);
 
+    int memberDelete(int member_key);
 }
