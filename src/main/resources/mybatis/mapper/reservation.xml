@@ -52,4 +52,11 @@
         update reservation set reservation_buyer_view = 0
         where reservation_id = #{reservation_id}
     </update>
+
+    <update id="upPaymentKey" parameterType="map">
+        UPDATE reservation
+        SET paymentKey = #{paymentKey}
+        WHERE reservation_id = #{reservation_id}
+    </update>
+
 </mapper>

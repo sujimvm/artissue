@@ -21,4 +21,7 @@ public class ReservationDTO {
 
     private String exhibition_title;
     private String exhibition_thumnail;
+
+    private String paymentKey;
+    private String reason;
 }
