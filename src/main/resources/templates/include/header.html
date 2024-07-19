@@ -58,7 +58,8 @@
                             <div class="login-register-cart-button d-flex align-items-center">
                                 <!-- Login/Register -->
                                 <div th:if="${not #authorization.expression('isAuthenticated()')}" class="login-register-btn mr-50">
-                                    <a href="/login">Login / Join</a>
+                                    <a href="/login" style="margin-right: 20px;">Login</a>
+                                    <a href="/join">Join</a>
                                 </div>
                                 <!-- 로그인 후 -->
                                 <div sec:authorize="isAuthenticated() and hasRole('USER')" class="login-register-btn mr-50">
