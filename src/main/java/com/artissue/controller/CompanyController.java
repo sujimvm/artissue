@@ -43,8 +43,8 @@ public class CompanyController {
 
     @PostMapping("/insertOk")
     public void insertOkExhibition(ExhibitionDTO exhibitionDTO,
-                                   @RequestParam("ticket_name") List<String> ticketNames,
-                                   @RequestParam("ticket_price") List<Integer> ticketPrices,
+                                   @RequestParam(value = "ticket_name", required = false) List<String> ticketNames,
+                                   @RequestParam(value = "ticket_price", required = false) List<Integer> ticketPrices,
                                    HttpSession session, HttpServletResponse response) throws IOException {
 
         MemberDTO company = (MemberDTO) session.getAttribute("cDTO");
@@ -64,12 +64,14 @@ public class CompanyController {
 
             System.out.println(exhibition_key);
 
-            for (int i = 0; i < ticketNames.size(); i++) {
-                String price_option = ticketNames.get(i);
-                int price = ticketPrices.get(i);
+            if(!ticketNames.isEmpty()){
+                for (int i = 0; i < ticketNames.size(); i++) {
+                    String price_option = ticketNames.get(i);
+                    int price = ticketPrices.get(i);
 
-                this.exhibitionMapper.insertExhibitionPrice(exhibition_key, price_option, price);
+                    this.exhibitionMapper.insertExhibitionPrice(exhibition_key, price_option, price);
 
+                }
             }
 
             out.println("<script>");
@@ -103,9 +105,10 @@ public class CompanyController {
 
     @PostMapping("/modifyOk")
     public void modifyOkExhibition(ExhibitionDTO exhibitionDTO,
-                                   @RequestParam("price_key") List<Integer> priceKeys,
-                                   @RequestParam("ticket_name") List<String> ticketNames,
-                                   @RequestParam("ticket_price") List<Integer> ticketPrices,
+                                   @RequestParam(value = "price_key", required = false) List<Integer> priceKeys,
+                                   @RequestParam(value = "ticket_name", required = false) List<String> ticketNames,
+                                   @RequestParam(value = "ticket_price", required = false) List<Integer> ticketPrices,
+                                   @RequestParam(value = "delete_price_key", required = false) List<Integer> deletePriceKeys,
                                    HttpServletResponse response) throws IOException {
         response.setContentType("text/html;charset=UTF-8");
 
@@ -114,6 +117,12 @@ public class CompanyController {
         int result = this.exhibitionMapper.updateExhibition(exhibitionDTO);
 
         if(result > 0){
+            if(deletePriceKeys != null && !deletePriceKeys.isEmpty()){
+                for(int  delete_key : deletePriceKeys){
+                    this.exhibitionMapper.deletePrice(delete_key);
+                }
+            }
+
             for(int i = 0; i < priceKeys.size(); i++){
                 int price_key = priceKeys.get(i);
                 String price_option = ticketNames.get(i);

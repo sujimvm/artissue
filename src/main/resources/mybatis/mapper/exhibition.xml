@@ -110,6 +110,10 @@
         where price_key = #{price_key}
     </update>
 
+    <delete id="deletePrice" parameterType="int">
+        delete from price where price_key = #{delete_key}
+    </delete>
+
     <delete id="deleteExhibition" parameterType="int">
         delete from exhibition where exhibition_key = #{exhibition_key}
     </delete>
