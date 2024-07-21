@@ -126,12 +126,8 @@
             if(session.aDTO.member_id === 'admin') {
                 createChat();
 
-                //session.SPRING_SECURITY_CONTEXT.authentication.name
-
-                //alert('@###@connect'+session.mDTO.member_id);
             }
         }
-
 
         function createChat() {
             //roomId값을 name으로 parameter 전송하여, /chat/create post 호출
@@ -157,7 +153,7 @@
             // const sender = document.getElementById('sender').value;
             const sender = 'rhksflawk';
             const roomId = 'admin_noti'
-            socket = new WebSocket(`ws://localhost:8181/ws/chat/${roomId}`);
+            socket = new WebSocket(`ws://team2.artissue.click/ws/chat/${roomId}`);
 
             socket.onopen = function() {
                 const joinMessage = {
