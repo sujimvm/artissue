@@ -16,7 +16,7 @@ public interface ReservationMapper {
     void updateReservePay(String reservation_id);
     void deleteReserveFail(HashMap<String,String> map);
 
-    ReservationDTO checkReservation(int member_key, int exhibition_key);
+    List<ReservationDTO> checkReservation(int member_key, int exhibition_key);
 
     void insertQrCode(String reservation_id, String qrCode);
 

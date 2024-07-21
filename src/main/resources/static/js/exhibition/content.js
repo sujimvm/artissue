@@ -100,6 +100,7 @@ $(document).ready(function() {
             $.ajax({
                 url : '/ajax/writeReview',
                 type : 'POST',
+                async: false,
                 data : {
                     title : reviewTitle,
                     cont : reviewContent,
@@ -218,6 +219,7 @@ function rewriteReview(e){
         $.ajax({
             url : '/ajax/reWriteReview',
             type : 'POST',
+            async: false,
             data : {
                 review_title : reviewTitle,
                 review_cont : reviewContent,

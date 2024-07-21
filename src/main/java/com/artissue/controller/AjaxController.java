@@ -91,11 +91,13 @@ public class AjaxController {
 
         int memberKey = member.getMember_key();
 
-        ReservationDTO reservationCheck = this.reservationMapper.checkReservation(memberKey, exhibition_key);
+        List<ReservationDTO> reservationCheck = this.reservationMapper.checkReservation(memberKey, exhibition_key);
+
+        System.out.println(memberKey +","+ exhibition_key);
 
         int result = 0;
 
-        if(reservationCheck == null){
+        if(reservationCheck.isEmpty()){
             result = -1;
         }else {
             ReviewDTO reviewCheck = this.reviewMapper.checkReview(memberKey, exhibition_key);
