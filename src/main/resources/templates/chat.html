@@ -162,7 +162,7 @@
         }
 
         function callAdmin(roomId){
-            const adminSocket = new WebSocket(`ws://team2.artissue.click/ws/chat/admin_noti`);
+            const adminSocket = new WebSocket(`wss://team2.artissue.click/ws/chat/admin_noti`);
 
             adminSocket.onopen = function() {
                 const joinMessage = {
@@ -184,7 +184,7 @@
         }
 
         function connect(roomId) {
-            socket = new WebSocket(`ws://team2.artissue.click/ws/chat/${roomId}`);
+            socket = new WebSocket(`wss://team2.artissue.click/ws/chat/${roomId}`);
 
             socket.onopen = function() {
                 const joinMessage = {
