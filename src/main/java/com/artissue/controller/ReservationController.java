@@ -118,7 +118,7 @@ public class ReservationController {
 
         }
         // QR 코드 생성 및 모델에 추가
-        String link = "https://team2.artissue.click/userReserveCont?reservation_id="+reservation_id; //링크주소 변경 예정
+        String link = "https://team2.artissue.click/ticket?T="+reservation_id; //링크주소 변경 예정
         // 변수에 생성된 QR 코드 이미지 데이터가 저장
         byte[] qrCodeBytes = qrCodeService.generateQrCode(link, reservation_id);
         // byte 배열 형태로 저장된 QR 코드 이미지 데이터를 Base64 인코딩하여 문자열 형태로 변환
