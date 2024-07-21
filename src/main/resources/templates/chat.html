@@ -119,9 +119,7 @@
     <script th:inline="javascript">
         /*<![CDATA[*/
         let socket;
-
         var session = /*[[${session}]]*/ {};
-
         let sender =  null;
 
         if(session != {}){
@@ -131,12 +129,6 @@
                 sender =  session.aDTO.member_nickname;
             }
         }
-
-
-
-
-
-
 
         let paramId = /*[[${id}]]*/ '';
 
@@ -170,7 +162,7 @@
         }
 
         function callAdmin(roomId){
-            const adminSocket = new WebSocket(`ws://localhost:8181/ws/chat/admin_noti`);
+            const adminSocket = new WebSocket(`ws://team2.artissue.click/ws/chat/admin_noti`);
 
             adminSocket.onopen = function() {
                 const joinMessage = {
@@ -192,7 +184,7 @@
         }
 
         function connect(roomId) {
-            socket = new WebSocket(`ws://localhost:8181/ws/chat/${roomId}`);
+            socket = new WebSocket(`ws://team2.artissue.click/ws/chat/${roomId}`);
 
             socket.onopen = function() {
                 const joinMessage = {
