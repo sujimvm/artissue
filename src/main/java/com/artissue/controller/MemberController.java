@@ -324,11 +324,10 @@ public class MemberController {
 
     @GetMapping("/userReserveCont")
     public String userReserveCont(HttpSession session, Model model,
-                                  @RequestParam("reservation_id") String reservation_id,
-                                  @RequestParam("exhibition_key") int exhibition_key) {
+                                  @RequestParam("reservation_id") String reservation_id) {
 
         List<ReservationDTO> userReserveCont = this.memberMapper.userReserveCont(reservation_id);
-        ExhibitionDTO exhibitionDTO = this.memberMapper.userExhibition(exhibition_key);
+        ExhibitionDTO exhibitionDTO = this.memberMapper.userExhibition(userReserveCont.get(0).getExhibition_key());
 
         int totalPrice = userReserveCont.stream()
                 .mapToInt(ReservationDTO::getReservation_price)

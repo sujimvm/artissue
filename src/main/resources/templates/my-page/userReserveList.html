@@ -92,8 +92,7 @@
                             </div>
                             <div class="single-contact-info d-flex align-items-center">
                                 <p class="mr-30">전시회 이름</p>
-                                <a style="margin-bottom: 1rem;" th:href="@{/userReserveCont(reservation_id=${userReserve.reservation_id},
-                                                       exhibition_key=${userReserve.exhibition_key})}"
+                                <a style="margin-bottom: 1rem;" th:href="@{/userReserveCont(reservation_id=${userReserve.reservation_id})}"
                                    th:text="${userReserve.exhibition_title}">
                                 </a>
                             </div>
