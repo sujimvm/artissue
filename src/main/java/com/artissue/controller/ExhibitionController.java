@@ -24,7 +24,7 @@ public class ExhibitionController {
 
     @GetMapping("/list")
     public String exhibitionList(){
-        return "/exhibition/event";
+        return "exhibition/event";
     }
 
     @GetMapping("/content")
