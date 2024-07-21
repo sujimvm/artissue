@@ -118,7 +118,7 @@ public class ReservationController {
 
         }
         // QR 코드 생성 및 모델에 추가
-        String link = "https://team2.artissue.click/ticket?T="+reservation_id; //링크주소 변경 예정
+        String link = "https://team2.artissue.click/userReserveCont?reservation_id="+reservation_id; //링크주소 변경 예정
         // 변수에 생성된 QR 코드 이미지 데이터가 저장
         byte[] qrCodeBytes = qrCodeService.generateQrCode(link, reservation_id);
         // byte 배열 형태로 저장된 QR 코드 이미지 데이터를 Base64 인코딩하여 문자열 형태로 변환
@@ -136,6 +136,8 @@ public class ReservationController {
 
         String price = String.format("%,d", totalPrice);
 
+        String snsLink = "https://team2.artissue.click/ticket?T="+reservation_id; //링크주소 변경 예정
+
         String verificationCode = "\n[ART ISSUE]\n" +
                 memberDTO.getMember_name()+"고객님 예매가 완료되었어요\n\n" +
                 "예약번호 : "+reserveList.get(0).getReservation_id()+"\n\n" +
@@ -144,7 +146,7 @@ public class ReservationController {
                 "일시 : "+start_date+" ~ "+end_date+"\n" +
                 "장소 : "+exhiDTO.getExhibition_place()+"\n" +
                 "총 결제금액 : "+price+"원\n\n\n" +
-                "나의 예매티켓보기\n" + link;
+                "나의 예매티켓보기\n" + snsLink;
 
         SingleMessageSentResponse response = massageService.sendReserve(memberPhone, verificationCode);
         System.out.println("문자발송");
