@@ -59,8 +59,21 @@
         function insertCheck(){
             var pwd = $('#Password1').val();
             var pwdPattern = /^(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,20}$/;
+            var isnewPwdValid =  $('#pwdCheckmark').is(':visible');
+            var ischeckPwdValid =  $('#pwd_check_ok').is(':visible');
 
             debugger;
+
+            if(!isnewPwdValid){
+                alert('새로운 비밀번호를 입력해주세요.');
+                return false;
+            }
+
+            if(!ischeckPwdValid){
+                alert('새 비밀번호 확인이 일치하지 않습니다.');
+                $("#Password2").focus();
+                return false;
+            }
 
             if(!pwdPattern.test(pwd)){
                 debugger;
@@ -69,14 +82,9 @@
                 return false;
             }
 
-            if($("#Password1").val()!=$("#Password2").val()){
-                debugger;
-                alert('비밀번호 확인을 확인하여주십시오.');
-                $("#Password2").focus();
-                return false;
-            }
 
         };
+
 
     </script>
     <style>
@@ -165,7 +173,7 @@
             <div class="col-12 col-lg-9">
                 <h3>비밀번호 변경</h3>
                 <hr>
-                <form action="/pwdUpdate" method="POST">
+                <form action="/pwdUpdate" method="POST" onsubmit="return insertCheck()">
                     <div class="formLoc">
                     <table class="tableWidth">
                         <tr class="inputMargin">
