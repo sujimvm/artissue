@@ -1,7 +1,13 @@
+body{
+    height: 100%;
+    background-color: #000;
+}
 .tc-logo{
     text-align: center;
-    background-color: #000000;
-    padding: 10px 0;
+    padding: 40px 0;
+}
+.tc-logo img{
+    width: 55%;
 }
 .tc-all{
     width: 100%;
@@ -15,12 +21,12 @@
 }
 .tc-num p{
     margin: 0;
-    font-size: 12px;
+    font-size: 50px;
+    color: #787878;
 }
 .tc-qr{
     text-align: center;
-    background-color: #000000;
-    padding: 20px 0;
+    padding: 50px 0;
 }
 .tc-qr img{
     width: 300px;
