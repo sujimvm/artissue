@@ -70,17 +70,17 @@ $(document).ready(function (){
     $('#addPrice').on('click', function (){
         var PriceDiv = $('.price-form');
 
-        // Create a new div to hold the ticket name, price inputs and delete button
+        // 티켓 옵션과 가격, 버튼들이 들어갈 새 div 생성
         var newPriceEntry = $('<div>').attr('class', 'price-entry');
 
-        // Create the ticket name input
+        // 티켓 옵션 생성
         var ticketNameInput = $('<input>')
             .attr('type', 'text')
             .attr('name', 'ticket_name[]')
             .attr('class', 'ticket-option')
             .attr('placeholder', '티켓 이름');
 
-        // Create the ticket price input
+        // 티켓 가격 생성
         var ticketPriceInput = $('<input>')
             .attr('type', 'number')
             .attr('name', 'ticket_price[]')
@@ -88,22 +88,22 @@ $(document).ready(function (){
             .attr('placeholder', '가격')
             .attr('min', '0');
 
-        // Create the delete button
+        // 가격 삭제 버튼 생성
         var deletePrice = $('<input>')
             .attr('type', 'button')
             .attr('class', 'price-btn')
             .attr('id', 'delete_price')
             .attr('value', '가격 삭제')
             .on('click', function() {
-                newPriceEntry.remove(); // Remove the entire price entry div
+                newPriceEntry.remove(); //
             });
 
-        // Append the inputs and delete button to the new div
+        // div 안에 요소들 넣기
         newPriceEntry.append(ticketNameInput);
         newPriceEntry.append(ticketPriceInput);
         newPriceEntry.append(deletePrice);
 
-        // Append the new div to the price-form
+        // 해당 div를 가격 div 안에 넣기
         PriceDiv.append(newPriceEntry);
     });
 

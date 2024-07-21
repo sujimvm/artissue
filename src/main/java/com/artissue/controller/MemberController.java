@@ -466,14 +466,14 @@ public class MemberController {
             MemberDTO memberInfo = (MemberDTO) session.getAttribute("mDTO");
             if (passwordEncoder.matches(pwd, memberInfo.getMember_pwd())) {
 
-                return "/my-page/userModify";
+                return "my-page/userModify";
             }
         }else if (session.getAttribute("cDTO") != null) {
             MemberDTO companyInfo = (MemberDTO) session.getAttribute("cDTO");
 
             if (passwordEncoder.matches(pwd, companyInfo.getMember_pwd())) {
 
-                return "/my-page/userModify";
+                return "my-page/userModify";
             }
         }
 
