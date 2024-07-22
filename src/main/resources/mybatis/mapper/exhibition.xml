@@ -59,13 +59,21 @@
     </delete>
 
     <select id="getMyExhibitionsList" parameterType="int" resultType="exhibitionDTO">
-        SELECT e.*, COUNT(distinct r.reservation_id) AS count
+        SELECT e.*, COUNT(DISTINCT r.reservation_id) AS count
+        FROM exhibition e
+        LEFT JOIN reservation r
+        ON e.exhibition_key = r.exhibition_key
+        AND r.reservation_pay = 1
+        WHERE e.member_key = #{member_key}
+        GROUP BY e.exhibition_key
+        ORDER BY e.exhibition_key;
+        <!--SELECT e.*, COUNT(distinct r.reservation_id) AS count
         FROM exhibition e LEFT JOIN reservation r
         ON e.exhibition_key = r.exhibition_key
         WHERE e.member_key = #{member_key}
         and r.reservation_pay = 1
         GROUP BY e.exhibition_key
-        ORDER BY e.exhibition_key
+        ORDER BY e.exhibition_key-->
     </select>
 
     <insert id="insertExhibition" parameterType="exhibitionDTO" useGeneratedKeys="true" keyColumn="exhibition_key" keyProperty="exhibition_key">
