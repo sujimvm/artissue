@@ -39,6 +39,7 @@
         select m.*,r.reservation_id,sum(r.reservation_price) reservation_price, r.reservation_date
         from reservation r left join member m on r.member_key = m.member_key
         where exhibition_key = #{exhibition_key}
+        and r.reservation_pay = 1
         group by r.reservation_id
     </select>
 
