@@ -64,7 +64,10 @@ public class CompanyController {
 
             System.out.println(exhibition_key);
 
+            System.out.println(ticketNames);
+
             if(!ticketNames.isEmpty()){
+
                 for (int i = 0; i < ticketNames.size(); i++) {
                     String price_option = ticketNames.get(i);
                     int price = ticketPrices.get(i);
