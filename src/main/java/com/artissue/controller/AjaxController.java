@@ -42,7 +42,16 @@ public class AjaxController {
     @GetMapping("/zzimCheck")
     public int checkZzim(@RequestParam("exhibition_key") int exhibition_key,
                          HttpSession session){
-        MemberDTO member = (MemberDTO) session.getAttribute("mDTO");
+
+        MemberDTO member = null;
+
+        if(session.getAttribute("mDTO") != null){
+            member = (MemberDTO) session.getAttribute("mDTO");
+        }else if(session.getAttribute("cDTO") != null){
+            member = (MemberDTO) session.getAttribute("cDTO");
+        }
+
+        System.out.println(member);
 
         int memberKey = member.getMember_key();
 
@@ -61,7 +70,13 @@ public class AjaxController {
     @PostMapping("/zzimDelete")
     public void deleteZzim(@RequestParam("exhibition_key") int exhibition_key,
                        HttpSession session) {
-        MemberDTO member = (MemberDTO) session.getAttribute("mDTO");
+        MemberDTO member = null;
+
+        if(session.getAttribute("mDTO") != null){
+            member = (MemberDTO) session.getAttribute("mDTO");
+        }else if(session.getAttribute("cDTO") != null){
+            member = (MemberDTO) session.getAttribute("cDTO");
+        }
 
         int memberKey = member.getMember_key();
 
@@ -72,7 +87,13 @@ public class AjaxController {
     @PostMapping("/zzimAdd")
     public void addZzim(@RequestParam("exhibition_key") int exhibition_key,
                            HttpSession session) {
-        MemberDTO member = (MemberDTO) session.getAttribute("mDTO");
+        MemberDTO member = null;
+
+        if(session.getAttribute("mDTO") != null){
+            member = (MemberDTO) session.getAttribute("mDTO");
+        }else if(session.getAttribute("cDTO") != null){
+            member = (MemberDTO) session.getAttribute("cDTO");
+        }
 
         int memberKey = member.getMember_key();
 
