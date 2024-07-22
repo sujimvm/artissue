@@ -18,13 +18,16 @@
     <link rel="stylesheet" href="/bootstrap/style.css">
 
     <style>
-
-        .link-container{
+        .formLoc {
             display: flex;
-            justify-content: space-between;
-            gap: 20px;
-            margin-top: 10px;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
 
+        .formLoc img {
+            margin-bottom: 30px;
         }
 
     </style>
@@ -98,6 +101,11 @@
                         </div>
                         <hr>
                     </div>
+                </th:block>
+                <th:block th:if="${zzimList == null || zzimList.isEmpty()}">
+                        <div class="formLoc">
+                            <p class="mr-30">아직 찜한 전시회가 없어요...</p>
+                        </div>
                 </th:block>
             </div>
         </div>
