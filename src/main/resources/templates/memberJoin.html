@@ -131,10 +131,6 @@
                                 <input name="member_name" class="form-control" aria-describedby="emailHelp" placeholder="이름을 입력하세요" required>
                             </div><br>
                             <div class="input-group">
-                                <label>휴대폰번호</label><br>
-                                <input name="member_phone" class="form-control" placeholder="휴대폰번호를 입력하세요" required>
-                            </div><br>
-                            <div class="input-group">
                                 <label>이메일</label><br>
                                 <input name="member_email" id="member_email" class="form-control" aria-describedby="emailHelp" placeholder="이메일을 입력하세요" required>
                                 <span id="emailErr" style="display: none; color: red; font-size: 12px;">
@@ -157,7 +153,7 @@
                             <div class="form-group">
                                 <label>휴대폰 본인확인(문자) &nbsp;</label><br>
                                 <div class="custom-input-group">
-                                    <input type="text" class="to form-control tSize" id="to" name="veriPhone" required/>
+                                    <input type="text" class="to form-control tSize" id="to" name="member_phone" required/>
                                     <button type="button" class="btn btn-outline-secondary" id="send">전송</button>
                                     <button type="button" class="btn btn-outline-secondary" id="resendbtn" style="display: none;">재전송</button>
                                 </div>
@@ -165,7 +161,7 @@
                             <div class="form-group">
                                 <label>인증번호 &nbsp;</label><br>
                                 <div class="custom-input-group">
-                                    <input type="text" class="form-control tSize" id="userNum" name="userNum" required>
+                                    <input type="text" class="form-control tSize" id="userNum" required>
                                     <button type="button" class="btn btn-outline-secondary" id="enterBtn">확인</button>
                                     <span id="phoneCheckOkMark" class="checkmark">✔</span>
 

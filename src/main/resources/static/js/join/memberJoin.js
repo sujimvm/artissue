@@ -271,7 +271,7 @@ $(document).ready(function() {
     $("#send").on("click", function(event) {
         event.preventDefault();
 
-        const memberPhone = $('input[name="veriPhone"]').val().trim();
+        const memberPhone = $('input[name="member_phone"]').val().trim();
         const data = { memberPhone: memberPhone };
 
         axios.post("/veri/send-one", null, { params: data })
