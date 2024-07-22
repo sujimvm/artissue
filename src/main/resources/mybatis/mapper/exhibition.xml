@@ -63,6 +63,7 @@
         FROM exhibition e LEFT JOIN reservation r
         ON e.exhibition_key = r.exhibition_key
         WHERE e.member_key = #{member_key}
+        and r.reservation_pay = 1
         GROUP BY e.exhibition_key
         ORDER BY e.exhibition_key
     </select>
