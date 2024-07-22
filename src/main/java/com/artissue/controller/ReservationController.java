@@ -89,8 +89,7 @@ public class ReservationController {
     }
 
     @GetMapping("/success")
-    public String reserveSuccess(@RequestParam("id") String reservation_id, HttpSession session, Model model,
-                                 @RequestParam("paymentKey") String paymentKey) throws IOException, WriterException {
+    public String reserveSuccess(@RequestParam("id") String reservation_id, HttpSession session, Model model) throws IOException, WriterException {
         MemberDTO memberDTO = (MemberDTO)session.getAttribute("mDTO");
 
         HashMap<String,String> map = new HashMap<>();
@@ -99,7 +98,6 @@ public class ReservationController {
 
         this.reservationMapper.deleteReserveFail(map);
         this.reservationMapper.updateReservePay(reservation_id);
-        this.reservationMapper.upPaymentKey(reservation_id, paymentKey);
 
         List<ReservationDTO> reserveList= this.reservationMapper.getReserveList(reservation_id);
         int exhibition_key = reserveList.get(0).getExhibition_key();
