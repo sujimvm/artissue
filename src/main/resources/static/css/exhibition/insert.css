@@ -24,6 +24,8 @@
 
 .insert-tb th, .insert-tb td {
     height: 50px;
+    border-bottom: 1px solid #e9e9e9;
+    padding: 5px;
 }
 
 .insert-tb th {
@@ -61,10 +63,14 @@
 .price-form{
     width: 100%;
 }
+.price-form input{
+    float: left;
+    margin: 3px;
+}
 
 .ticket-option{
     width: 46%;
-    margin-bottom: 5px;
+    margin: 3px;
     height: 30px;
     border: 1px solid #d8d8d8;
     border-radius: 5px;
@@ -72,23 +78,22 @@
 
 .ticket-price{
     width: 20%;
-    margin-bottom: 5px;
+    margin: 3px;
     height: 30px;
-    margin-right: 5px;
     border: 1px solid #d8d8d8;
     border-radius: 5px;
 }
 
 .ck.ck-editor{
     width: 100%;
-    max-width: 843px;
+    max-width: 615px;
     min-width: 284px;
     height: 300px;
 }
 
 .ck-editor__editable{
     width: 100%;
-    max-width: 843px;
+    max-width: 615px;
     min-width: 284px;
     height: 300px;
     overflow-y: auto;
@@ -96,4 +101,8 @@
 
 .ck.ck-toolbar.ck-toolbar_grouping>.ck-toolbar__items {
     flex-wrap: wrap !important; /* 기존 스타일을 덮어씌움 */
+}
+
+.ck-source-editing-area {
+    height: 300px;
 }

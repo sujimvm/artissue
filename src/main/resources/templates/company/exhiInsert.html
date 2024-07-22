@@ -17,6 +17,7 @@
     <!-- Stylesheet -->
     <link rel="stylesheet" href="/bootstrap/style.css">
     <link rel="stylesheet" href="/css/exhibition/insert.css">
+    <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/42.0.1/ckeditor5.css">
 
 </head>
 <body>
@@ -44,8 +45,33 @@
 <!-- ##### Login Area Start ##### -->
 <section class="login-area section-padding-100">
     <div class="container insertDiv">
-        <div class="row justify-content-center">
-            <div class="col-12">
+        <div class="row">
+            <div class="col-12 col-lg-3">
+                <div class="new-hits-area mb-100">
+                    <div sec:authorize="isAuthenticated() and hasRole('COMPANY')"  class="single-new-item d-flex align-items-center justify-content-between wow fadeInUp">
+                        <a href="/company/exList">내 전시회</a>
+                    </div>
+                    <div sec:authorize="isAuthenticated() and hasRole('COMPANY')"  class="single-new-item d-flex align-items-center justify-content-between wow fadeInUp">
+                        <a href="/company/insert">전시회 등록</a>
+                    </div>
+                    <div sec:authorize="isAuthenticated() and hasRole('USER')"  class="single-new-item d-flex align-items-center justify-content-between wow fadeInUp">
+                        <a href="/userReserveList">예약리스트</a>
+                    </div>
+                    <div sec:authorize="isAuthenticated() and hasRole('USER')" class="single-new-item d-flex align-items-center justify-content-between wow fadeInUp">
+                        <a href="/userZZimList">찜리스트</a>
+                    </div>
+                    <div class="single-new-item d-flex align-items-center justify-content-between wow fadeInUp">
+                        <a href="/userMove">회원정보 수정</a>
+                    </div>
+                    <div class="single-new-item d-flex align-items-center justify-content-between wow fadeInUp">
+                        <a href="/userPwdUpdateMove">비밀번호 변경</a>
+                    </div>
+                    <div class="single-new-item d-flex align-items-center justify-content-between wow fadeInUp">
+                        <a href="/userResign">회원탈퇴</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-9">
                 <div class="insert-content">
                     <form action="/company/insertOk" method="post">
                         <input type="hidden" id="member_key" name="member_key" th:value="${session.cDTO.getMember_key()}">
@@ -131,7 +157,7 @@
                                 <td><textarea id="exhibition_product_info" name="exhibition_product_info" placeholder="상품 정보를 입력하세요"></textarea></td>
                             </tr>
                             <tr>
-                                <td colspan="2" style="text-align: center;"><button type="submit" class="btn oneMusic-btn mt-30">등록하기</button></td>
+                                <td colspan="2" style="text-align: center; border: none;"><button type="submit" class="btn oneMusic-btn mt-30">등록하기</button></td>
                             </tr>
                         </table>
                     </form>
@@ -145,9 +171,18 @@
 <div th:replace="~{include/footer}"></div>
 
 <!-- ##### All Javascript Script ##### -->
-<script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
+
+
 <!-- jQuery-2.2.4 js -->
-<script src="/bootstrap/js/jquery/jquery-2.2.4.min.js"></script>
+<script type="importmap">
+    {
+        "imports": {
+            "ckeditor5": "https://cdn.ckeditor.com/ckeditor5/42.0.1/ckeditor5.js",
+            "ckeditor5/": "https://cdn.ckeditor.com/ckeditor5/42.0.1/"
+        }
+    }
+</script>
+<script type="module" src="/js/exhibition/exhiInsert.js"></script>
 
 <script src="/js/exhibition/exhiInsert.js"></script>
 <!-- Popper js -->

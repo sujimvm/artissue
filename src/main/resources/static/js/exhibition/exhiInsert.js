@@ -1,12 +1,113 @@
+import {
+    ClassicEditor,
+    AccessibilityHelp,
+    Autoformat,
+    AutoImage,
+    Autosave,
+    Bold,
+    CloudServices,
+    Code,
+    Essentials,
+    GeneralHtmlSupport,
+    HtmlComment,
+    HtmlEmbed,
+    ImageBlock,
+    ImageCaption,
+    ImageInline,
+    ImageInsertViaUrl,
+    ImageResize,
+    ImageStyle,
+    ImageTextAlternative,
+    ImageToolbar,
+    ImageUpload,
+    Italic,
+    Paragraph,
+    SelectAll,
+    ShowBlocks,
+    SourceEditing,
+    TextTransformation,
+    Undo
+} from 'ckeditor5';
+
+const editorConfig = {
+    toolbar: {
+        items: [
+            'undo',
+            'redo',
+            '|',
+            'sourceEditing',
+            'showBlocks',
+            'selectAll',
+            '|',
+            'bold',
+            'italic',
+            'code',
+            '|',
+            'htmlEmbed',
+            '|',
+            'accessibilityHelp'
+        ],
+        shouldNotGroupWhenFull: false
+    },
+    plugins: [
+        AccessibilityHelp,
+        Autoformat,
+        AutoImage,
+        Autosave,
+        Bold,
+        CloudServices,
+        Code,
+        Essentials,
+        GeneralHtmlSupport,
+        HtmlComment,
+        HtmlEmbed,
+        ImageBlock,
+        ImageCaption,
+        ImageInline,
+        ImageInsertViaUrl,
+        ImageResize,
+        ImageStyle,
+        ImageTextAlternative,
+        ImageToolbar,
+        ImageUpload,
+        Italic,
+        Paragraph,
+        SelectAll,
+        ShowBlocks,
+        SourceEditing,
+        TextTransformation,
+        Undo
+    ],
+    htmlSupport: {
+        allow: [
+            {
+                name: /^.*$/,
+                styles: true,
+                attributes: true,
+                classes: true
+            }
+        ]
+    },
+    image: {
+        toolbar: [
+            'toggleImageCaption',
+            'imageTextAlternative',
+            '|',
+            'imageStyle:inline',
+            'imageStyle:wrapText',
+            'imageStyle:breakText',
+            '|',
+            'resizeImage'
+        ]
+    },
+    placeholder: '내용을 입력해주세요!'
+};
+
 $(document).ready(function (){
     ClassicEditor
-        .create(document.querySelector('#exhibition_notice'), {
-            removePlugins: ['Heading'],
-            language: "ko",
-            blockElements: 'div'
-        })
+        .create(document.querySelector('#exhibition_notice'), editorConfig)
         .then(editor => {
-            let objEditor = editor;
+            $('style').append('.ck-content { height: 300px; }');
 
             editor.model.document.on('change:data', () => {
                 $('#exhibition_notice').val(editor.getData());
@@ -17,13 +118,9 @@ $(document).ready(function (){
         });
 
     ClassicEditor
-        .create(document.querySelector('#exhibition_detail_info'), {
-            removePlugins: ['Heading'],
-            language: "ko",
-            blockElements: 'div'
-        })
+        .create(document.querySelector('#exhibition_detail_info'), editorConfig)
         .then(editor => {
-            let objEditor = editor;
+            $('style').append('.ck-content { height: 300px; }');
 
             editor.model.document.on('change:data', () => {
                 $('#exhibition_detail_info').val(editor.getData());
@@ -34,13 +131,9 @@ $(document).ready(function (){
         });
 
     ClassicEditor
-        .create(document.querySelector('#exhibition_seller_info'), {
-            removePlugins: ['Heading'],
-            language: "ko",
-            blockElements: 'div'
-        })
+        .create(document.querySelector('#exhibition_seller_info'), editorConfig)
         .then(editor => {
-            let objEditor = editor;
+            $('style').append('.ck-content { height: 300px; }');
 
             editor.model.document.on('change:data', () => {
                 $('#exhibition_seller_info').val(editor.getData());
@@ -51,13 +144,9 @@ $(document).ready(function (){
         });
 
     ClassicEditor
-        .create(document.querySelector('#exhibition_product_info'), {
-            removePlugins: ['Heading'],
-            language: "ko",
-            blockElements: 'div'
-        })
+        .create(document.querySelector('#exhibition_product_info'), editorConfig)
         .then(editor => {
-            let objEditor = editor;
+            $('style').append('.ck-content { height: 300px; }');
 
             editor.model.document.on('change:data', () => {
                 $('#exhibition_product_info').val(editor.getData());
