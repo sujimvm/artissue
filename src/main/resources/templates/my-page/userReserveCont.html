@@ -114,14 +114,6 @@
                     <p th:text="${userReserveCont.get(0).getReservation_date()}"></p>
                 </div>
                 <hr>
-                <form action="/payment/cancel" method="post">
-                    <input type="hidden" name="paymentKey" th:value="${userReserveCont.get(0).paymentKey}">
-                    <select name="cancelReason" class="form-control" style="width: 350px;">
-                        <option value="단순변심">단순변심</option>
-                    </select>
-                    <input class="btn oneMusic-btn mt-30" type="submit" value="환불하기">
-                </form>
-                <hr>
             </div>
         </div>
     </div>

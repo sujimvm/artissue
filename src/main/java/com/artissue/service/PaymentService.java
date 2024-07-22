@@ -60,34 +60,4 @@ public class PaymentService {
         }
     }
 
-    public boolean cancelPayment(String paymentKey, String cancelReason) {
-        RestTemplate restTemplate = new RestTemplate();
-        String url = baseUrl + "/v1/payments/" + paymentKey + "/cancel";
-
-        HttpHeaders headers = getHeaders();
-        JSONObject params = new JSONObject();
-        params.put("cancelReason", cancelReason);
-
-        try {
-            ResponseEntity<Map> response = restTemplate.postForEntity(url, new HttpEntity<>(params.toString(), headers), Map.class);
-            System.out.println("결제 취소 성공: " + response.getBody());
-            return true;
-        } catch (HttpClientErrorException e) {
-            System.err.println("결제 취소 오류: " + e.getResponseBodyAsString());
-            return false;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    private HttpHeaders getHeaders() {
-        HttpHeaders headers = new HttpHeaders();
-        String encodedAuthKey = new String(Base64.getEncoder().encode((secretKey + ":").getBytes(StandardCharsets.UTF_8)));
-
-        headers.setBasicAuth(encodedAuthKey);
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-        return headers;
-    }
 }

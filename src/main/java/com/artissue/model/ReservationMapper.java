@@ -24,5 +24,4 @@ public interface ReservationMapper {
 
     int updateReservationBV(String reservation_id);
 
-    void upPaymentKey(@Param("reservation_id") String reservationId, @Param("paymentKey") String paymentKey);
 }
